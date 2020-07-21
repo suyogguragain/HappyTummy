@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
+import 'src/app.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.blueGrey,
-        appBar: AppBar(
-          title:Text('Happy Tummy'),
-          backgroundColor: Colors.blueGrey[900],
-        ),
-      ),
-    )
-  );
+void main(){
+  runApp(App());
 }
