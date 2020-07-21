@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'screens/main_screen.dart';
 
-import 'homescreen.dart';
 
 
 
@@ -11,7 +11,7 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Happy Tummy App",
         theme: ThemeData( primaryColor: Colors.blueAccent ),
-        home: HomeScreen(),
+        home: MainScreen(),
       );
   }
 }
