@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/scoped-model/main_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import '../widgets/restaurant.dart';
 import '../widgets/food_category.dart';
 import '../widgets/home_top_info.dart';
 import '../widgets/search_field.dart';
-import '../data/restaurant_data.dart';
-import '../models/restaurant_model.dart';
 
 
 class HomePage extends StatefulWidget {
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Restaurant_Featured> _restaurants = restaurants;
+  //List<Restaurant_Featured> _restaurants = restaurants;
+
+  @override
+  void initState() {
+   // widget.restaurantModel.fetchRestaurants();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +61,27 @@ class _HomePageState extends State<HomePage> {
 //          Column(
 //            children: _restaurants.map(_buildRestaurantItems).toList(),
 //          ),
-          Container(
-            height: 210.0,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _restaurants.length,
-              itemBuilder: (BuildContext context, int index){
-                return Container(
-                  margin: EdgeInsets.only(right: 20.0),
-                  child: FeaturedRestaurant(
-                    id: _restaurants[index].id,
-                    name: _restaurants[index].name,
-                    imagePath: _restaurants[index].imagePath,
-                    ratings: _restaurants[index].ratings,
-                  ),
-                );
-              },
-            ),
+          ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context,Widget child, MainModel model) {
+              return Container(
+                height: 210.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: model.restaurants.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return Container(
+                      margin: EdgeInsets.only(right: 20.0),
+                      child: FeaturedRestaurant(
+                        id: model.restaurants[index].id,
+                        name: model.restaurants[index].name,
+                        imagePath: model.restaurants[index].imagePath,
+                        ratings: model.restaurants[index].ratings,
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           ),
 
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/scoped-model/main_model.dart';
 import '../pages/event_page.dart';
 import '../pages/home_page.dart';
 import '../pages/profile_page.dart';
@@ -6,6 +7,11 @@ import '../pages/post_page.dart';
 import '../pages/offer_page.dart';
 
 class MainScreen extends StatefulWidget {
+
+  final MainModel model;
+
+  MainScreen({this.model});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -23,11 +29,10 @@ class _MainScreenState extends State<MainScreen> {
   EventPage eventPage;
   OfferPage offerPage;
 
-
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
+    widget.model.fetchRestaurants();
+
     homePage = HomePage();
     profilePage = ProfilePage();
     postPage = PostPage();
@@ -36,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
     pages = [postPage,offerPage,homePage,eventPage,profilePage];
 
     currentPage = homePage;
+    super.initState();
   }
 
   @override
