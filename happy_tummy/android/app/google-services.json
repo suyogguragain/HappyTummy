@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "872023691658",
+    "firebase_url": "https://happy-tummy-app-472d1.firebaseio.com",
+    "project_id": "happy-tummy-app-472d1",
+    "storage_bucket": "happy-tummy-app-472d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872023691658:android:a9e4032589f44d3c8eb873",
+        "android_client_info": {
+          "package_name": "com.HappyTummy.happy_tummy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872023691658-h3khm13q3fkd9c0plsji8un4rqncich9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.HappyTummy.happy_tummy",
+            "certificate_hash": "c762cc2ab50a6714be8083c188e9887b6ea37f36"
+          }
+        },
+        {
+          "client_id": "872023691658-31n7np61c0psiutaobqiupspelo8k9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt7vL6_9HPI3-9iwAypTPIAkcDhqQhq5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872023691658-31n7np61c0psiutaobqiupspelo8k9bp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
