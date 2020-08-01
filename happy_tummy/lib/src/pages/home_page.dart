@@ -7,6 +7,7 @@ import '../widgets/home_top_info.dart';
 import '../widgets/search_field.dart';
 
 
+
 class HomePage extends StatefulWidget {
 
 
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.only(top:45.0, left:20.0, right:20.0),
+        padding: EdgeInsets.only(top:40.0, left:20.0, right:20.0),
         children: <Widget>[
           HomeTopInfo(),
           FoodCategory(),
