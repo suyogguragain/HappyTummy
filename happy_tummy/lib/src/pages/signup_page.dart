@@ -1,7 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/src/pages/signin_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
   String email;
   String password;
+  String username;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
               //just for vertical spacing
               SizedBox(
-                height: 80,
+                height: 60,
                 width: 200,
               ),
 
@@ -39,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
               //container for textfields user name and password
               Container(
-                height: 140,
+                height: 240,
                 width: 350,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -48,10 +49,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
                 child: Column(
                   children: <Widget>[
-
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
                       onChanged:(value){
                         email = value;
                         },
@@ -63,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Divider(),
 
                     TextFormField(
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
                       obscureText: true,
                       onChanged:(value){
                         password = value;
@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (newUser != null){
                         setState(() {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (BuildContext context) => SignInPage()));
+                              builder: (BuildContext context) => TopLevelPage()));
                         });
                       }
                     }catch(e){

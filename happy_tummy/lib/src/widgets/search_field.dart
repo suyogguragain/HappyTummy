@@ -21,7 +21,7 @@ class SearchField extends StatelessWidget{
                   )
               ),
               border:InputBorder.none,
-              hintText: "Search Restaurants"
+              hintText: 'Search Restraunts',
           )
       ),
     );
