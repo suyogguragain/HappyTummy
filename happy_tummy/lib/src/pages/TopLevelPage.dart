@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/CreateAccountPage.dart';
-import 'package:happy_tummy/src/pages/NotificationPage.dart';
 import 'package:happy_tummy/src/pages/TimelinePage.dart';
 import 'package:happy_tummy/src/pages/UploadPage.dart';
+import 'package:happy_tummy/src/pages/event_page.dart';
+import 'package:happy_tummy/src/pages/home_page.dart';
+import 'package:happy_tummy/src/pages/offer_page.dart';
 import 'package:happy_tummy/src/pages/post_page.dart';
 import 'package:happy_tummy/src/pages/profile_page.dart';
 import 'package:happy_tummy/src/pages/signup_page.dart';
@@ -377,10 +379,11 @@ class _TopLevelPageState extends State<TopLevelPage> {
         children: <Widget>[
           TimelinePage(gCurrentUser: currentUser,),
           //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign out")),
-          PostPage(),
           UploadPage(gCurrentUser: currentUser,),
-          NotificationPage(),
-          ProfilePage(userProfileId: currentUser?.id,),
+          EventPage(),
+          HomePage(),
+          OfferPage(),
+          ProfilePage(userProfileId: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: whenPageChanges,
@@ -390,13 +393,14 @@ class _TopLevelPageState extends State<TopLevelPage> {
         currentIndex:  getPageIndex,
         onTap: onTapChangePage,
         backgroundColor: Colors.black,
-        activeColor: Colors.white,
-        inactiveColor: Colors.blueGrey,
+        activeColor: Colors.pinkAccent,
+        inactiveColor: Colors.white,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home,), title: Text("Feed"),),
-          BottomNavigationBarItem(icon: Icon(Icons.search,), title: Text("Search"),),
+          BottomNavigationBarItem(icon: Icon(Icons.rss_feed,), title: Text("Feed"),),
           BottomNavigationBarItem(icon: Icon(Icons.photo_camera,), title: Text("Camera"),),
-          BottomNavigationBarItem(icon: Icon(Icons.explore,), title: Text("Notification"),),
+          BottomNavigationBarItem(icon: Icon(Icons.event,), title: Text("Event"),),
+          BottomNavigationBarItem(icon: Icon(Icons.home,), title: Text("Home"),),
+          BottomNavigationBarItem(icon: Icon(Icons.local_offer,), title: Text("Offers"),),
           BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
         ],
       ),

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 
-class OfferPage extends StatefulWidget {
+class EventPage extends StatefulWidget {
   @override
-  _OfferPageState createState() => _OfferPageState();
+  _EventPageState createState() => _EventPageState();
 }
 
-class _OfferPageState extends State<OfferPage> {
+class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(context,strTitle: "Offers"),
+      appBar: header(context,strTitle: "Events"),
     );
   }
 }
-

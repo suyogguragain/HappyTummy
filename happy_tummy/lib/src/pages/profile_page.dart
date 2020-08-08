@@ -1,19 +1,24 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/EditProfilePage.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
+import 'package:happy_tummy/src/pages/UploadPage.dart';
+import 'package:happy_tummy/src/pages/post_page.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/PostTileWidget.dart';
 import 'package:happy_tummy/src/widgets/PostWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 
+User gCurrentUsers;
 
 class ProfilePage extends StatefulWidget {
 
   final String userProfileId;
+
   ProfilePage({this.userProfileId});
 
   @override
@@ -96,12 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 createColumn('Following',countTotalFollowings),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                createButton(),
-                              ],
-                            ),
+                            createButton(),
                           ],
                         ),
                     ),
@@ -116,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top: 5.0),
+                  padding: EdgeInsets.only(top: 5.0,right: 33.0),
                   child: Text(
                     user.profileName,style: TextStyle(fontSize: 16.0,color: Colors.black45),
                   ),
@@ -126,6 +126,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: EdgeInsets.only(top: 3.0),
                   child: Text(
                     user.bio,style: TextStyle(fontSize: 14.0,color: Colors.black45),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0, bottom: 0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> PostPage()));
+                        },
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                        color: Colors.white,
+                        elevation: 2.0,
+                        textColor: Colors.black,
+                        child: Row(
+                          children: <Widget>[
+                          Text('Search Users  '),
+                          Icon(Icons.search)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -236,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: FlatButton(
         onPressed: performFunction,
         child: Container(
-          width: 245.0,
+          width: 180.0,
           height: 26.0,
           child: Text(
             title,
@@ -284,8 +307,8 @@ class _ProfilePageState extends State<ProfilePage> {
         gridTilesList.add(GridTile(child: PostTile(eachPost)));
       });
       return GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 1.0,
+        crossAxisCount: 1,
+        childAspectRatio: 3.1,
         mainAxisSpacing: 1.5,
         crossAxisSpacing: 1.5,
         shrinkWrap: true,
@@ -293,14 +316,14 @@ class _ProfilePageState extends State<ProfilePage> {
         children:  gridTilesList,
       );
     }
-    else if (postOrientation =='list'){
-      return Column(
-        children: postsList,
-//        children: <Widget>[
-//          Text('Suyog hero'),
-//        ],
-      );
-    }
+//    else if (postOrientation =='list'){
+//      return Column(
+//        children: postsList,
+////        children: <Widget>[
+////          Text('Suyog hero'),
+////        ],
+//      );
+//    }
   }
 
 
@@ -319,20 +342,30 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   createListAndGridPostOrientation(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        IconButton(
-            icon: Icon(Icons.grid_on),
-            onPressed: () => setOrientation('grid'),
-            color: postOrientation == 'grid' ? Theme.of(context).primaryColor:Colors.grey,
-        ),
-        IconButton(
-          icon: Icon(Icons.list),
-          onPressed:  () => setOrientation('list'),
-          color: postOrientation == 'list' ? Theme.of(context).primaryColor:Colors.grey,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top:8.0,bottom: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Recent Posts",
+            style: TextStyle(
+            fontSize: 30.0,
+            fontFamily: 'Lobster',
+            color: Colors.pink,
+            wordSpacing: 1.2,
+          ),),
+//        IconButton(
+//            icon: Icon(Icons.grid_on),
+//            onPressed: () => setOrientation('grid'),
+//            color: postOrientation == 'grid' ? Theme.of(context).primaryColor:Colors.grey,
+//        ),
+//        IconButton(
+//          icon: Icon(Icons.list),
+//          onPressed:  () => setOrientation('list'),
+//          color: postOrientation == 'list' ? Theme.of(context).primaryColor:Colors.grey,
+//        ),
+        ],
+      ),
     );
   }
 
@@ -351,12 +384,20 @@ class _ProfilePageState extends State<ProfilePage> {
           createProfileTopView(),
           Divider(),
           createListAndGridPostOrientation(),
-          Divider(
-            height: 0.0,
-          ),
           displayProfilePost(),
         ],
       ),
     );
   }
 }
+
+//FloatingActionButton.extended(
+//onPressed: (){
+//print("pressed");
+//},
+//backgroundColor: Colors.white,
+//foregroundColor: Colors.black,
+//
+//icon: Icon(Icons.notifications),
+//label: Text('Notifications'),
+//),
