@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/NotificationPage.dart';
 
 class HomeTopInfo extends StatelessWidget {
   final textStyle = TextStyle(fontSize: 30.0, fontWeight: FontWeight.normal,);
@@ -18,7 +19,12 @@ class HomeTopInfo extends StatelessWidget {
               Text('best place to eat !',style: textStyle),
             ],
           ),
-          Icon(Icons.notifications_none, size: 32.0, color: Colors.pinkAccent,),
+          GestureDetector(
+            child: Icon(Icons.notifications_none, size: 32.0, color: Colors.pinkAccent,),
+            onTap:(){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> NotificationPage()));
+            },
+          ),
         ],
       ),
     );

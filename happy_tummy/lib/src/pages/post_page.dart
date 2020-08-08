@@ -104,7 +104,7 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.white,
       appBar: searchPageHeader(),
       body: futureSearchResults == null ? displayNoSearchResultScreen() : displayUserFoundScreen(),
     );

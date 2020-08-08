@@ -62,28 +62,28 @@ class _HomePageState extends State<HomePage> {
 //          Column(
 //            children: _restaurants.map(_buildRestaurantItems).toList(),
 //          ),
-          ScopedModelDescendant<MainModel>(
-            builder: (BuildContext context,Widget child, MainModel model) {
-              return Container(
-                height: 210.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: model.restaurants.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      margin: EdgeInsets.only(right: 20.0),
-                      child: FeaturedRestaurant(
-                        id: model.restaurants[index].id,
-                        name: model.restaurants[index].name,
-                        imagePath: model.restaurants[index].imagePath,
-                        ratings: model.restaurants[index].ratings,
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+//          ScopedModelDescendant<MainModel>(
+//            builder: (BuildContext context,Widget child, MainModel model) {
+//              return Container(
+//                height: 210.0,
+//                child: ListView.builder(
+//                  scrollDirection: Axis.horizontal,
+//                  itemCount: model.restaurants.length,
+//                  itemBuilder: (BuildContext context, int index){
+//                    return Container(
+//                      margin: EdgeInsets.only(right: 20.0),
+//                      child: FeaturedRestaurant(
+//                        id: model.restaurants[index].id,
+//                        name: model.restaurants[index].name,
+//                        imagePath: model.restaurants[index].imagePath,
+//                        ratings: model.restaurants[index].ratings,
+//                      ),
+//                    );
+//                  },
+//                ),
+//              );
+//            },
+//          ),
 
         ],
       ),

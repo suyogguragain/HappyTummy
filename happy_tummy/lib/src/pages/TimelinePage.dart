@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
@@ -51,7 +54,7 @@ class _TimelinePageState extends State<TimelinePage> {
 
   createUserTimeLine(){
     if(posts == null){
-      circularProgress();
+      return circularProgress();
     }else{
       return ListView(
         children: posts,
@@ -64,7 +67,11 @@ class _TimelinePageState extends State<TimelinePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: header(context,isAppTitle: true,),
-      body: RefreshIndicator(child: createUserTimeLine(), onRefresh: () => retrieveTimeline()),
+      //body: Column( ),
+      body: RefreshIndicator(
+          child: createUserTimeLine(),
+          onRefresh: () => retrieveTimeline()
+      ),
     );
   }
 }
