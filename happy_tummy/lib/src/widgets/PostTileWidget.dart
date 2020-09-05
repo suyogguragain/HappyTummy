@@ -27,7 +27,7 @@ class PostTile extends StatelessWidget {
               onTap: () => displayFullPost(context),
               child: CircleAvatar(
                 backgroundImage: CachedNetworkImageProvider(post.url),
-                radius: 55.0,
+                radius: 45.0,
               ),//Image.network(post.url),
             ),
             Column(
