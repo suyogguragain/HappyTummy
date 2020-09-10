@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy_web/authentication/auth_service.dart';
 import 'package:happy_tummy_web/website/constants.dart';
 import 'package:happy_tummy_web/website/sections/about/components/about_Section_text.dart';
 import 'package:happy_tummy_web/website/sections/about/components/about_text_with_sign.dart';
@@ -34,12 +35,25 @@ class AboutSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FlatButton.icon(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
                 color: Color(0xFFE8F0F9),
-                icon: Icon(Icons.edit), 
+                icon: Icon(Icons.edit),
                 label: Text('Edit Profile'), //`Text` to display
+                onPressed: () {},
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              FlatButton.icon(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                color: Color(0xFFFFF349),
+                icon: Icon(Icons.edit),
+                label: Text('Log Out'), //`Text` to display
                 onPressed: () {
-                  
+                  AuthService().signOut();
+                  print('Log out');
                 },
               ),
             ],

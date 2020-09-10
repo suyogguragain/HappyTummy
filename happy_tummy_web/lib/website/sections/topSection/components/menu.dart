@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy_web/website/sections/events/events.dart';
+import 'package:happy_tummy_web/website/sections/foodmenu/food_menu.dart';
 
 import '../../../constants.dart';
 
@@ -41,9 +43,11 @@ class _MenuState extends State<Menu> {
           splashColor: Colors.teal,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodmenuSection()));
+          },
           child: Text(
-            "Profile",
+            "Menu",
             style: TextStyle(color: Colors.white,fontSize: 26),
           ),
         ),
@@ -55,7 +59,7 @@ class _MenuState extends State<Menu> {
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
           onPressed: () {},
           child: Text(
-            "Profile",
+            "Gallery",
             style: TextStyle(color: Colors.white,fontSize: 26),
           ),
         ),
@@ -67,7 +71,7 @@ class _MenuState extends State<Menu> {
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
           onPressed: () {},
           child: Text(
-            "Profile",
+            "Offers",
             style: TextStyle(color: Colors.white,fontSize: 26),
           ),
         ),
@@ -77,9 +81,11 @@ class _MenuState extends State<Menu> {
           splashColor: Colors.teal,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> EventsSection()));
+          },
           child: Text(
-            "Profile",
+            "Events",
             style: TextStyle(color: Colors.white,fontSize: 26),
           ),
         ),

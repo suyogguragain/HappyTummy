@@ -8,8 +8,16 @@ class FeedbackSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2.5),
-      constraints: BoxConstraints(maxWidth: 1110),
+      padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2.5,horizontal:kDefaultPadding * 5.5 ),
+      // constraints: BoxConstraints(maxWidth: 1110),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Color(0xFFE8F0F9),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("assets/images/bg_img_2.png"),
+        ),
+      ),
       child: Column(
         children: [
           SectionTitle(

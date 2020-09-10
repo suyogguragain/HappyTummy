@@ -31,6 +31,13 @@ List<Feedback> feedbacks = [
     userPic: "assets/images/people.png",
     color: Color(0xFFFFE0E0),
   ),
+  Feedback(
+    id: 3,
+    name: "Ronald Thompson",
+    review: review,
+    userPic: "assets/images/people.png",
+    color: Color(0xFFFFE0E0),
+  ),
 ];
 
 String review =
