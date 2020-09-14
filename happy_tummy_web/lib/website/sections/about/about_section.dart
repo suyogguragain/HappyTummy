@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:happy_tummy_web/authentication/auth_service.dart';
 import 'package:happy_tummy_web/website/constants.dart';
 import 'package:happy_tummy_web/website/sections/about/components/about_Section_text.dart';
 import 'package:happy_tummy_web/website/sections/about/components/about_text_with_sign.dart';
@@ -52,7 +51,7 @@ class AboutSection extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 label: Text('Log Out'), //`Text` to display
                 onPressed: () {
-                  AuthService().signOut();
+                  //AuthService().signOut();
                   print('Log out');
                 },
               ),

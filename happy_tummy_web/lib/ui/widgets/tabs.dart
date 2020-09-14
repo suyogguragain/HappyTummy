@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_bloc.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
+import 'package:happy_tummy_web/website/sections/events/events.dart';
+import 'package:happy_tummy_web/website/sections/foodmenu/food_menu.dart';
 import 'package:happy_tummy_web/website/web_home_screen.dart';
 
 import '../constants.dart';
@@ -15,8 +17,8 @@ class Tabs extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       WebHomePage(),
-      WebHomePage(),
-      WebHomePage(),
+      FoodmenuSection(),
+      EventsSection(),
     ];
 
     return Theme(
@@ -51,9 +53,9 @@ class Tabs extends StatelessWidget {
                   children: <Widget>[
                     TabBar(
                       tabs: <Widget>[
-                        Tab(icon: Icon(Icons.search)),
-                        Tab(icon: Icon(Icons.people)),
-                        Tab(icon: Icon(Icons.message)),
+                        Tab(child: Text("Home"),),
+                        Tab(child: Text("Menu"),),
+                        Tab(child: Text("Events"),),
                       ],
                     )
                   ],

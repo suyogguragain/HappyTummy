@@ -2,10 +2,13 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:happy_tummy_web/authentication/signup.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_bloc.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_state.dart';
 import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
+import 'package:happy_tummy_web/ui/pages/SignUp.dart';
+import 'package:happy_tummy_web/ui/pages/login.dart';
 import 'package:happy_tummy_web/ui/pages/splash.dart';
 import 'package:happy_tummy_web/ui/widgets/tabs.dart';
 
@@ -79,7 +82,8 @@ class _HomeState extends State<Home> {
             return Splash();
           }
           else{
-            return Tabs();
+            //return Tabs();
+            return Login(restaurantRepository :_restaurantRepository);
           }
           },
           ),

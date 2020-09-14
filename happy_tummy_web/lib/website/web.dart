@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:happy_tummy_web/authentication/auth_service.dart';
 import 'package:happy_tummy_web/website/constants.dart';
+import 'package:happy_tummy_web/website/web_home_screen.dart';
 
 class WebApp extends StatelessWidget {
   @override
@@ -13,9 +13,10 @@ class WebApp extends StatelessWidget {
         inputDecorationTheme: kDefaultInputDecorationTheme,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      //home: WebHomePage(),
+      home: WebHomePage(),
       //home: SignUp(),
-      home: AuthService().handleAuth()
+      //home: AuthService().handleAuth()
+    
     );
   }
 }
