@@ -22,5 +22,5 @@ void main() {
   runApp(BlocProvider(
       create: (context) => AuthenticationBloc(restaurantRepository: _restaurantRepository)
         ..add(AppStarted()),
-      child: Home()));
+      child: Home(restaurantRepository: _restaurantRepository,)));
 }

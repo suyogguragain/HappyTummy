@@ -17,7 +17,7 @@ class Splash extends StatelessWidget {
             "Happy Tummy",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width * 0.2,
+              fontSize: 16,
             ),
           ),
         ),

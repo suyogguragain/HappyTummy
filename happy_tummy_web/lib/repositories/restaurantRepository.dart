@@ -55,33 +55,40 @@ class RestaurantRepository {
   //profile setup
 Future<void> profileSetup(
       File photo,
-      String userId,
+      String rid,
       String name,
-      String gender,
-      String interestedIn,
+      String cusines,
+      String mealtype,
+      String outlettype,
+      String parking,
+      String paymentmethod,
+      String billingextra,
       DateTime age,
-      GeoPoint location) async {
+      String location) async {
     StorageUploadTask storageUploadTask;
     storageUploadTask = FirebaseStorage.instance
         .ref()
-        .child('userPhotos')
-        .child(userId)
-        .child(userId)
+        .child('restaurantProfilePhotos')
+        .child(rid)
+        .child(rid)
         .putFile(photo);
 
     return await storageUploadTask.onComplete.then((ref) async {
       await ref.ref.getDownloadURL().then((url) async {
-        await _firestore.collection('users').document(userId).setData({
-          'uid': userId,
-          'photoUrl': url,
+        await _firestore.collection('restaurants').document(rid).setData({
+          'rid': rid,
           'name': name,
+          'cusines': cusines,
+          'mealtype': mealtype,
+          'outlettype': outlettype,
+          'photoUrl': url,
+          'parking': parking,
+          'paymentmethod': paymentmethod,
+          'billingextra': billingextra,
           "location": location,
-          'gender': gender,
-          'interestedIn': interestedIn,
           'age': age
         });
       });
     });
-  }
-  
+  } 
 }
