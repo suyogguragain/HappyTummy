@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_bloc.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
+import 'package:happy_tummy_web/ui/pages/splash.dart';
 import 'package:happy_tummy_web/website/sections/events/events.dart';
 import 'package:happy_tummy_web/website/sections/foodmenu/food_menu.dart';
 import 'package:happy_tummy_web/website/web_home_screen.dart';
@@ -16,8 +17,10 @@ class Tabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      WebHomePage(),
+      WebHomePage(restaurantProfileId: userId,),
       FoodmenuSection(),
+      Splash(),
+      EventsSection(),
       EventsSection(),
     ];
 
@@ -27,7 +30,7 @@ class Tabs extends StatelessWidget {
         accentColor: Colors.white,
       ),
       child: DefaultTabController(
-        length: 3,
+        length: 5,
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -39,7 +42,8 @@ class Tabs extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
-                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                  print(userId);
+                  //BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
                 },
               )
             ],
@@ -55,7 +59,10 @@ class Tabs extends StatelessWidget {
                       tabs: <Widget>[
                         Tab(child: Text("Home"),),
                         Tab(child: Text("Menu"),),
+                        Tab(child: Text("Gallery"),),
                         Tab(child: Text("Events"),),
+                        Tab(child: Text("Offers"),),
+
                       ],
                     )
                   ],

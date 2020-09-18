@@ -1,5 +1,4 @@
 
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +53,8 @@ class RestaurantRepository {
 
   //profile setup
 Future<void> profileSetup(
-      File photo,
+      //File photo,
+      //Image photo,
       String rid,
       String name,
       String cusines,
@@ -66,29 +66,29 @@ Future<void> profileSetup(
       DateTime age,
       String location) async {
     StorageUploadTask storageUploadTask;
-    storageUploadTask = FirebaseStorage.instance
-        .ref()
-        .child('restaurantProfilePhotos')
-        .child(rid)
-        .child(rid)
-        .putFile(photo);
+    // storageUploadTask = FirebaseStorage.instance
+    //     .ref()
+    //     .child('restaurantProfilePhotos')
+    //     .child(rid)
+    //     .child(rid)
+    //    .putFile(photo);
 
-    return await storageUploadTask.onComplete.then((ref) async {
-      await ref.ref.getDownloadURL().then((url) async {
+    return //await storageUploadTask.onComplete.then((ref) async {
+      //await ref.ref.getDownloadURL().then((url) async {
         await _firestore.collection('restaurants').document(rid).setData({
           'rid': rid,
           'name': name,
           'cusines': cusines,
           'mealtype': mealtype,
           'outlettype': outlettype,
-          'photoUrl': url,
+          //'photoUrl': url,
           'parking': parking,
           'paymentmethod': paymentmethod,
           'billingextra': billingextra,
           "location": location,
           'age': age
         });
-      });
-    });
+     // });
+    //});
   } 
 }

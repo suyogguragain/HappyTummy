@@ -17,7 +17,7 @@ class AboutSectionText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-            fontWeight: FontWeight.w200, color: kTextColor, height: 2),
+            fontWeight: FontWeight.w200, color: kTextColor, height: 2,fontSize: 20),
       ),
     );
   }

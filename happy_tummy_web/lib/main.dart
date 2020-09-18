@@ -5,6 +5,7 @@ import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
 import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
 import 'package:happy_tummy_web/ui/pages/home.dart';
 import 'package:happy_tummy_web/website/web.dart';
+import 'package:happy_tummy_web/website/web_home_screen.dart';
 
 import 'bloc/blocDelegate.dart';
 

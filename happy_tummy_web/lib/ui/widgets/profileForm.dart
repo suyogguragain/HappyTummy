@@ -1,15 +1,14 @@
-import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+// import 'dart:io';
+
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:happy_tummy_web/bloc/authentication/bloc.dart';
 import 'package:happy_tummy_web/bloc/profile/bloc.dart';
 import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
 import 'package:happy_tummy_web/ui/widgets/Selection.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 
 import '../constants.dart';
 
@@ -35,7 +34,7 @@ class _ProfileFormState extends State<ProfileForm> {
 
   String cusines, mealtype;
   DateTime age;
-  File photo;
+  //File photo;
   ProfileBloc _profileBloc;
 
   //UserRepository get _userRepository => widget._userRepository;
@@ -49,7 +48,7 @@ class _ProfileFormState extends State<ProfileForm> {
       _locationController.text.isNotEmpty &&
       cusines != null &&
       mealtype != null &&
-      photo != null &&
+      //photo != null &&
       age != null;
 
   bool isButtonEnabled(ProfileState state) {
@@ -66,7 +65,7 @@ class _ProfileFormState extends State<ProfileForm> {
           parking: _parkingController.text,
           paymentmethod: _paymentmethodController.text,
           age: age,
-          photo: photo,
+          //photo: photo,
           cusines: cusines,
           mealtype: mealtype),
     );
@@ -91,50 +90,6 @@ class _ProfileFormState extends State<ProfileForm> {
 
 
 
-
-  ///imagepicker
-  ///
-  ///
-  //
-
-
-  Image pickedImage;
-  String videoSRC;
-   pickImage() async {
-    /// You can set the parameter asUint8List to true
-    /// to get only the bytes from the image
-    /* Uint8List bytesFromPicker =
-        await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
-    if (bytesFromPicker != null) {
-      debugPrint(bytesFromPicker.toString());
-    } */
-
-    /// Default behavior would be getting the Image.memory
-    Image fromPicker = await ImagePickerWeb.getImage(outputType: ImageType.widget);
-
-    if (fromPicker != null) {
-      setState(() {
-        pickedImage = fromPicker;
-      });
-    }
-  }
-
-  pickVideo() async {
-    final videoMetaData = await ImagePickerWeb.getVideo(outputType: VideoType.bytes);
-
-    debugPrint('---Picked Video Bytes---');
-    debugPrint(videoMetaData.toString());
-
-    /// >>> Upload your video in Bytes now to any backend <<<
-    /// >>> Disclaimer: local files are not working till now! [February 2020] <<<
-
-    if (videoMetaData != null) {
-      setState(() {
-        videoSRC = 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,41 +145,46 @@ class _ProfileFormState extends State<ProfileForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    width: 200,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.transparent,
-                      child: photo == null
-                          ? GestureDetector(
-                              onTap: () async {
-                                File getPic = await FilePicker.getFile(
-                                    type: FileType.image);
-                                if (getPic != null) {
-                                  setState(() {
-                                    photo = getPic;
-                                  });
-                                }
-                              },
-                              child: Image.asset('assets/images/noimage.png'),
-                            )
-                          : GestureDetector(
-                              onTap: () async {
-                                File getPic = await FilePicker.getFile(
-                                    type: FileType.image);
-                                if (getPic != null) {
-                                  setState(() {
-                                    photo = getPic;
-                                  });
-                                }
-                              },
-                              child: CircleAvatar(
-                                radius: size.width * 0.3,
-                                backgroundImage: FileImage(photo),
-                              ),
-                            ),
-                    ),
-                  ),
+                  // Container(
+                  //   width: 200,
+                  //   child: CircleAvatar(
+                  //     radius: 40,
+                  //     backgroundColor: Colors.transparent,
+                  //     child: photo == null
+                  //         ? GestureDetector(
+                  //             onTap: () async {
+                  //               File getPic = await FilePicker.getFile();
+                  //               if (getPic != null) {
+                  //                 setState(() {
+                  //                   photo = getPic;
+                  //                 });
+                  //               }
+                  //             },
+                              
+
+                  //             child: Image.asset('assets/images/noimage.png'),
+                  //           )
+                  //         : GestureDetector(
+                  //             onTap: () async {
+                  //               File getPic = await FilePicker.getFile(
+                  //                   type: FileType.image);
+                  //               if (getPic != null) {
+                  //                 setState(() {
+
+                  //                   photo = getPic;
+
+                  //                 });
+                  //               }
+                  //             },
+
+                  //             child: CircleAvatar(
+                  //               radius: size.width * 0.3,
+                  //               backgroundImage: FileImage(photo),
+                  //             ),
+                  //           ),
+                  //   ),
+                  // ),
+                  
                   textFieldWidget(_nameController, "Name", size),
                   textFieldWidget(_outlettypeController, "Outlet Type", size),
                   textFieldWidget(_parkingController, "Parking", size),
@@ -378,47 +338,6 @@ class _ProfileFormState extends State<ProfileForm> {
                       ),
                     ),
                   ),
-
-
-//photo picker
-
-Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    switchInCurve: Curves.easeIn,
-                    child: SizedBox(
-                          width: 200,
-                          child: pickedImage,
-                        ) ??
-                        Container(),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  
-                ],
-              ),
-              ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
-                RaisedButton(
-                  onPressed: () => pickImage(),
-                  child: Text('Select Image'),
-                ),
-                RaisedButton(
-                  onPressed: () => pickVideo(),
-                  child: Text('Select Video'),
-                ),
-              ]),
-            ])),
 
                 ],
               ),

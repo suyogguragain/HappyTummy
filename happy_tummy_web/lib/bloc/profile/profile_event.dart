@@ -20,14 +20,14 @@ class NameChanged extends ProfileEvent {
   List<Object> get props => [name];
 }
 
-class PhotoChanged extends ProfileEvent {
-  final File photo;
+// class PhotoChanged extends ProfileEvent {
+//   final File photo;
 
-  PhotoChanged({@required this.photo});
+//   PhotoChanged({@required this.photo});
 
-  @override
-  List<Object> get props => [photo];
-}
+//   @override
+//   List<Object> get props => [photo];
+// }
 
 class CusinesChanged extends ProfileEvent {
   final String cusines;
@@ -111,31 +111,34 @@ class Submitted extends ProfileEvent {
       billingextra,
       location;
   final DateTime age;
-  final File photo;
+  //final File photo;
+  //final Image photo;
 
-  Submitted(
-      {@required this.name,
-      @required this.cusines,
-      @required this.mealtype,
-      @required this.outlettype,
-      @required this.parking,
-      @required this.paymentmethod,
-      @required this.billingextra,
-      @required this.age,
-      @required this.location,
-      @required this.photo});
+  Submitted({
+    @required this.name,
+    @required this.cusines,
+    @required this.mealtype,
+    @required this.outlettype,
+    @required this.parking,
+    @required this.paymentmethod,
+    @required this.billingextra,
+    @required this.age,
+    @required this.location,
+    //@required this.photo
+  });
 
   @override
   List<Object> get props => [
-        location,
         name,
-        age,
+
         cusines,
         mealtype,
         outlettype,
         parking,
         paymentmethod,
         billingextra,
-        photo
+        age,
+        location,
+        //photo
       ];
 }

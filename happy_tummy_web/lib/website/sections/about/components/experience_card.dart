@@ -42,7 +42,7 @@ class ExperienceCard extends StatelessWidget {
                   numOfExp,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 100,
+                    fontSize: 50,
                     color: Colors.white,
                   ),
                 )

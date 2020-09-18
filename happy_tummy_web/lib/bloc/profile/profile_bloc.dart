@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy_web/bloc/profile/bloc.dart';
 import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
@@ -35,12 +33,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapBillingExtraChangedToState(event.billingextra);
     } else if (event is LocationChanged) {
       yield* _mapLocationChangedToState(event.location);
-    } else if (event is PhotoChanged) {
-      yield* _mapPhotoChangedToState(event.photo);
-    } else if (event is Submitted) {
+    }
+    // else if (event is PhotoChanged) {
+    //   yield* _mapPhotoChangedToState(event.photo);
+    // }
+    else if (event is Submitted) {
       final uid = await _restaurantRepository.getUser();
       yield* _mapSubmittedToState(
-          photo: event.photo,
+          // photo: event.photo,
           name: event.name,
           cusines: event.cusines,
           mealtype: event.mealtype,
@@ -60,11 +60,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
-  Stream<ProfileState> _mapPhotoChangedToState(File photo) async* {
-    yield state.update(
-      isPhotoEmpty: photo == null,
-    );
-  }
+  // Stream<ProfileState> _mapPhotoChangedToState(File photo) async* {
+  //   yield state.update(
+  //     isPhotoEmpty: photo == null,
+  //   );
+  // }
 
   Stream<ProfileState> _mapAgeChangedToState(DateTime age) async* {
     yield state.update(
@@ -117,21 +117,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _mapSubmittedToState(
-      {File photo,
+      {
+      //File photo,
+      String rid,
+      String name,
       String cusines,
       String mealtype,
       String outlettype,
       String parking,
       String paymentmethod,
       String billingextra,
-      String name,
-      String rid,
       DateTime age,
       String location}) async* {
     yield ProfileState.loading();
     try {
       await _restaurantRepository.profileSetup(
-          photo,
+          //photo,
           rid,
           name,
           cusines,
