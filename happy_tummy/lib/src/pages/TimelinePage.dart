@@ -1,13 +1,16 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foldable_sidebar/foldable_sidebar.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
+import 'package:happy_tummy/src/pages/NotificationPage.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
-import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
+import 'package:happy_tummy/src/pages/post_page.dart';
+import 'package:happy_tummy/src/pages/profile_page.dart';
 import 'package:happy_tummy/src/widgets/PostWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
+import 'package:swipedetector/swipedetector.dart';
+
 
 class TimelinePage extends StatefulWidget {
   final User gCurrentUser;
@@ -62,15 +65,167 @@ class _TimelinePageState extends State<TimelinePage> {
     }
   }
 
+
+  //Sidenavbar
+
+  FSBStatus status;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: header(context,isAppTitle: true,),
+      appBar: AppBar(
+        title: Text( "HappyTummy",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "PermanentMarker",
+            fontSize: 32.0,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.pink,
+      ),
       //body: Column( ),
-      body: RefreshIndicator(
-          child: createUserTimeLine(),
-          onRefresh: () => retrieveTimeline()
+//      body: RefreshIndicator(
+//          child: createUserTimeLine(),
+//          onRefresh: () => retrieveTimeline()
+//      ),
+      body: SwipeDetector(
+        onSwipeLeft: (){
+          status = FSBStatus.FSB_CLOSE;
+        },
+        onSwipeRight: (){
+          status = FSBStatus.FSB_OPEN;
+        },
+
+        child: FoldableSidebarBuilder(
+            status: status,
+            drawer: CustomDrawer(
+              closeDrawer: () {
+                setState(() {
+                  status = FSBStatus.FSB_CLOSE;
+                });
+              },
+            ),
+            screenContents: RefreshIndicator(
+              child: createUserTimeLine(),
+              onRefresh: () => retrieveTimeline()
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: ( ) {
+          setState(() {
+            status = status == FSBStatus.FSB_OPEN ? FSBStatus.FSB_CLOSE  : FSBStatus.FSB_OPEN;
+          });
+        },
+        child: Icon(Icons.menu,color: Colors.black,),
+      ),
+    );
+  }
+}
+
+
+class CustomDrawer extends StatelessWidget {
+
+  final Function closeDrawer;
+
+  const CustomDrawer({Key key, this.closeDrawer}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    return Container(
+      color: Colors.white,
+      width: mediaQuery.size.width * 0.60,
+      height: mediaQuery.size.height,
+      child: Column(
+        children: <Widget>[
+          Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.grey.withAlpha(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/ht.png",
+                    width: 100,
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Happy Tummy",style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'PermanentMarker',
+                    fontSize: 20.0,
+                  ),),
+                ],
+              )),
+          ListTile(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage(userProfileId: currentUser.id,)));
+              closeDrawer;
+            },
+            leading: Icon(Icons.person),
+            title: Text(
+              "Your Profile",
+            ),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          ListTile(
+            onTap: () {
+              debugPrint("Tapped settings");
+            },
+            leading: Icon(Icons.settings),
+            title: Text("Settings"),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+              closeDrawer;
+            },
+            leading: Icon(Icons.notifications),
+            title: Text("Notifications"),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          ListTile(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostPage()));
+              closeDrawer;
+            },
+            leading: Icon(Icons.person),
+            title: Text(
+              "Search Users",
+            ),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          ListTile(
+            onTap: () async {
+              await gSignIn.signOut();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopLevelPage()));
+              closeDrawer;
+            },
+            leading: Icon(Icons.exit_to_app),
+            title: Text("Log Out"),
+          ),
+        ],
       ),
     );
   }

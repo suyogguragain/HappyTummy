@@ -185,7 +185,6 @@ class _TopLevelPageState extends State<TopLevelPage> {
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: ListView(
-          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,10 +379,10 @@ class _TopLevelPageState extends State<TopLevelPage> {
           TimelinePage(gCurrentUser: currentUser,),
           //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign out")),
           UploadPage(gCurrentUser: currentUser,),
-          EventPage(),
           HomePage(),
+          EventPage(),
           OfferPage(),
-          ProfilePage(userProfileId: currentUser?.id),
+          //ProfilePage(userProfileId: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: whenPageChanges,
@@ -398,10 +397,10 @@ class _TopLevelPageState extends State<TopLevelPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.rss_feed,), title: Text("Feed"),),
           BottomNavigationBarItem(icon: Icon(Icons.photo_camera,), title: Text("Camera"),),
-          BottomNavigationBarItem(icon: Icon(Icons.event,), title: Text("Event"),),
           BottomNavigationBarItem(icon: Icon(Icons.home,), title: Text("Home"),),
+          BottomNavigationBarItem(icon: Icon(Icons.event,), title: Text("Event"),),
           BottomNavigationBarItem(icon: Icon(Icons.local_offer,), title: Text("Offers"),),
-          BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
+          //BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
         ],
       ),
     );

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/EditProfilePage.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
-import 'package:happy_tummy/src/pages/UploadPage.dart';
 import 'package:happy_tummy/src/pages/post_page.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/PostTileWidget.dart';
@@ -81,75 +80,56 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.all(17.0),
             child: Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 45.0,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: CachedNetworkImageProvider(user.url),
-                    ),
-                    Expanded(
-                      flex: 1,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                createColumn('posts',countPost),
-                                createColumn('Followers',countTotalFollowers),
-                                createColumn('Following',countTotalFollowings),
-                              ],
-                            ),
-                            createButton(),
-                          ],
-                        ),
-                    ),
-                  ],
+                CircleAvatar(
+                  radius: 45.0,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: CachedNetworkImageProvider(user.url),
                 ),
                 Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 13.0),
                   child: Text(
                     user.username,style: TextStyle(fontSize: 24.0,color: Colors.black38,fontFamily: "Lobster"),
                   ),
                 ),
                 Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 5.0,right: 33.0),
                   child: Text(
                     user.profileName,style: TextStyle(fontSize: 16.0,color: Colors.black45),
                   ),
                 ),
                 Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 3.0),
                   child: Text(
                     user.bio,style: TextStyle(fontSize: 14.0,color: Colors.black45),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0, bottom: 0.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> PostPage()));
-                        },
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                        color: Colors.white,
-                        elevation: 2.0,
-                        textColor: Colors.black,
-                        child: Row(
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                        child: Column(
                           children: <Widget>[
-                          Text('Search Users  '),
-                          Icon(Icons.search)
+                            createButton(),
+                            SizedBox(
+                              height: 12.0,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                createColumn('Posts',countPost),
+                                createColumn('Followers',countTotalFollowers),
+                                createColumn('Following',countTotalFollowings),
+                              ],
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -159,19 +139,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   createColumn(String title, int count){
-    return Column(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           count.toString(),
-          style: TextStyle(fontSize: 20.0, color: Colors.black,fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20.0, color: Colors.pink,fontWeight: FontWeight.bold),
         ),
+        SizedBox(width: 4.0,),
         Container(
           margin: EdgeInsets.only(top: 5.0),
           child: Text(
             title,
-            style: TextStyle(fontSize: 16.0, color: Colors.grey,fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 16.0, color: Colors.black,fontWeight: FontWeight.w400),
           ),
         ),
       ],
@@ -254,26 +235,49 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
   Container createButtonTitleAndFunction({String title,Function performFunction}){
+
     return Container(
-      padding: EdgeInsets.only(top: 3.0),
-      child: FlatButton(
-        onPressed: performFunction,
-        child: Container(
-          width: 180.0,
-          height: 26.0,
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 16.0, color: following ? Colors.grey: Colors.white ,fontWeight: FontWeight.w400),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RaisedButton(
+            onPressed: performFunction,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            color: Colors.pink,
+            elevation: 2.0,
+            textColor: Colors.black,
+            padding: EdgeInsets.only(top: 10.0,bottom: 10.0,left: 40.0,right: 40.0),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20.0,
+                  color: following ? Colors.white: Colors.white ,
+                  fontWeight: FontWeight.w400,
+              ),
+              ),
           ),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: following ? Colors.black : Colors.pink,
-            border: Border.all(color: following ? Colors.grey : Colors.white70),
-            borderRadius: BorderRadius.circular(6.0),
-          ),
-        ),
+        ],
       ),
     );
+
+    //    return Container(
+//      child: FlatButton(
+//        onPressed: performFunction,
+//        child: Container(
+//          width: 180.0,
+//          height: 26.0,
+//          child: Text(
+//            title,
+//            style: TextStyle(fontSize: 16.0, color: following ? Colors.white: Colors.white ,fontWeight: FontWeight.w400),
+//          ),
+//          alignment: Alignment.center,
+//          decoration: BoxDecoration(
+//            color: following ? Colors.pink : Colors.pinkAccent,
+//            border: Border.all(color: following ? Colors.grey : Colors.white70),
+//            borderRadius: BorderRadius.circular(6.0),
+//          ),
+//        ),
+//      ),
+//    );
   }
 
   editUserProfile(){
@@ -343,9 +347,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   createListAndGridPostOrientation(){
     return Padding(
-      padding: const EdgeInsets.only(top:8.0,bottom: 10.0),
+      padding: const EdgeInsets.only(top:8.0,bottom: 10.0,left: 20.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text("Recent Posts",
             style: TextStyle(
