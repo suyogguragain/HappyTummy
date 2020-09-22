@@ -1,13 +1,8 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:happy_tummy_web/authentication/signup.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_bloc.dart';
-import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
 import 'package:happy_tummy_web/bloc/authentication/authentication_state.dart';
 import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
-import 'package:happy_tummy_web/ui/pages/SignUp.dart';
 import 'package:happy_tummy_web/ui/pages/login.dart';
 import 'package:happy_tummy_web/ui/pages/profile.dart';
 import 'package:happy_tummy_web/ui/pages/splash.dart';
@@ -51,45 +46,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
-// class Home extends StatefulWidget {
-//   @override
-//   _HomeState createState() => _HomeState();
-// }
-
-// class _HomeState extends State<Home> {
-//   final RestaurantRepository _restaurantRepository = RestaurantRepository();
-//   AuthenticationBloc _authenticationBloc;
-
-//   @override
-//   void initState() {
-//     _authenticationBloc = AuthenticationBloc(restaurantRepository: _restaurantRepository);
-//     _authenticationBloc.add(AppStarted());
-//     super.initState();
-//   }
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => _authenticationBloc,
-//       child: MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         home: BlocBuilder(
-//           bloc: _authenticationBloc,
-//           builder: (BuildContext context, AuthenticationState state){
-//             if (state is Uninitialized) {
-//             return Splash();
-//           }
-//           else{
-//             //return Tabs();
-//             return Login(restaurantRepository :_restaurantRepository);
-//           }
-//           },
-//           ),
-//         ),
-      
-//     );
-//   }
-// }

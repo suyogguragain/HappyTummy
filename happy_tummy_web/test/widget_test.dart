@@ -7,13 +7,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:happy_tummy_web/website/web.dart';
+import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
+import 'package:happy_tummy_web/ui/pages/home.dart';
 
 void main() {
+  final RestaurantRepository _restaurantRepository = RestaurantRepository();
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(WebApp());
+    await tester.pumpWidget(Home(
+      restaurantRepository: _restaurantRepository,
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

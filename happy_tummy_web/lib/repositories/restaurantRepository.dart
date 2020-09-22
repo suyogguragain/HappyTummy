@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -48,11 +46,9 @@ class RestaurantRepository {
   Future<String> getUser() async {
     return (await _firebaseAuth.currentUser()).uid;
   }
-  
-
 
   //profile setup
-Future<void> profileSetup(
+  Future<void> profileSetup(
       //File photo,
       //Image photo,
       String rid,
@@ -74,21 +70,21 @@ Future<void> profileSetup(
     //    .putFile(photo);
 
     return //await storageUploadTask.onComplete.then((ref) async {
-      //await ref.ref.getDownloadURL().then((url) async {
+        //await ref.ref.getDownloadURL().then((url) async {
         await _firestore.collection('restaurants').document(rid).setData({
-          'rid': rid,
-          'name': name,
-          'cusines': cusines,
-          'mealtype': mealtype,
-          'outlettype': outlettype,
-          //'photoUrl': url,
-          'parking': parking,
-          'paymentmethod': paymentmethod,
-          'billingextra': billingextra,
-          "location": location,
-          'age': age
-        });
-     // });
+      'rid': rid,
+      'name': name,
+      'cusines': cusines,
+      'mealtype': mealtype,
+      'outlettype': outlettype,
+      //'photoUrl': url,
+      'parking': parking,
+      'paymentmethod': paymentmethod,
+      'billingextra': billingextra,
+      "location": location,
+      'age': age
+    });
+    // });
     //});
-  } 
+  }
 }

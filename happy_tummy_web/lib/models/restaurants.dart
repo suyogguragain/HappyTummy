@@ -29,16 +29,15 @@ class Restaurant {
 
   factory Restaurant.fromDocument(DocumentSnapshot doc) {
     return Restaurant(
-      rid: doc.documentID,
-      name: doc['name'],
-      cusines: doc['cusines'],
-      mealtype: doc['mealtype'],
-      outlettype: doc['outlettype'],
-      parking: doc['parking'],
-      paymentmethod: doc['paymentmethod'],
-      billingextra: doc['billingextra'],
-      age: doc['age'],
-      location: doc['location']
-    );
+        rid: doc.documentID,
+        name: doc['name'],
+        cusines: doc['cusines'],
+        mealtype: doc['mealtype'],
+        outlettype: doc['outlettype'],
+        parking: doc['parking'],
+        paymentmethod: doc['paymentmethod'],
+        billingextra: doc['billingextra'],
+        age: doc['age'],
+        location: doc['location']);
   }
 }

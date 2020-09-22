@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
-
 class AboutTextWithSign extends StatelessWidget {
   const AboutTextWithSign({
     Key key,

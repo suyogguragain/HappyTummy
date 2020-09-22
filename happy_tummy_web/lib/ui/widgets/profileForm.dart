@@ -1,4 +1,3 @@
-
 // import 'dart:io';
 
 // import 'package:file_picker/file_picker.dart';
@@ -88,9 +87,6 @@ class _ProfileFormState extends State<ProfileForm> {
     super.dispose();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -160,7 +156,6 @@ class _ProfileFormState extends State<ProfileForm> {
                   //                 });
                   //               }
                   //             },
-                              
 
                   //             child: Image.asset('assets/images/noimage.png'),
                   //           )
@@ -184,7 +179,7 @@ class _ProfileFormState extends State<ProfileForm> {
                   //           ),
                   //   ),
                   // ),
-                  
+
                   textFieldWidget(_nameController, "Name", size),
                   textFieldWidget(_outlettypeController, "Outlet Type", size),
                   textFieldWidget(_parkingController, "Parking", size),
@@ -338,7 +333,6 @@ class _ProfileFormState extends State<ProfileForm> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),

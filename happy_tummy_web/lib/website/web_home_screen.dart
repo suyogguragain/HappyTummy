@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy_web/models/restaurants.dart';
-import 'package:happy_tummy_web/repositories/restaurantRepository.dart';
 import 'package:happy_tummy_web/ui/pages/splash.dart';
 import 'package:happy_tummy_web/website/constants.dart';
 import 'package:happy_tummy_web/website/sections/about/components/about_Section_text.dart';
@@ -149,7 +148,8 @@ class _WebHomePageState extends State<WebHomePage> {
                                         'Cusines : ${restaurant.cusines}\nMeal type : ${restaurant.mealtype}\nOutlet Type : ${restaurant.outlettype}'),
                               ),
                               ExperienceCard(
-                                numOfExp: "${(DateTime.now().year - restaurant.age.toDate().year).toString()}"),
+                                  numOfExp:
+                                      "${(DateTime.now().year - restaurant.age.toDate().year).toString()}"),
                               Expanded(
                                 child: AboutSectionText(
                                     text:

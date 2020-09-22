@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happy_tummy_web/bloc/authentication/authentication_bloc.dart';
-import 'package:happy_tummy_web/bloc/authentication/authentication_event.dart';
+import 'package:happy_tummy_web/bloc/authentication/bloc.dart';
 import 'package:happy_tummy_web/ui/pages/splash.dart';
-import 'package:happy_tummy_web/website/sections/events/events.dart';
+import 'package:happy_tummy_web/website/sections/events/foodevents.dart';
 import 'package:happy_tummy_web/website/sections/foodmenu/food_menu.dart';
+import 'package:happy_tummy_web/website/sections/offers/offer_section.dart';
 import 'package:happy_tummy_web/website/web_home_screen.dart';
 
 import '../constants.dart';
+
+final eventsReference = Firestore.instance.collection('events');
+final offersReference = Firestore.instance.collection('offers');
 
 class Tabs extends StatelessWidget {
   final userId;
@@ -17,11 +21,17 @@ class Tabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      WebHomePage(restaurantProfileId: userId,),
+      WebHomePage(
+        restaurantProfileId: userId,
+      ),
       FoodmenuSection(),
       Splash(),
-      EventsSection(),
-      EventsSection(),
+      FoodEventsSection(
+        restaurantProfileId: userId,
+      ),
+      OffersSection(
+        restaurantProfileId: userId,
+      )
     ];
 
     return Theme(
@@ -43,7 +53,7 @@ class Tabs extends StatelessWidget {
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
                   print(userId);
-                  //BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
                 },
               )
             ],
@@ -57,12 +67,21 @@ class Tabs extends StatelessWidget {
                   children: <Widget>[
                     TabBar(
                       tabs: <Widget>[
-                        Tab(child: Text("Home"),),
-                        Tab(child: Text("Menu"),),
-                        Tab(child: Text("Gallery"),),
-                        Tab(child: Text("Events"),),
-                        Tab(child: Text("Offers"),),
-
+                        Tab(
+                          child: Text("Home"),
+                        ),
+                        Tab(
+                          child: Text("Menu"),
+                        ),
+                        Tab(
+                          child: Text("Gallery"),
+                        ),
+                        Tab(
+                          child: Text("Events"),
+                        ),
+                        Tab(
+                          child: Text("Offers"),
+                        ),
                       ],
                     )
                   ],

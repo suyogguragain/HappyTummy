@@ -1,28 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../../constants.dart';
 
-class EventsCard extends StatefulWidget {
+class OfferCard extends StatefulWidget {
   final String description;
   final String heading;
   final String ownerId;
   final String documentId;
   // just press "Command + ."
-  EventsCard(this.description, this.documentId, this.heading, this.ownerId);
+  OfferCard(this.description, this.documentId, this.heading, this.ownerId);
 
   @override
-  _EventsCardState createState() => _EventsCardState();
+  _OfferCardState createState() => _OfferCardState();
 }
 
-class _EventsCardState extends State<EventsCard> {
+class _OfferCardState extends State<OfferCard> {
   bool isHover = false;
 
   deleteTask(String userId, String documentId) {
     Firestore.instance
-        .collection("events")
+        .collection("offers")
         .document(userId)
-        .collection("userPosts")
+        .collection("restarurantOffers")
         .document(documentId)
         .delete()
         .catchError((e) {
@@ -50,7 +50,7 @@ class _EventsCardState extends State<EventsCard> {
         ),
         child: Row(
           children: [
-            Image.asset('assets/images/work_1.png'),
+            Image.asset('assets/images/work_4.png'),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -73,7 +73,7 @@ class _EventsCardState extends State<EventsCard> {
                         deleteTask(widget.ownerId, widget.documentId);
                       },
                       child: Text(
-                        "Delete Event",
+                        "Delete Offer",
                         style: TextStyle(decoration: TextDecoration.underline),
                       ),
                     )
