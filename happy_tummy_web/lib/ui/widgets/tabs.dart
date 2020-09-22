@@ -12,6 +12,7 @@ import '../constants.dart';
 
 final eventsReference = Firestore.instance.collection('events');
 final offersReference = Firestore.instance.collection('offers');
+final menuReference = Firestore.instance.collection('restarurantMenu');
 
 class Tabs extends StatelessWidget {
   final userId;
@@ -24,7 +25,9 @@ class Tabs extends StatelessWidget {
       WebHomePage(
         restaurantProfileId: userId,
       ),
-      FoodmenuSection(),
+      FoodmenuSection(
+        restaurantProfileId: userId,
+      ),
       Splash(),
       FoodEventsSection(
         restaurantProfileId: userId,
