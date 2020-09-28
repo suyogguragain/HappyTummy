@@ -331,7 +331,10 @@ class _TopLevelPageState extends State<TopLevelPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () => logInUser(),
+                      onTap: () {
+                        print("loginin");
+                        logInUser();
+                      },
                       child: Container(
                         width: 40.0,
                         height: 25.0,

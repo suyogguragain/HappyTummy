@@ -4,16 +4,15 @@ class FeaturedRestaurant extends StatefulWidget {
   final String id;
   final String name;
   final String imagePath;
-  final double ratings;
+  final String location;
 
-  FeaturedRestaurant ({this.id,this.name,this.imagePath,this.ratings });
+  FeaturedRestaurant({this.id, this.name, this.imagePath, this.location});
 
   @override
   _FeaturedRestaurantState createState() => _FeaturedRestaurantState();
 }
 
 class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -23,7 +22,10 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
           Container(
             height: 200.0,
             width: 340.0,
-            child: Image.asset(widget.imagePath, fit: BoxFit.cover,),
+            child: Image.asset(
+              widget.imagePath,
+              fit: BoxFit.cover,
+            ),
           ),
           Positioned(
             left: 0.0,
@@ -33,12 +35,9 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
               width: 340.0,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.black, Colors.black12
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter
-                ),
+                    colors: [Colors.black, Colors.black12],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter),
               ),
             ),
           ),
@@ -60,13 +59,8 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
                     ),
                     Row(
                       children: <Widget>[
-                        Icon(Icons.star, color: Theme.of(context).primaryColor,size: 16.0,),
-                        Icon(Icons.star, color: Theme.of(context).primaryColor,size: 16.0,),
-                        Icon(Icons.star, color: Theme.of(context).primaryColor,size: 16.0,),
-                        Icon(Icons.star, color: Theme.of(context).primaryColor,size: 16.0,),
-                        SizedBox(width: 20.0,),
                         Text(
-                          '('+ widget.ratings.toString() +'22 Reviews)',
+                          widget.location,
                           style: TextStyle(
                             color: Colors.grey,
                           ),
