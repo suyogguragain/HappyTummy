@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/cusine_view.dart';
 
 
 class Cusine_Category extends StatefulWidget{
@@ -18,10 +19,21 @@ class _Cusine_CategoryState extends State<Cusine_Category> {
       borderRadius: BorderRadius.circular(10.0),
       child: Stack(
         children: <Widget>[
-          Container(
-            height: 100.0,
-            width: 200.0,
-            child: Image.asset(widget.imagePath, fit: BoxFit.cover,),
+          GestureDetector(
+            onTap: (){
+              print(widget.categoryName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CusineView(cusinename:widget.categoryName),
+                  )
+              );
+            },
+            child: Container(
+              height: 100.0,
+              width: 200.0,
+              child: Image.asset(widget.imagePath, fit: BoxFit.cover,),
+            ),
           ),
           Positioned(
             left: 60.0,

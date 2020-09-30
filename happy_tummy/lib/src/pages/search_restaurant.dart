@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/src/pages/event_page.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class SearchRestaurant extends StatefulWidget {

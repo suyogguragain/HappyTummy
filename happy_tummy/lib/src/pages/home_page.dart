@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:happy_tummy/src/data/cusinecategory_data.dart';
 import 'package:happy_tummy/src/models/cusine_model.dart';
+import 'package:happy_tummy/src/pages/restauarant_map.dart';
 import 'package:happy_tummy/src/pages/restaurant_details.dart';
+import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 import 'package:happy_tummy/src/widgets/cusine_category.dart';
 import '../widgets/restaurant.dart';
 import '../widgets/food_category.dart';
@@ -105,7 +107,24 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RestaurantMap(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'See All',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orangeAccent,
+                  ),
+                ),
+              ),
             ],
           ),
           SizedBox(
@@ -123,6 +142,9 @@ class _HomePageState extends State<HomePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else {
+                    if (!snapshot.hasData) {
+                      return circularProgress();
+                    }
                     return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data.length,
@@ -159,17 +181,7 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  'See All',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orangeAccent,
-                  ),
-                ),
-              ),
+
             ],
           ),
           SizedBox(
@@ -213,46 +225,8 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20.0,
           ),
-
-//          Column(
-//            children: _restaurants.map(_buildRestaurantItems).toList(),
-//          ),
-//          ScopedModelDescendant<MainModel>(
-//            builder: (BuildContext context,Widget child, MainModel model) {
-//              return Container(
-//                height: 210.0,
-//                child: ListView.builder(
-//                  scrollDirection: Axis.horizontal,
-//                  itemCount: model.restaurants.length,
-//                  itemBuilder: (BuildContext context, int index){
-//                    return Container(
-//                      margin: EdgeInsets.only(right: 20.0),
-//                      child: FeaturedRestaurant(
-//                        id: model.restaurants[index].id,
-//                        name: model.restaurants[index].name,
-//                        imagePath: model.restaurants[index].imagePath,
-//                        ratings: model.restaurants[index].ratings,
-//                      ),
-//                    );
-//                  },
-//                ),
-//              );
-//            },
-//          ),
         ],
       ),
     );
   }
 }
-
-//Widget _buildRestaurantItems(Restaurant_Featured Restaurant){
-//  return Container(
-//    margin: EdgeInsets.only(bottom: 20.0,),
-//    child: FeaturedRestaurant(
-//      id: Restaurant.id,
-//      name: Restaurant.name,
-//      imagePath: Restaurant.imagePath,
-//      ratings: Restaurant.ratings,
-//    ),
-//  );
-//}

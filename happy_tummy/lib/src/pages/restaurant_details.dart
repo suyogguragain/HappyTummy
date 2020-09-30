@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/panaroma.dart';
 
 class RestaurantDetails extends StatefulWidget {
   final DocumentSnapshot restaurant;
@@ -95,7 +96,15 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
           ),
           Center(
             child: RaisedButton(
-              onPressed: () => print('VR'),
+              onPressed: () {
+                print("vr");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PanoramaPage(),
+                  ),
+                );
+              },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               color: Colors.pink,
