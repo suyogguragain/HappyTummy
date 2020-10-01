@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.deepOrange,
         title: Container(
           width: 250.0,
           child: TextField(
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white, fontFamily: "Lobster", fontSize: 20.0),
             controller: locationTextEditingController,
             decoration: InputDecoration(
-              hintText: "Location",
+              hintText: "Happy Tummy",
               hintStyle: TextStyle(
                   color: Colors.white, fontFamily: "Lobster", fontSize: 20.0),
               border: InputBorder.none,

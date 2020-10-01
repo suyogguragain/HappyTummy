@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:happy_tummy/restaurant/repositories/restaurantRepository.dart';
+import 'package:happy_tummy/restaurant/restaur.dart';
+import 'package:happy_tummy/restaurant/ui/pages/restauranthome.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/CreateAccountPage.dart';
 import 'package:happy_tummy/src/pages/TimelinePage.dart';
@@ -21,7 +24,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 final GoogleSignIn gSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection('users');
 final postsReference = Firestore.instance.collection('posts');
-final StorageReference storageReference = FirebaseStorage.instance.ref().child('Posts Pictures');
+final StorageReference storageReference =
+    FirebaseStorage.instance.ref().child('Posts Pictures');
 final activityFeedReferences = Firestore.instance.collection('feed');
 final commentsReferences = Firestore.instance.collection('comments');
 final followersReferences = Firestore.instance.collection('followers');
@@ -51,17 +55,18 @@ class _TopLevelPageState extends State<TopLevelPage> {
 
 
 
+
   @override
   void initState() {
     // TODO: implement initState
-    passwordFocusNode.addListener((){
-      if(passwordFocusNode.hasFocus){
+    passwordFocusNode.addListener(() {
+      if (passwordFocusNode.hasFocus) {
         setState(() {
-          animationType="test";
+          animationType = "test";
         });
-      }else{
+      } else {
         setState(() {
-          animationType="idle";
+          animationType = "idle";
         });
       }
     });
@@ -69,38 +74,33 @@ class _TopLevelPageState extends State<TopLevelPage> {
 
     pageController = PageController();
 
-    gSignIn.onCurrentUserChanged.listen((gSignInAccount){
+    gSignIn.onCurrentUserChanged.listen((gSignInAccount) {
       controlSignIn(gSignInAccount);
-    }, onError: (gError){
+    }, onError: (gError) {
       print("Error " + gError);
     });
 
-    gSignIn.signInSilently(suppressErrors: false).then((gSignInAccount){
+    gSignIn.signInSilently(suppressErrors: false).then((gSignInAccount) {
       controlSignIn(gSignInAccount);
-    }).catchError((gError){
+    }).catchError((gError) {
       print("Error " + gError);
     });
   }
 
-
-  controlSignIn(GoogleSignInAccount signInAccount )async{
-    if(signInAccount != null)
-    {
+  controlSignIn(GoogleSignInAccount signInAccount) async {
+    if (signInAccount != null) {
       await saveUserInfoToFireStore();
       setState(() {
         isSignedIn = true;
       });
 
       //configureRealTimePushNotifications();
-    }
-    else{
+    } else {
       setState(() {
         isSignedIn = false;
       });
     }
   }
-
-
 
 //  configureRealTimePushNotifications(){
 //    final GoogleSignInAccount gUser = gSignIn.currentUser;
@@ -137,37 +137,40 @@ class _TopLevelPageState extends State<TopLevelPage> {
 //    });
 //  }
 
-
-
   saveUserInfoToFireStore() async {
     final GoogleSignInAccount gCurrentUser = gSignIn.currentUser;
-    DocumentSnapshot documentSnapshot = await usersReference.document(gCurrentUser.id).get();
+    DocumentSnapshot documentSnapshot =
+        await usersReference.document(gCurrentUser.id).get();
 
-    if (!documentSnapshot.exists){
-      final username = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAccountPage()));
+    if (!documentSnapshot.exists) {
+      final username = await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CreateAccountPage()));
 
       usersReference.document(gCurrentUser.id).setData({
-        'id':gCurrentUser.id,
-        'profileName':gCurrentUser.displayName,
-        'username':username,
-        'url':gCurrentUser.photoUrl,
-        'email':gCurrentUser.email,
-        'bio':'',
-        'timestamp':timestamp,
+        'id': gCurrentUser.id,
+        'profileName': gCurrentUser.displayName,
+        'username': username,
+        'url': gCurrentUser.photoUrl,
+        'email': gCurrentUser.email,
+        'bio': '',
+        'timestamp': timestamp,
       });
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
     }
 
-    await followersReferences.document(gCurrentUser.id).collection("userFollowers").document(gCurrentUser.id).setData({ });
+    await followersReferences
+        .document(gCurrentUser.id)
+        .collection("userFollowers")
+        .document(gCurrentUser.id)
+        .setData({});
 
     currentUser = User.fromDocument(documentSnapshot);
   }
 
-  void dispose(){
+  void dispose() {
     pageController.dispose();
     super.dispose();
   }
-
 
   logInUser() {
     gSignIn.signIn();
@@ -177,9 +180,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
     gSignIn.signOut();
   }
 
-
-
-  Scaffold buildSignInScreen(){
+  Scaffold buildSignInScreen() {
     return Scaffold(
       //key: _scaffoldKey,
       body: ModalProgressHUD(
@@ -193,7 +194,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
                 SizedBox(
                   height: 50,
                   width: 200,
-                )    ,
+                ),
                 //space for teddy actor
                 Center(
                   child: Container(
@@ -201,43 +202,52 @@ class _TopLevelPageState extends State<TopLevelPage> {
                       width: 300,
                       child: CircleAvatar(
                         child: ClipOval(
-                          child: new FlareActor("assets/teddy_test.flr", alignment: Alignment.center, fit: BoxFit.contain, animation: animationType,),
+                          child: new FlareActor(
+                            "assets/teddy_test.flr",
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
+                            animation: animationType,
+                          ),
                         ),
                         backgroundColor: Colors.black45,
-                      )
-                  ),
+                      )),
                 ),
                 //just for vertical spacing
                 SizedBox(
                   height: 20,
                   width: 10,
-                )    ,
+                ),
                 //container for textfields user name and password
                 Container(
                   height: 140,
                   width: 350,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.white
-                  ),
+                      color: Colors.white),
                   child: Column(
                     children: <Widget>[
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
-                        onChanged:(value){
+                        onChanged: (value) {
                           email = value;
                         },
-                        decoration: InputDecoration(border: InputBorder.none, hintText: "Email", contentPadding: EdgeInsets.all(20)),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Email",
+                            contentPadding: EdgeInsets.all(20)),
                       ),
                       Divider(),
                       TextFormField(
                         textAlign: TextAlign.center,
-                        onChanged:(value){
+                        onChanged: (value) {
                           password = value;
                         },
                         obscureText: true,
-                        decoration: InputDecoration(border: InputBorder.none, hintText: "Password", contentPadding: EdgeInsets.all(20)),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Password",
+                            contentPadding: EdgeInsets.all(20)),
 //                    controller: passwordController,
                         focusNode: passwordFocusNode,
                       ),
@@ -251,30 +261,34 @@ class _TopLevelPageState extends State<TopLevelPage> {
                   padding: EdgeInsets.only(top: 20),
                   child: RaisedButton(
                     color: Colors.pinkAccent,
-                    child: Text("Submit", style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30),
                     ),
                     onPressed: () async {
-                      try{
+                      try {
                         setState(() {
                           showSpinner = true;
                         });
-                        final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-                        if (user != null){
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        if (user != null) {
                           setState(() {
                             animationType = "success";
                             isSignedIn = true;
                             showSpinner = false;
                           });
-                        }else{
+                        } else {
                           setState(() {
                             showSpinner = false;
                             isSignedIn = false;
                             animationType = "fail";
                           });
                         }
-                      }catch(e){
+                      } catch (e) {
                         setState(() {
                           isSignedIn = false;
                           showSpinner = false;
@@ -290,7 +304,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
                     height: 30.0,
                     thickness: 3.0,
                     indent: 80,
-                    endIndent:80 ,
+                    endIndent: 80,
                   ),
                 ),
                 Row(
@@ -306,8 +320,10 @@ class _TopLevelPageState extends State<TopLevelPage> {
                     SizedBox(width: 5.0),
                     GestureDetector(
                       onTap: () {
+//                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+//                            builder: (BuildContext context) => SignUpPage()));
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) => SignUpPage()));
+                            builder: (BuildContext context) => res()));
                       },
                       child: Text(
                         "Sign up",
@@ -324,10 +340,10 @@ class _TopLevelPageState extends State<TopLevelPage> {
                     height: 30.0,
                     thickness: 2.0,
                     indent: 120,
-                    endIndent:120 ,
+                    endIndent: 120,
                   ),
                 ),
-                Row (
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     GestureDetector(
@@ -349,7 +365,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
                     Text(
                       'Google Login',
                       style: TextStyle(
-                        fontSize:12.0,
+                        fontSize: 12.0,
                         color: Colors.blueGrey,
                         fontWeight: FontWeight.bold,
                       ),
@@ -364,24 +380,28 @@ class _TopLevelPageState extends State<TopLevelPage> {
     );
   }
 
-  whenPageChanges (int pageIndex){
+  whenPageChanges(int pageIndex) {
     setState(() {
       this.getPageIndex = pageIndex;
     });
   }
 
-  onTapChangePage( int pageIndex){
-    pageController.animateToPage(pageIndex, duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
+  onTapChangePage(int pageIndex) {
+    pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
   }
 
-
-  Scaffold buildHomeScreen(){
+  Scaffold buildHomeScreen() {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          TimelinePage(gCurrentUser: currentUser,),
+          TimelinePage(
+            gCurrentUser: currentUser,
+          ),
           //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign out")),
-          UploadPage(gCurrentUser: currentUser,),
+          UploadPage(
+            gCurrentUser: currentUser,
+          ),
           HomePage(),
           EventPage(),
           OfferPage(),
@@ -392,34 +412,54 @@ class _TopLevelPageState extends State<TopLevelPage> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: CupertinoTabBar(
-        currentIndex:  getPageIndex,
+        currentIndex: getPageIndex,
         onTap: onTapChangePage,
         backgroundColor: Colors.black,
         activeColor: Colors.pinkAccent,
         inactiveColor: Colors.white,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.rss_feed,), title: Text("Feed"),),
-          BottomNavigationBarItem(icon: Icon(Icons.photo_camera,), title: Text("Camera"),),
-          BottomNavigationBarItem(icon: Icon(Icons.home,), title: Text("Home"),),
-          BottomNavigationBarItem(icon: Icon(Icons.event,), title: Text("Event"),),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer,), title: Text("Offers"),),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.rss_feed,
+            ),
+            title: Text("Feed"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.photo_camera,
+            ),
+            title: Text("Camera"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+            ),
+            title: Text("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.event,
+            ),
+            title: Text("Event"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.local_offer,
+            ),
+            title: Text("Offers"),
+          ),
           //BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
         ],
       ),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    if (isSignedIn){
+    if (isSignedIn) {
       return buildHomeScreen();
-    }
-    else{
+    } else {
       return buildSignInScreen();
     }
   }
 }
-
-
-
