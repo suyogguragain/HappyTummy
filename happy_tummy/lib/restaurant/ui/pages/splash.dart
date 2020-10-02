@@ -12,14 +12,30 @@ class Splash extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: Container(
         width: size.width,
-        child: Center(
-          child: Text(
-            "Happy Tummy",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 36,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 95,
+              backgroundColor: Color(0xffFDCF09),
+              child: CircleAvatar(
+                radius: 90,
+                backgroundImage: AssetImage('assets/images/ht.png'),
+              ),
             ),
-          ),
+            SizedBox(height: 15,),
+            Center(
+              child: Text(
+                "Happy Tummy",
+                style: TextStyle(
+                  color: Colors.orangeAccent,
+                  fontSize: 36,
+                  fontFamily: "Lobster"
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

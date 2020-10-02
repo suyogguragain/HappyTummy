@@ -61,21 +61,21 @@ class _OfferCardState extends State<OfferCard> {
                     SizedBox(height: kDefaultPadding / 2),
                     Text(
                       widget.description,
-                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     SizedBox(height: kDefaultPadding / 2),
-                    GestureDetector(
-                      onTap: () {
-                        deleteTask(widget.ownerId, widget.documentId);
-                      },
-                      child: Text(
-                        "Delete Offer",
-                        style: TextStyle(
-                            decoration: TextDecoration.underline, fontSize: 10),
-                      ),
-                    )
                   ],
                 ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                deleteTask(widget.ownerId, widget.documentId);
+              },
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+                size: 30,
               ),
             ),
           ],

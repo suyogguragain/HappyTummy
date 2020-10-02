@@ -19,7 +19,7 @@ class SignUp extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Sign Up",
-          style: TextStyle(fontSize: 36.0),
+          style: TextStyle(fontSize: 36.0,fontFamily: 'Lobster',color: Colors.black54),
         ),
         centerTitle: true,
         backgroundColor: backgroundColor,

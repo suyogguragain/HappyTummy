@@ -18,7 +18,7 @@ class OffersSection extends StatefulWidget {
 class _OffersSectionState extends State<OffersSection> {
   TextEditingController headingTextEditingController = TextEditingController();
   TextEditingController descriptionTextEditingController =
-  TextEditingController();
+      TextEditingController();
   bool uploading = false;
   String offerId = Uuid().v4();
   bool isHover = false;
@@ -40,7 +40,9 @@ class _OffersSectionState extends State<OffersSection> {
       uploading = false;
       offerId = Uuid().v4();
     });
+
   }
+
 
   saveEventsToFireStore({String title, String desc}) {
     offersReference
@@ -62,17 +64,17 @@ class _OffersSectionState extends State<OffersSection> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-            padding: EdgeInsets.only(top: 16),
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return OfferCard(
-                snapshot.data.documents[index].data["description"],
-                snapshot.data.documents[index].data['offerId'],
-                snapshot.data.documents[index].data["title"],
-                snapshot.data.documents[index].data["ownerId"],
-              );
-            })
+                padding: EdgeInsets.only(top: 16),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return OfferCard(
+                    snapshot.data.documents[index].data["description"],
+                    snapshot.data.documents[index].data['offerId'],
+                    snapshot.data.documents[index].data["title"],
+                    snapshot.data.documents[index].data["ownerId"],
+                  );
+                })
             : Container();
       },
     );
@@ -116,7 +118,7 @@ class _OffersSectionState extends State<OffersSection> {
                 offset: Offset(0, -80),
                 //addevent top section
                 child: Container(
-                  padding: EdgeInsets.all(kDefaultPadding ),
+                  padding: EdgeInsets.all(kDefaultPadding),
                   constraints: BoxConstraints(maxWidth: 400),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -153,7 +155,9 @@ class _OffersSectionState extends State<OffersSection> {
                                 SizedBox(height: kDefaultPadding / 2),
                                 Text(
                                   "Add offers you want to boost!",
-                                  style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black),
                                 )
                               ],
                             ),
@@ -177,13 +181,13 @@ class _OffersSectionState extends State<OffersSection> {
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration.collapsed(
                           hintText:
-                          'Write details about your offers, location and validation date.',
+                              'Write details about your offers, location and validation date.',
                           border: InputBorder.none,
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8,right: 160),
+                        padding: const EdgeInsets.only(top: 8, right: 160),
                         child: Container(
                           width: 200,
                           padding: EdgeInsets.only(right: 39),
@@ -191,14 +195,25 @@ class _OffersSectionState extends State<OffersSection> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60)),
                             color: Color(0xFFE8F0F9),
-                            onPressed:
-                            uploading
+                            onPressed: uploading
                                 ? null
-                                :
-                                () {
-                              print("click");
-                              controlUploadAndSave();
-                            },
+                                : () {
+                                    print("click");
+                                    controlUploadAndSave();
+                                    final snackBar = SnackBar(backgroundColor: Colors.orange,
+                                      content: Text('Sucessfully added!',style: TextStyle(color: Colors.white),),
+                                      action: SnackBarAction(
+                                        label: 'Ok',
+                                        onPressed: () {
+                                          // Some code to undo the change.
+                                        },
+                                      ),
+                                    );
+
+                                    // Find the Scaffold in the widget tree and use
+                                    // it to show a SnackBar.
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                  },
                             child: Row(
                               children: [
                                 Icon(
@@ -221,10 +236,8 @@ class _OffersSectionState extends State<OffersSection> {
                 subTitle: "Food related offers at Restaurants",
                 color: Color(0xFFFFB100),
               ),
-              SizedBox(height: kDefaultPadding ),
               //display events
               taskList(),
-              SizedBox(height: kDefaultPadding ),
             ],
           ),
         ),

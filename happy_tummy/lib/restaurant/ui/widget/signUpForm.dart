@@ -98,15 +98,26 @@ class _SignUpFormState extends State<SignUpForm> {
               color: backgroundColor,
               width: size.width,
               height: size.height,
+              padding: EdgeInsets.only(top: 60),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                    child: CircleAvatar(
+                      radius: 65,
+                      backgroundColor: Color(0xffFDCF09),
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage('assets/images/ht.png'),
+                      ),
+                    ),
+                  ),
                   Center(
                     child: Text(
                       "Happy Tummy",
                       style: TextStyle(
-                          fontSize: 32, color: Colors.white),
+                          fontSize: 32, color: Colors.black54,fontFamily: 'Lobster'),
                     ),
                   ),
                   Container(
@@ -127,14 +138,14 @@ class _SignUpFormState extends State<SignUpForm> {
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
+                            color: Colors.black54, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0),
+                          BorderSide(color: Colors.black, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0),
+                          BorderSide(color: Colors.black, width: 1.0),
                         ),
                       ),
                     ),
@@ -154,14 +165,14 @@ class _SignUpFormState extends State<SignUpForm> {
                       decoration: InputDecoration(
                         labelText: "Password",
                         labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
+                            color: Colors.black54, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0),
+                          BorderSide(color: Colors.black, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0),
+                          BorderSide(color: Colors.black, width: 1.0),
                         ),
                       ),
                     ),
@@ -177,8 +188,8 @@ class _SignUpFormState extends State<SignUpForm> {
                         height: size.height * 0.06,
                         decoration: BoxDecoration(
                           color: isSignUpButtonEnabled(state)
-                              ? Colors.white
-                              : Colors.grey,
+                              ? Colors.blueAccent
+                              : Colors.redAccent,
                           borderRadius:
                           BorderRadius.circular(size.height * 0.05),
                         ),
@@ -187,7 +198,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             "Sign Up",
                             style: TextStyle(
                                 fontSize: size.height * 0.025,
-                                color: Colors.blue),
+                                color: Colors.white,fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

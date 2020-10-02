@@ -62,20 +62,21 @@ class _EventsCardState extends State<EventsCard> {
                     SizedBox(height: kDefaultPadding / 2),
                     Text(
                       widget.description,
-                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     SizedBox(height: kDefaultPadding),
-                    GestureDetector(
-                      onTap: () {
-                        deleteTask(widget.ownerId, widget.documentId);
-                      },
-                      child: Text(
-                        "Delete Event",
-                        style: TextStyle(decoration: TextDecoration.underline),
-                      ),
-                    )
                   ],
                 ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                deleteTask(widget.ownerId, widget.documentId);
+              },
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+                size: 30,
               ),
             ),
           ],

@@ -16,8 +16,10 @@ final eventsReference = Firestore.instance.collection('events');
 final offersReference = Firestore.instance.collection('offers');
 final menuReference = Firestore.instance.collection('restarurantMenu');
 final gallerysReference = Firestore.instance.collection('gallery');
-final StorageReference menustorageReference = FirebaseStorage.instance.ref().child('MenuPictures');
-final StorageReference gallerystorageReference = FirebaseStorage.instance.ref().child('GalleryPictures');
+final StorageReference menustorageReference =
+    FirebaseStorage.instance.ref().child('MenuPictures');
+final StorageReference gallerystorageReference =
+    FirebaseStorage.instance.ref().child('GalleryPictures');
 
 class Tabs extends StatelessWidget {
   final userId;
@@ -27,9 +29,15 @@ class Tabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      MainPage(restaurantProfileId: userId,),
-      Menu(restaurantProfileId: userId,),
-      Gallery(restaurantProfileId: userId,),
+      MainPage(
+        restaurantProfileId: userId,
+      ),
+      Menu(
+        restaurantProfileId: userId,
+      ),
+      GalleryPage(
+        restaurantProfileId: userId,
+      ),
       FoodEventsSection(
         restaurantProfileId: userId,
       ),

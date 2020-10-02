@@ -22,7 +22,7 @@ class SectionTitle extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(right: kDefaultPadding),
-            padding: EdgeInsets.only(bottom: 62),
+            padding: EdgeInsets.only(bottom: 42),
             width: 8,
             height: 100,
             color: Colors.black,

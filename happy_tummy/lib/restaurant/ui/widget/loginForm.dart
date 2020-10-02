@@ -162,14 +162,14 @@ class _LoginFormState extends State<LoginForm> {
                   Center(
                     child: Text(
                       "Happy Tummy",
-                      style: TextStyle(fontSize: 32, color: Colors.white),
+                      style: TextStyle(fontSize: 32, color: Colors.black54,fontFamily: 'Lobster'),
                     ),
                   ),
                   Container(
                     width: size.width * 0.8,
                     child: Divider(
                       height: size.height * 0.05,
-                      color: Colors.white,
+                      color: Colors.black54,
                     ),
                   ),
                   Padding(
@@ -183,15 +183,16 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
+                            color: Colors.black54, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0,),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
+
                       ),
                     ),
                   ),
@@ -210,14 +211,14 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         labelText: "Password",
                         labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
+                            color: Colors.black54, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                       ),
                     ),
@@ -235,8 +236,8 @@ class _LoginFormState extends State<LoginForm> {
                             height: size.height * 0.06,
                             decoration: BoxDecoration(
                               color: isLoginButtonEnabled(state)
-                                  ? Colors.white
-                                  : Colors.grey,
+                                  ? Colors.blueAccent
+                                  : Colors.redAccent,
                               borderRadius:
                                   BorderRadius.circular(size.height * 0.05),
                             ),
@@ -245,7 +246,7 @@ class _LoginFormState extends State<LoginForm> {
                                 "Login",
                                 style: TextStyle(
                                     fontSize: size.height * 0.025,
-                                    color: Colors.blue),
+                                    color: Colors.white,fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -269,7 +270,7 @@ class _LoginFormState extends State<LoginForm> {
                             "Are you new? Get an Account",
                             style: TextStyle(
                                 fontSize: size.height * 0.025,
-                                color: Colors.white),
+                                color: Colors.black54),
                           ),
                         )
                       ],

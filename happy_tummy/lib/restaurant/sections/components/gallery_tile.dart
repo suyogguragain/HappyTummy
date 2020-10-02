@@ -30,28 +30,27 @@ class _GalleryTileState extends State<GalleryTile> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          color: Colors.white24,
-          padding: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundImage: CachedNetworkImageProvider(widget.post.url),
-                radius: 45.0,
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    deleteTask(widget.post.ownerId, widget.post.postId);
-                  },
-                  child: Icon(Icons.delete,color: Colors.red,)
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(widget.post.url),
+              radius: 55.0,
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: () {
+                  deleteTask(widget.post.ownerId, widget.post.postId);
+                },
+                child: Text(
+                  "Delete",
+                  style: TextStyle(decoration: TextDecoration.underline),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
