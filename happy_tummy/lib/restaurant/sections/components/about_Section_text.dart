@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/restaurant/sections/constants.dart';
+import 'file:///D:/ProgramFiles/Flutter_projects/HappyTummy/happy_tummy/lib/restaurant/sections/components/constants.dart';
 
 
 class AboutSectionText extends StatelessWidget {
@@ -17,7 +17,7 @@ class AboutSectionText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-            fontWeight: FontWeight.w200, color: kTextColor, height: 2,fontSize: 20),
+            fontWeight: FontWeight.w400, color: Colors.black,fontSize: 14,height: 1.5),
       ),
     );
   }

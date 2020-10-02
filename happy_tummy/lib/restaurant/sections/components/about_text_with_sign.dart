@@ -11,11 +11,8 @@ class AboutTextWithSign extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "General \nInfo",
-          style: Theme.of(context)
-              .textTheme
-              .headline3
-              .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
+          "General Info",
+          style: TextStyle(color: Colors.deepOrange,fontWeight: FontWeight.normal,fontSize: 30,fontFamily: 'EastSeaDokdo'),
         ),
       ],
     );

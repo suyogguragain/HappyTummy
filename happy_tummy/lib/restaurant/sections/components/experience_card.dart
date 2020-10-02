@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/restaurant/sections/constants.dart';
+import 'file:///D:/ProgramFiles/Flutter_projects/HappyTummy/happy_tummy/lib/restaurant/sections/components/constants.dart';
 
 
 class ExperienceCard extends StatelessWidget {
@@ -13,10 +13,9 @@ class ExperienceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: EdgeInsets.all(kDefaultPadding),
-      height: 240,
-      width: 255,
+      height: 120,
+      width: 120,
       decoration: BoxDecoration(
         color: Color(0xFFF7E8FF),
         borderRadius: BorderRadius.circular(10),
@@ -42,17 +41,20 @@ class ExperienceCard extends StatelessWidget {
                   numOfExp,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 50,
-                    color: Colors.white,
+                    fontSize: 22,
+                    color: Colors.black54,
                   ),
                 )
               ],
             ),
-            SizedBox(height: kDefaultPadding / 2),
-            Text(
-              "Years of Experience",
-              style: TextStyle(
-                color: Color(0xFFA600FF),
+            SizedBox(height: kDefaultPadding / 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                "Years of Experience",
+                style: TextStyle(
+                  color: Color(0xFFA600FF),
+                ),
               ),
             )
           ],

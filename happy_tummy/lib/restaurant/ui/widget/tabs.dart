@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy/restaurant/bloc/authentication/bloc.dart';
+import 'package:happy_tummy/restaurant/sections/events.dart';
+import 'package:happy_tummy/restaurant/sections/gallery.dart';
 import 'package:happy_tummy/restaurant/sections/main.dart';
+import 'package:happy_tummy/restaurant/sections/menu.dart';
+import 'package:happy_tummy/restaurant/sections/offers.dart';
 import 'package:happy_tummy/restaurant/ui/pages/splash.dart';
 
 import '../constants.dart';
@@ -10,6 +15,9 @@ import '../constants.dart';
 final eventsReference = Firestore.instance.collection('events');
 final offersReference = Firestore.instance.collection('offers');
 final menuReference = Firestore.instance.collection('restarurantMenu');
+final gallerysReference = Firestore.instance.collection('gallery');
+final StorageReference menustorageReference = FirebaseStorage.instance.ref().child('MenuPictures');
+final StorageReference gallerystorageReference = FirebaseStorage.instance.ref().child('GalleryPictures');
 
 class Tabs extends StatelessWidget {
   final userId;
@@ -20,10 +28,14 @@ class Tabs extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       MainPage(restaurantProfileId: userId,),
-      Splash(),
-      Splash(),
-      Splash(),
-      Splash(),
+      Menu(restaurantProfileId: userId,),
+      Gallery(restaurantProfileId: userId,),
+      FoodEventsSection(
+        restaurantProfileId: userId,
+      ),
+      OffersSection(
+        restaurantProfileId: userId,
+      ),
     ];
 
     return Theme(
