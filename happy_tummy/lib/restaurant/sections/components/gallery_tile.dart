@@ -35,20 +35,13 @@ class _GalleryTileState extends State<GalleryTile> {
           children: <Widget>[
             CircleAvatar(
               backgroundImage: CachedNetworkImageProvider(widget.post.url),
-              radius: 55.0,
+              radius: 45.0,
             ),
-            Positioned(
-              left: 0,
-              top: 0,
-              child: GestureDetector(
+            GestureDetector(
                 onTap: () {
                   deleteTask(widget.post.ownerId, widget.post.postId);
                 },
-                child: Text(
-                  "Delete",
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ),
+                child: Icon(Icons.delete,color: Colors.red,)
             ),
           ],
         ),

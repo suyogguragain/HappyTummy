@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/restaurant/models/gallery_model.dart';
+import 'package:happy_tummy/restaurant/models/menu_model.dart';
 
-class GalleryTile extends StatefulWidget {
+class MenuTile extends StatefulWidget {
 
-  final Gallery post;
+  final Menu post;
 
-  GalleryTile(this.post);
+  MenuTile(this.post);
 
   @override
-  _GalleryTileState createState() => _GalleryTileState();
+  _MenuTileState createState() => _MenuTileState();
 }
 
-class _GalleryTileState extends State<GalleryTile> {
+class _MenuTileState extends State<MenuTile> {
   deleteTask(String userId, String documentId) {
     Firestore.instance
         .collection("restarurantMenu")
@@ -32,23 +32,18 @@ class _GalleryTileState extends State<GalleryTile> {
       children: <Widget>[
         Container(
           color: Colors.white24,
-          padding: EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               CircleAvatar(
                 backgroundImage: CachedNetworkImageProvider(widget.post.url),
-                radius: 45.0,
+                radius: 50.0,
               ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    deleteTask(widget.post.ownerId, widget.post.postId);
-                  },
-                  child: Icon(Icons.delete,color: Colors.red,)
-                ),
+              GestureDetector(
+                onTap: () {
+                  deleteTask(widget.post.ownerId, widget.post.postId);
+                },
+                child: Icon(Icons.delete,color: Colors.red,)
               ),
             ],
           ),

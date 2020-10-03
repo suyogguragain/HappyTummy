@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:happy_tummy/restaurant/repositories/restaurantRepository.dart';
@@ -52,9 +53,6 @@ class _TopLevelPageState extends State<TopLevelPage> {
   int getPageIndex = 0;
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   //final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-
-
 
   @override
   void initState() {
@@ -189,10 +187,11 @@ class _TopLevelPageState extends State<TopLevelPage> {
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //just for vertical spacing
                 SizedBox(
-                  height: 50,
+                  height: 100,
                   width: 200,
                 ),
                 //space for teddy actor
@@ -218,86 +217,123 @@ class _TopLevelPageState extends State<TopLevelPage> {
                   width: 10,
                 ),
                 //container for textfields user name and password
-                Container(
-                  height: 140,
-                  width: 350,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.white),
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          email = value;
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Email",
-                            contentPadding: EdgeInsets.all(20)),
-                      ),
-                      Divider(),
-                      TextFormField(
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          password = value;
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Password",
-                            contentPadding: EdgeInsets.all(20)),
-//                    controller: passwordController,
-                        focusNode: passwordFocusNode,
-                      ),
-                    ],
-                  ),
-                ),
+//                Container(
+//                  height: 140,
+//                  width: 350,
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.all(Radius.circular(30)),
+//                      color: Colors.white),
+//                  child: Column(
+//                    children: <Widget>[
+//                      TextFormField(
+//                        keyboardType: TextInputType.emailAddress,
+//                        textAlign: TextAlign.center,
+//                        onChanged: (value) {
+//                          email = value;
+//                        },
+//                        decoration: InputDecoration(
+//                            border: InputBorder.none,
+//                            hintText: "Email",
+//                            contentPadding: EdgeInsets.all(20)),
+//                      ),
+//                      Divider(),
+//                      TextFormField(
+//                        textAlign: TextAlign.center,
+//                        onChanged: (value) {
+//                          password = value;
+//                        },
+//                        obscureText: true,
+//                        decoration: InputDecoration(
+//                            border: InputBorder.none,
+//                            hintText: "Password",
+//                            contentPadding: EdgeInsets.all(20)),
+////                    controller: passwordController,
+//                        focusNode: passwordFocusNode,
+//                      ),
+//                    ],
+//                  ),
+//                ),
                 //container for raised button
+//                Container(
+//                  width: 350,
+//                  height: 70,
+//                  padding: EdgeInsets.only(top: 20),
+//                  child: RaisedButton(
+//                    color: Colors.pinkAccent,
+//                    child: Text(
+//                      "Submit",
+//                      style: TextStyle(color: Colors.white),
+//                    ),
+//                    shape: RoundedRectangleBorder(
+//                      borderRadius: new BorderRadius.circular(30),
+//                    ),
+//                    onPressed: () async {
+//                      try {
+//                        setState(() {
+//                          showSpinner = true;
+//                        });
+//                        final user = await _auth.signInWithEmailAndPassword(
+//                            email: email, password: password);
+//                        if (user != null) {
+//                          setState(() {
+//                            animationType = "success";
+//                            isSignedIn = true;
+//                            showSpinner = false;
+//                          });
+//                        } else {
+//                          setState(() {
+//                            showSpinner = false;
+//                            isSignedIn = false;
+//                            animationType = "fail";
+//                          });
+//                        }
+//                      } catch (e) {
+//                        setState(() {
+//                          isSignedIn = false;
+//                          showSpinner = false;
+//                          animationType = "fail";
+//                        });
+//                        print(e);
+//                      }
+//                    },
+//                  ),
+//                ),
                 Container(
                   width: 350,
                   height: 70,
                   padding: EdgeInsets.only(top: 20),
                   child: RaisedButton(
-                    color: Colors.pinkAccent,
-                    child: Text(
-                      "Submit",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30),
-                    ),
-                    onPressed: () async {
-                      try {
+                      color: Colors.pinkAccent,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 60.0,
+                            height: 35.0,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/google.png'),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "Google Sign In",
+                            style: TextStyle(color: Colors.white,fontFamily: "PermanentMarker",fontSize: 22),
+                          ),
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30),
+                      ),
+                      onPressed: () async {
                         setState(() {
-                          showSpinner = true;
-                        });
-                        final user = await _auth.signInWithEmailAndPassword(
-                            email: email, password: password);
-                        if (user != null) {
-                          setState(() {
-                            animationType = "success";
-                            isSignedIn = true;
-                            showSpinner = false;
-                          });
-                        } else {
-                          setState(() {
-                            showSpinner = false;
-                            isSignedIn = false;
-                            animationType = "fail";
-                          });
-                        }
-                      } catch (e) {
-                        setState(() {
-                          isSignedIn = false;
+                          animationType = "success";
+                          isSignedIn = true;
                           showSpinner = false;
-                          animationType = "fail";
                         });
-                        print(e);
-                      }
-                    },
-                  ),
+                        logInUser();
+                      }),
                 ),
                 Center(
                   child: Divider(
@@ -311,9 +347,9 @@ class _TopLevelPageState extends State<TopLevelPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Don't have an account?",
+                      "I'm a restaurant?",
                       style: TextStyle(
-                          color: Color(0xFFBDC2CB),
+                          color: Colors.black54,
                           fontWeight: FontWeight.bold,
                           fontSize: 14.0),
                     ),
@@ -326,7 +362,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
                             builder: (BuildContext context) => res()));
                       },
                       child: Text(
-                        "Sign up",
+                        "Sign In Here",
                         style: TextStyle(
                             color: Colors.blueAccent,
                             fontWeight: FontWeight.bold,
@@ -346,24 +382,18 @@ class _TopLevelPageState extends State<TopLevelPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        print("loginin");
-                        logInUser();
-                      },
-                      child: Container(
-                        width: 40.0,
-                        height: 25.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/google.png'),
-                            fit: BoxFit.contain,
-                          ),
+                    Container(
+                      width: 40.0,
+                      height: 25.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/ht.png'),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     Text(
-                      'Google Login',
+                      'Happy Tummy',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Colors.blueGrey,
@@ -415,7 +445,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
         currentIndex: getPageIndex,
         onTap: onTapChangePage,
         backgroundColor: Colors.black,
-        activeColor: Colors.pinkAccent,
+        activeColor: Colors.deepOrange,
         inactiveColor: Colors.white,
         items: [
           BottomNavigationBarItem(

@@ -3,20 +3,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
-class CusineView extends StatefulWidget {
-  final String cusinename;
-  CusineView({this.cusinename});
+class MealTypeView extends StatefulWidget {
+  final String mealtype;
+  MealTypeView({this.mealtype});
   @override
-  _CusineViewState createState() => new _CusineViewState();
+  _MealTypeViewState createState() => new _MealTypeViewState();
 }
 
-class _CusineViewState extends State<CusineView> {
+class _MealTypeViewState extends State<MealTypeView> {
   Future<QuerySnapshot> futureSearchResults;
 
   controlSearching(String str) {
     Future<QuerySnapshot> allUser = Firestore.instance
         .collection('restaurants')
-        .where('cusines', isEqualTo: str)
+        .where('mealtype', isEqualTo: str)
         .getDocuments();
     setState(() {
       futureSearchResults = allUser;
@@ -34,8 +34,8 @@ class _CusineViewState extends State<CusineView> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
-              onTap: controlSearching('${widget.cusinename}'),
-              child: Text("Restaurant having ${widget.cusinename} Cusines"),
+              onTap: controlSearching('${widget.mealtype}'),
+              child: Text("Restaurant having ${widget.mealtype} "),
             ),
           ),
           SizedBox(height: 10.0),

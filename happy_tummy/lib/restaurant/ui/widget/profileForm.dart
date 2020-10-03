@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -211,7 +210,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     },
                     child: Text(
                       "Established Date",
-                      style: TextStyle(color: Colors.white, fontSize: 26),
+                      style: TextStyle(color: Colors.black54, fontSize: 26),
                     ),
                   ),
                   SizedBox(
@@ -225,7 +224,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             horizontal: size.height * 0.02),
                         child: Text(
                           "Cusines",
-                          style: TextStyle(color: Colors.white, fontSize: 26),
+                          style: TextStyle(color: Colors.black54, fontSize: 26),
                         ),
                       ),
                       Row(
@@ -273,7 +272,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             horizontal: size.height * 0.02),
                         child: Text(
                           "Meal Type",
-                          style: TextStyle(color: Colors.white, fontSize: 26),
+                          style: TextStyle(color: Colors.black54, fontSize: 26),
                         ),
                       ),
                       Row(
@@ -328,14 +327,14 @@ class _ProfileFormState extends State<ProfileForm> {
                         height: 50,
                         decoration: BoxDecoration(
                           color: isButtonEnabled(state)
-                              ? Colors.white
-                              : Colors.grey,
+                              ? Colors.blue
+                              : Colors.red,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Center(
                             child: Text(
                           "Save",
-                          style: TextStyle(fontSize: 26, color: Colors.blue),
+                          style: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),
                         )),
                       ),
                     ),
@@ -358,12 +357,12 @@ Widget textFieldWidget(controller, text, size) {
       decoration: InputDecoration(
         labelText: text,
         labelStyle:
-            TextStyle(color: Colors.white, fontSize: size.height * 0.03),
+            TextStyle(color: Colors.black54, fontSize: size.height * 0.03),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 1.0),
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 1.0),
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
         ),
       ),
     ),

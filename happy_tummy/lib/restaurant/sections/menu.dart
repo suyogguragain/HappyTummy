@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/restaurant/models/gallery_model.dart';
+import 'package:happy_tummy/restaurant/models/menu_model.dart';
 import 'package:happy_tummy/restaurant/sections/components/menu_card.dart';
 import 'package:happy_tummy/restaurant/ui/widget/tabs.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
@@ -12,20 +11,19 @@ import 'package:image/image.dart' as InD;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-class Menu extends StatefulWidget {
+class MenuPage extends StatefulWidget {
   final String restaurantProfileId;
 
-  Menu({this.restaurantProfileId});
+  MenuPage({this.restaurantProfileId});
   @override
-  _MenuState createState() => _MenuState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuPageState extends State<MenuPage> {
   File _imageFile;
   bool loading = false;
   int countPost = 0;
-  List <Gallery> postsList = [];
-
+  List<Menu> postsList = [];
 
   displayProfilePost() {
     if (loading) {
@@ -60,7 +58,7 @@ class _MenuState extends State<Menu> {
     } else {
       List<GridTile> gridTilesList = [];
       postsList.forEach((eachPost) {
-        gridTilesList.add(GridTile(child: GalleryTile(eachPost)));
+        gridTilesList.add(GridTile(child: MenuTile(eachPost)));
       });
       return GridView.count(
         crossAxisCount: 3,
@@ -79,9 +77,10 @@ class _MenuState extends State<Menu> {
       loading = true;
     });
 
-    QuerySnapshot querySnapshot = await gallerysReference
+    QuerySnapshot querySnapshot = await Firestore.instance
+        .collection("restarurantMenu")
         .document(widget.restaurantProfileId)
-        .collection("restaurantGallery")
+        .collection("restaurantMenu")
         .orderBy("timestamp", descending: true)
         .getDocuments();
 
@@ -89,7 +88,7 @@ class _MenuState extends State<Menu> {
       loading = false;
       countPost = querySnapshot.documents.length;
       postsList = querySnapshot.documents
-          .map((documentSnapshot) => Gallery.fromDocument(documentSnapshot))
+          .map((documentSnapshot) => Menu.fromDocument(documentSnapshot))
           .toList();
     });
   }
@@ -101,7 +100,8 @@ class _MenuState extends State<Menu> {
   }
 
   getTasks(String userId) async {
-    return await menuReference
+    return await Firestore.instance
+        .collection("restarurantMenu")
         .document(userId)
         .collection("restaurantMenu")
         .snapshots();
@@ -146,7 +146,7 @@ class _MenuState extends State<Menu> {
       body: ListView(
         children: <Widget>[
           if (_imageFile != null) ...[
-            Image.file(_imageFile),
+            Container(height: 410, child: Image.file(_imageFile)),
             Row(
               children: <Widget>[
                 Text(
@@ -238,7 +238,23 @@ class _UploaderState extends State<Uploader> {
     return FlatButton.icon(
       label: Text('Upload '),
       icon: Icon(Icons.cloud_upload),
-      onPressed: _startUpload,
+      onPressed: () {
+        _startUpload();
+        final snackBar = SnackBar(
+          backgroundColor: Colors.blue,
+          content: Text(
+            'Upload Successfull !',
+            style: TextStyle(color: Colors.white),
+          ),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
     );
   }
 }

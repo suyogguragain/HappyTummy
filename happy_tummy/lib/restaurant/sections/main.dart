@@ -6,6 +6,7 @@ import 'package:happy_tummy/restaurant/models/restaurants.dart';
 import 'package:happy_tummy/restaurant/sections/components/about_Section_text.dart';
 import 'package:happy_tummy/restaurant/sections/components/about_text_with_sign.dart';
 import 'package:happy_tummy/restaurant/sections/components/experience_card.dart';
+import 'package:happy_tummy/restaurant/sections/components/feedback.dart';
 import 'file:///D:/ProgramFiles/Flutter_projects/HappyTummy/happy_tummy/lib/restaurant/sections/components/constants.dart';
 import 'package:happy_tummy/restaurant/ui/pages/splash.dart';
 
@@ -182,7 +183,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ]);
                 }),
-            //FeedbackSection(),
+            FeedbackSection(),
             SizedBox(height: kDefaultPadding),
           ],
         ),

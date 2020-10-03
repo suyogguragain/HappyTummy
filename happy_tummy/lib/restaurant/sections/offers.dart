@@ -23,6 +23,8 @@ class _OffersSectionState extends State<OffersSection> {
   String offerId = Uuid().v4();
   bool isHover = false;
   Stream taskStream;
+  bool headingValidate = false;
+  bool descValidate = false;
 
   controlUploadAndSave() async {
     setState(() {
@@ -40,9 +42,7 @@ class _OffersSectionState extends State<OffersSection> {
       uploading = false;
       offerId = Uuid().v4();
     });
-
   }
-
 
   saveEventsToFireStore({String title, String desc}) {
     offersReference
@@ -96,6 +96,21 @@ class _OffersSectionState extends State<OffersSection> {
         .document(userId)
         .collection("restarurantOffers")
         .snapshots();
+  }
+
+  bool validateTextField(String userInput) {
+    if (userInput.isEmpty) {
+      setState(() {
+        headingValidate = true;
+        descValidate = true;
+      });
+      return false;
+    }
+    setState(() {
+      headingValidate = false;
+      descValidate = false;
+    });
+    return true;
   }
 
   @override
@@ -170,19 +185,24 @@ class _OffersSectionState extends State<OffersSection> {
                         controller: headingTextEditingController,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Offer Headline',
-                        ),
+                            border: InputBorder.none,
+                            labelText: 'Offer Headline',
+                            errorText: headingValidate
+                                ? 'Please enter a Heading'
+                                : null),
                       ),
                       // Body text
                       TextField(
                         controller: descriptionTextEditingController,
                         maxLines: null,
                         style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration.collapsed(
+                        decoration: InputDecoration(
                           hintText:
                               'Write details about your offers, location and validation date.',
                           border: InputBorder.none,
+                          errorText: descValidate
+                              ? 'Please enter a Description'
+                              : null,
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -199,20 +219,49 @@ class _OffersSectionState extends State<OffersSection> {
                                 ? null
                                 : () {
                                     print("click");
-                                    controlUploadAndSave();
-                                    final snackBar = SnackBar(backgroundColor: Colors.orange,
-                                      content: Text('Sucessfully added!',style: TextStyle(color: Colors.white),),
-                                      action: SnackBarAction(
-                                        label: 'Ok',
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
-                                      ),
-                                    );
+                                    validateTextField(
+                                        headingTextEditingController.text);
+                                    validateTextField(
+                                        descriptionTextEditingController.text);
 
-                                    // Find the Scaffold in the widget tree and use
-                                    // it to show a SnackBar.
-                                    Scaffold.of(context).showSnackBar(snackBar);
+                                    if (headingValidate == true &&
+                                        descValidate == true) {
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text(
+                                          'Error !',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Ok',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+                                      Scaffold.of(context)
+                                          .showSnackBar(snackBar);
+                                    } else {
+                                      controlUploadAndSave();
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.blue,
+                                        content: Text(
+                                          'Succesfully added !',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Ok',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+
+                                      // Find the Scaffold in the widget tree and use
+                                      // it to show a SnackBar.
+                                      Scaffold.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   },
                             child: Row(
                               children: [

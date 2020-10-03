@@ -136,7 +136,7 @@ class _GalleryPageState extends State<GalleryPage> {
       body: ListView(
         children: <Widget>[
           if (_imageFile != null) ...[
-            Image.file(_imageFile),
+            Container(height: 410,child: Image.file(_imageFile)),
             Row(
               children: <Widget>[
                 Text(
@@ -283,7 +283,24 @@ class _UploaderState extends State<Uploader> {
     return FlatButton.icon(
       label: Text('Upload '),
       icon: Icon(Icons.cloud_upload),
-      onPressed: _startUpload,
+      onPressed: (){
+        _startUpload();
+        final snackBar = SnackBar(
+          backgroundColor: Colors.blue,
+          content: Text(
+            'Upload Successfull !',
+            style: TextStyle(color: Colors.white),
+          ),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
+
     );
 
 //    }

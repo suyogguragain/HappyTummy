@@ -3,26 +3,26 @@ import '../models/category_model.dart';
 final categories = [
   Category(
       imagePath: "assets/images/burger.png",
-      categoryName: "Burger"
+      categoryName: "FastFood"
   ),
 
   Category(
-      imagePath: "assets/images/pizza.png",
-      categoryName: "Pizza"
+      imagePath: "assets/images/turkey.png",
+      categoryName: "Lunch"
   ),
 
   Category(
       imagePath: "assets/images/coffee-cup.png",
-      categoryName: "Coffe Cup"
+      categoryName: "Bakery"
   ),
 
   Category(
-      imagePath: "assets/images/beer.png",
-      categoryName: "Beer"
+      imagePath: "assets/images/breakfast.png",
+      categoryName: "Breakfast"
   ),
 
   Category(
-      imagePath: "assets/images/cheeseburger.png",
-      categoryName: "Cheese Burger"
+      imagePath: "assets/images/lunch.jpeg",
+      categoryName: "Dinner"
   ),
 ];

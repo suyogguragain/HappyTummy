@@ -18,6 +18,6 @@ AppBar header (context, {bool isAppTitle=false ,String strTitle, disableBackButt
       overflow: TextOverflow.ellipsis,
     ),
     centerTitle: true,
-    backgroundColor: Colors.pink,
+    backgroundColor: Colors.deepOrange,
   );
 }

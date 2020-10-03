@@ -32,7 +32,7 @@ class Tabs extends StatelessWidget {
       MainPage(
         restaurantProfileId: userId,
       ),
-      Menu(
+      MenuPage(
         restaurantProfileId: userId,
       ),
       GalleryPage(
@@ -48,7 +48,7 @@ class Tabs extends StatelessWidget {
 
     return Theme(
       data: ThemeData(
-        primaryColor: backgroundColor,
+        primaryColor: Colors.deepOrange,
         accentColor: Colors.white,
       ),
       child: DefaultTabController(
@@ -58,7 +58,7 @@ class Tabs extends StatelessWidget {
             centerTitle: true,
             title: Text(
               "Happy Tummy",
-              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold,fontFamily: "Lobster"),
             ),
             actions: <Widget>[
               IconButton(

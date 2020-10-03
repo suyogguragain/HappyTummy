@@ -9,7 +9,7 @@ Widget selectionWidget(text, size, selected, onTap) {
         Text(
           text,
           style: TextStyle(
-            color: selected == text ? Colors.white : Colors.black,
+            color: selected == text ? Colors.blue : Colors.red,
           ),
         )
       ],
