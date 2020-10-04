@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                               child: FeaturedRestaurant(
                                   id: snapshot.data[index].data['rid'],
                                   name: snapshot.data[index].data['name'],
-                                  imagePath: 'assets/images/trisara.jpeg',
+                                  imagePath: snapshot.data[index].data['photo'],
                                   location:
                                       snapshot.data[index].data['location']),
                             ),

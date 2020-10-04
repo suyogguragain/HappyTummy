@@ -12,29 +12,25 @@ class RestaurantDetails extends StatefulWidget {
 }
 
 class _RestaurantDetailsState extends State<RestaurantDetails> {
-  String postOrientation = "gallery";
-
   createOrientation() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, left: 20.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.grid_on),
-            tooltip: 'gallery',
-            onPressed: () => print('gallery'),
-            color: postOrientation == 'gallery'
-                ? Theme.of(context).primaryColor
-                : Colors.grey,
+          Container(
+            height: 100,
+            width: 100,
+            child: Image.asset('assets/images/ht.png'),
           ),
-          IconButton(
-            icon: Icon(Icons.rate_review),
-            onPressed: () => print('review'),
-            color: postOrientation == 'review'
-                ? Theme.of(context).primaryColor
-                : Colors.grey,
+          Text(
+            "Happy Tummy",
+            style: TextStyle(
+                fontFamily: "Lobster",
+                fontSize: 21.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
           ),
         ],
       ),
@@ -45,16 +41,388 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
-        title: Text(widget.restaurant.data['name']),
+        backgroundColor: Colors.deepOrange,
+        title: Text(
+          widget.restaurant.data['name'],
+          style: TextStyle(fontFamily: "Lobster", fontSize: 25),
+        ),
       ),
       body: ListView(
         children: [
-          Card(
-            child: Column(
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.orange.shade300, Colors.orange.shade900]),
+            ),
+            child: Stack(
               children: [
-                Text(widget.restaurant.data['name']),
-                Text(widget.restaurant.data['parking']),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 350.0,
+                            height: 240.0,
+                            decoration: BoxDecoration(
+                               // shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: Colors.white60, width: 2.0)),
+                            padding: EdgeInsets.all(8.0),
+//                            child: CircleAvatar(
+//                              backgroundImage:
+//                                  NetworkImage(widget.restaurant.data['photo']),
+//                            ),
+                          child: Image.network(widget.restaurant.data['photo'],width: 350,height: 220,fit: BoxFit.cover,),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(
+                        widget.restaurant.data['name'],
+                        style: TextStyle(
+                            fontSize: 21.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        widget.restaurant.data['location'],
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white54),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      MaterialButton(
+                        onPressed: () {},
+                        color: Colors.black87,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Text(
+                          "Restaurant Detail",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Cusines",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['cusines'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Mealtype",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['mealtype'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Outlettype",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['outlettype'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Billing Extra",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['billingextra'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Parking",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['parking'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 100,),
+                              Text(
+                                "Payment Method",
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(
+                                widget.restaurant.data['paymentmethod'],
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(1.5, -1.1),
+                  child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white24,
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white24,
+                      )),
+                ),
+                Align(
+                  alignment: Alignment(1.3,-2.1),
+                  child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white24,
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white24,
+                      )),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 590.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      )),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print("Gallery");
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                              height: 130,
+                              width: 200,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                'Gallery',
+                                style: TextStyle(
+                                    fontSize: 38.0,
+                                    fontFamily: "Lobster",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("Review");
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              height: 130,
+                              width: 200,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                'Review',
+                                style: TextStyle(
+                                    fontSize: 38.0,
+                                    fontFamily: "Lobster",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print("Menu");
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              height: 130,
+                              width: 200,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                'Menu',
+                                style: TextStyle(
+                                    fontSize: 38.0,
+                                    fontFamily: "Lobster",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("VR");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PanoramaPage(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              height: 130,
+                              width: 200,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                'VR',
+                                style: TextStyle(
+                                    fontSize: 38.0,
+                                    fontFamily: "Lobster",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -67,60 +435,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
           createOrientation(),
           Divider(
             thickness: 2,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: RaisedButton(
-              onPressed: () => print('menu'),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              color: Colors.pink,
-              elevation: 2.0,
-              textColor: Colors.black,
-              padding: EdgeInsets.only(
-                  top: 10.0, bottom: 10.0, left: 40.0, right: 40.0),
-              child: Text(
-                'Food Menu',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: RaisedButton(
-              onPressed: () {
-                print("vr");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PanoramaPage(),
-                  ),
-                );
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              color: Colors.pink,
-              elevation: 2.0,
-              textColor: Colors.black,
-              padding: EdgeInsets.only(
-                  top: 10.0, bottom: 10.0, left: 40.0, right: 40.0),
-              child: Text(
-                'Virtual Restaurant',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
           ),
         ],
       ),

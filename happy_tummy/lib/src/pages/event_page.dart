@@ -262,6 +262,9 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                             "assets/images/location.png",
                                             height: 12,
                                           ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
                                           Image.asset(
                                             "assets/images/calender.png",
                                             height: 12,
