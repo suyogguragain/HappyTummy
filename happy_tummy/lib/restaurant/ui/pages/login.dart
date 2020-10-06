@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy/restaurant/bloc/login/bloc.dart';
 import 'package:happy_tummy/restaurant/repositories/restaurantRepository.dart';
 import 'package:happy_tummy/restaurant/ui/widget/loginForm.dart';
+import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 
 import '../constants.dart';
 
@@ -19,7 +20,8 @@ class Login extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Welcome ",
-          style: TextStyle(fontSize: 36.0,color: Colors.black54,fontFamily: 'Lobster'),
+          style: TextStyle(
+              fontSize: 36.0, color: Colors.black54, fontFamily: 'Lobster'),
         ),
         centerTitle: true,
         backgroundColor: backgroundColor,

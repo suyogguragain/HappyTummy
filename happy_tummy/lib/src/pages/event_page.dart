@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/book_event/book_event.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
@@ -81,7 +82,7 @@ class _EventPageState extends State<EventPage> {
                       return ListTile(
                         title: Container(
                           height: 160,
-                          margin: EdgeInsets.only(right: 10.0,bottom: 15),
+                          margin: EdgeInsets.only(right: 10.0, bottom: 15),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: Stack(
@@ -89,7 +90,8 @@ class _EventPageState extends State<EventPage> {
                                 Container(
                                   height: 150.0,
                                   width: 380.0,
-                                  child: Image.asset('assets/images/back2.jpg',
+                                  child: Image.asset(
+                                    'assets/images/back2.jpg',
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -271,6 +273,25 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ReservePage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            'Book Event',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ))
                                     ],
                                   ),
                                 ),

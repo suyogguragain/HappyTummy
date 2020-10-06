@@ -25,14 +25,14 @@ class RestaurantMapState extends State<RestaurantMap> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text("New York"),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(FontAwesomeIcons.search),
-              onPressed: () {
-                //
-              }),
-        ],
+        title: Text("Kathmandu"),
+//        actions: <Widget>[
+//          IconButton(
+//              icon: Icon(FontAwesomeIcons.search),
+//              onPressed: () {
+//                //
+//              }),
+//        ],
       ),
       body: Stack(
         children: <Widget>[
@@ -94,7 +94,7 @@ class RestaurantMapState extends State<RestaurantMap> {
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
-                  40.738380, -73.988426,"Gramercy Tavern"),
+                  27.7200, 85.3190,"Trisara"),
             ),
             SizedBox(width: 10.0),
             Padding(
@@ -255,7 +255,7 @@ class RestaurantMapState extends State<RestaurantMap> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+        initialCameraPosition:  CameraPosition(target: LatLng(27.7172, 85.3240), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
@@ -274,9 +274,9 @@ class RestaurantMapState extends State<RestaurantMap> {
 }
 
 Marker gramercyMarker = Marker(
-  markerId: MarkerId('gramercy'),
-  position: LatLng(40.738380, -73.988426),
-  infoWindow: InfoWindow(title: 'Gramercy Tavern'),
+  markerId: MarkerId('trisara'),
+  position: LatLng(27.7200, 85.3190),
+  infoWindow: InfoWindow(title: 'Trisara'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),

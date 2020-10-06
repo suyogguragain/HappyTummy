@@ -171,26 +171,26 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20.0,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Nearby restaurants',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-            ],
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Container(height: 210, child: Text("nearby")),
-          SizedBox(
-            height: 40.0,
-          ),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//            children: <Widget>[
+//              Text(
+//                'Nearby restaurants',
+//                style: TextStyle(
+//                  fontSize: 18.0,
+//                  fontWeight: FontWeight.bold,
+//                ),
+//              ),
+//
+//            ],
+//          ),
+//          SizedBox(
+//            height: 20.0,
+//          ),
+//          Container(height: 210, child: Text("nearby")),
+//          SizedBox(
+//            height: 40.0,
+//          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

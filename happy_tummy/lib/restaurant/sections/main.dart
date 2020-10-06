@@ -7,6 +7,7 @@ import 'package:happy_tummy/restaurant/sections/components/about_Section_text.da
 import 'package:happy_tummy/restaurant/sections/components/about_text_with_sign.dart';
 import 'package:happy_tummy/restaurant/sections/components/experience_card.dart';
 import 'package:happy_tummy/restaurant/sections/components/feedback.dart';
+import 'package:happy_tummy/restaurant/sections/components/qrcode/qrcode.dart';
 import 'file:///D:/ProgramFiles/Flutter_projects/HappyTummy/happy_tummy/lib/restaurant/sections/components/constants.dart';
 import 'package:happy_tummy/restaurant/ui/pages/splash.dart';
 
@@ -187,6 +188,17 @@ class _MainPageState extends State<MainPage> {
             SizedBox(height: kDefaultPadding),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QRCode(),
+            ),
+          );
+        },
+        child: Icon(Icons.qr_code_scanner),
       ),
     );
   }
