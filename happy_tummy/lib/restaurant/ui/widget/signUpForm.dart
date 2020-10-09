@@ -17,12 +17,13 @@ class SignUpForm extends StatefulWidget {
   _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   SignUpBloc _signUpBloc;
-  RestaurantRepository get _restaurantRepository => widget._restaurantRepository;
+  RestaurantRepository get _restaurantRepository =>
+      widget._restaurantRepository;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
@@ -41,7 +42,7 @@ class _SignUpFormState extends State<SignUpForm> {
     super.initState();
   }
 
-  void _onFormSubmitted() {
+  void _onFormSubmitted() async {
     _signUpBloc.add(
       SignUpWithCredentialsPressed(
           email: _emailController.text, password: _passwordController.text),
@@ -117,7 +118,9 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: Text(
                       "Happy Tummy",
                       style: TextStyle(
-                          fontSize: 32, color: Colors.black54,fontFamily: 'Lobster'),
+                          fontSize: 32,
+                          color: Colors.black54,
+                          fontFamily: 'Lobster'),
                     ),
                   ),
                   Container(
@@ -132,20 +135,24 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: TextFormField(
                       controller: _emailController,
                       autovalidate: false,
-                      validator: (_) {
-                        return !state.isEmailValid ? "Invalid Email" : null;
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(
-                            color: Colors.black54, fontSize: size.height * 0.03),
+                            color: Colors.black54,
+                            fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                       ),
                     ),
@@ -165,14 +172,15 @@ class _SignUpFormState extends State<SignUpForm> {
                       decoration: InputDecoration(
                         labelText: "Password",
                         labelStyle: TextStyle(
-                            color: Colors.black54, fontSize: size.height * 0.03),
+                            color: Colors.black54,
+                            fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.black, width: 1.0),
                         ),
                       ),
                     ),
@@ -191,19 +199,20 @@ class _SignUpFormState extends State<SignUpForm> {
                               ? Colors.blueAccent
                               : Colors.redAccent,
                           borderRadius:
-                          BorderRadius.circular(size.height * 0.05),
+                              BorderRadius.circular(size.height * 0.05),
                         ),
                         child: Center(
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
                                 fontSize: size.height * 0.025,
-                                color: Colors.white,fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

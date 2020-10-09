@@ -17,12 +17,12 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(context,strTitle: "Notifications"),
+      appBar: header(context, strTitle: "Notifications"),
       body: Container(
         child: FutureBuilder(
           future: retrieveNotifications(),
-          builder: (context, dataSnapshot){
-            if(!dataSnapshot.hasData){
+          builder: (context, dataSnapshot) {
+            if (!dataSnapshot.hasData) {
               return circularProgress();
             }
             return ListView(
@@ -35,9 +35,12 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   retrieveNotifications() async {
-    QuerySnapshot querySnapshot = await activityFeedReferences.document(currentUser.id)
-        .collection("feedItems").orderBy("timestamp",descending: true )
-        .limit(60).getDocuments();
+    QuerySnapshot querySnapshot = await activityFeedReferences
+        .document(currentUser.id)
+        .collection("feedItems")
+        .orderBy("timestamp", descending: true)
+        .limit(60)
+        .getDocuments();
 
     List<NoticationsItem> notificationsItems = [];
 
@@ -46,16 +49,13 @@ class _NotificationPageState extends State<NotificationPage> {
     });
 
     return notificationsItems;
-
   }
-
 }
 
 String notificationItemText;
 Widget mediaPreview;
 
 class NoticationsItem extends StatelessWidget {
-
   final String username;
   final String type;
   final String commentData;
@@ -65,9 +65,18 @@ class NoticationsItem extends StatelessWidget {
   final String url;
   final Timestamp timestamp;
 
-  NoticationsItem({this.username, this.type, this.commentData, this.postId,this.url,this.userId,this.userProfileImg,this.timestamp,});
+  NoticationsItem({
+    this.username,
+    this.type,
+    this.commentData,
+    this.postId,
+    this.url,
+    this.userId,
+    this.userProfileImg,
+    this.timestamp,
+  });
 
-  factory NoticationsItem.fromDocument(DocumentSnapshot documentSnapshot){
+  factory NoticationsItem.fromDocument(DocumentSnapshot documentSnapshot) {
     return NoticationsItem(
       username: documentSnapshot['username'],
       type: documentSnapshot['type'],
@@ -82,23 +91,44 @@ class NoticationsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     configureMediaPreview(context);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 2.0),
+      padding: EdgeInsets.only(bottom: 2.0,top: 5,left:10 ,right:10 ),
       child: Container(
-        color: Colors.white70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: ListTile(
           title: GestureDetector(
-            onTap: ()=> displayUserProfile(context, userprofileId: userId),
+            onTap: () => displayUserProfile(context, userprofileId: userId),
             child: RichText(
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
                 style: TextStyle(fontSize: 14.0, color: Colors.black),
                 children: [
-                  TextSpan(text: username, style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Lobster")),
-                  TextSpan(text: " $notificationItemText",style:TextStyle(fontWeight: FontWeight.bold,fontFamily: "Lobster") ),
+                  TextSpan(
+                      text: username,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontFamily: "Lobster")),
+                  TextSpan(
+                      text: " $notificationItemText",
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontFamily: "Lobster")),
                 ],
               ),
             ),
@@ -106,61 +136,62 @@ class NoticationsItem extends StatelessWidget {
           leading: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(userProfileImg),
           ),
-          subtitle: Text(tAgo.format(timestamp.toDate()),overflow: TextOverflow.ellipsis,),
+          subtitle: Text(
+            tAgo.format(timestamp.toDate()),
+            overflow: TextOverflow.ellipsis,
+          ),
           trailing: mediaPreview,
         ),
       ),
     );
   }
 
-
-  configureMediaPreview(context){
-    if(type == "comment" || type == "like"){
+  configureMediaPreview(context) {
+    if (type == "comment" || type == "like") {
       mediaPreview = GestureDetector(
         onTap: () => displayOwnPost(context, userprofileId: currentUser.id),
         child: Container(
           height: 50.0,
           width: 50.0,
           child: AspectRatio(
-              aspectRatio: 16/9,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(fit:BoxFit.cover, image: CachedNetworkImageProvider(url)),
-                ),
+            aspectRatio: 16 / 9,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: CachedNetworkImageProvider(url)),
               ),
+            ),
           ),
         ),
       );
-    }
-    else{
+    } else {
       mediaPreview = Text('');
     }
 
-    if(type == "like"){
-      notificationItemText ="liked your post.";
+    if (type == "like") {
+      notificationItemText = "liked your post.";
+    } else if (type == "comment") {
+      notificationItemText = "replied: $commentData";
+    } else if (type == "follow") {
+      notificationItemText = "started following you.";
+    } else {
+      notificationItemText = "Error,Unknown type = $type .";
     }
-    else if(type == "comment"){
-      notificationItemText ="replied: $commentData";
-    }
-    else if(type == "follow"){
-      notificationItemText ="started following you.";
-    }
-    else {
-      notificationItemText ="Error,Unknown type = $type .";
-    }
-
   }
 
-  displayOwnPost(BuildContext context, {String userprofileId}){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(userProfileId: currentUser.id,)));
+  displayOwnPost(BuildContext context, {String userprofileId}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(
+                  userProfileId: currentUser.id,
+                )));
   }
 
-
-  displayUserProfile(BuildContext context, {String userprofileId}){
-    Navigator.push( context, MaterialPageRoute(builder: (context) => ProfilePage(userProfileId: userprofileId)));
+  displayUserProfile(BuildContext context, {String userprofileId}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(userProfileId: userprofileId)));
   }
-
-
-
 }
-

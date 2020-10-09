@@ -83,7 +83,23 @@ class _OfferPageState extends State<OfferPage> {
                     itemBuilder: (_, index) {
                       return ListTile(
                         title: Container(
-                          height: 160,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(39),
+                            gradient: LinearGradient(colors: [
+                              Colors.black,
+                              Colors.black
+                            ]),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
                           margin: EdgeInsets.only(right: 10.0, bottom: 15),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
@@ -232,8 +248,18 @@ class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
                           height: 180,
                           margin: EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                              color: Color(0xff29404E),
-                              borderRadius: BorderRadius.circular(8)),
+                            color: Color(0xff29404E),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -270,21 +296,6 @@ class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
                                       ),
                                       SizedBox(
                                         height: 4,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/location.png",
-                                            height: 12,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Image.asset(
-                                            "assets/images/calender.png",
-                                            height: 12,
-                                          ),
-                                        ],
                                       ),
                                     ],
                                   ),

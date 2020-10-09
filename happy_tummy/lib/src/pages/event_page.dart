@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/src/pages/book_event/book_event.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
@@ -81,7 +80,33 @@ class _EventPageState extends State<EventPage> {
                     itemBuilder: (_, index) {
                       return ListTile(
                         title: Container(
-                          height: 160,
+                          height: 150,
+
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Colors.black,
+                                Colors.black
+                              ]
+                            ),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
                           margin: EdgeInsets.only(right: 10.0, bottom: 15),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
@@ -278,13 +303,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ReservePage(),
-                                              ),
-                                            );
+                                            print('book');
                                           },
                                           child: Text(
                                             'Book Event',

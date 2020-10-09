@@ -26,13 +26,13 @@ class PostScreenPage extends StatelessWidget {
 
         return Center(
           child: Scaffold(
+            backgroundColor: Colors.grey.shade200,
             appBar: header(context,strTitle: post.description),
             body: ListView(
               children: <Widget>[
                 Container(
                   child: post//post,
                 ),
-                Divider(),
               ],
             ),
           ),

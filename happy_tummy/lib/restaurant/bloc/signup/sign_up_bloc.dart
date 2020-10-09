@@ -67,7 +67,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     try {
       await _restaurantRepository.signUpWithEmail(email, password);
-
       yield SignUpState.success();
     } catch (_) {
       SignUpState.failure();

@@ -30,9 +30,7 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
 
   AppBar searchPageHeader(){
     return AppBar(
-      backgroundColor: Colors.pink,
-     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-     // children: <Widget>[
+      backgroundColor: Colors.black,
        title: TextFormField(
           style: TextStyle(fontSize: 20.0,color: Colors.white,fontFamily:'PermanentMarker',),
           controller: searchTextEditingController,
@@ -66,7 +64,7 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            Icon(Icons.youtube_searched_for,color: Colors.lightBlueAccent,size: 150.0,),
+            Icon(Icons.youtube_searched_for,color: Colors.grey,size: 150.0,),
             Text(
               'Search Users',
               textAlign: TextAlign.center,

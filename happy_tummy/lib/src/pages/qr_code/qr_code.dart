@@ -14,7 +14,7 @@ class _QRCodeState extends State<QRCode> {
       appBar: AppBar(
         title: Text("QR Scanner"),
         centerTitle: true,
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.black,
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -43,10 +43,10 @@ class _QRCodeState extends State<QRCode> {
       },
       child: Text(
         text,
-        style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
       ),
       shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.blue,width: 3.0),
+          side: BorderSide(color: Colors.black,width: 3.0),
           borderRadius: BorderRadius.circular(20.0)),
     );
   }

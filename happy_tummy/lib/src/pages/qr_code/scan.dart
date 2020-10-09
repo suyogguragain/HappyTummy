@@ -14,7 +14,7 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         title: Text("Scanner"),
         centerTitle: true,
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.black,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -59,10 +59,10 @@ class _ScanPageState extends State<ScanPage> {
               child: Text(
                 "Open Scanner",
                 style:
-                TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 20),
               ),
               shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.blue, width: 3.0),
+                  side: BorderSide(color: Colors.black, width: 3.0),
                   borderRadius: BorderRadius.circular(20.0)),
             )
           ],

@@ -93,7 +93,7 @@ class CommentsPageState extends State<CommentsPage> {
             trailing: OutlineButton(
                 onPressed: saveComment,
                 borderSide: BorderSide.none,
-              child: Text("Publish",style: TextStyle(color: Colors.pinkAccent,fontWeight: FontWeight.bold,fontFamily: "EastSeaDokdo",fontSize: 30.0),),
+              child: Text("Publish",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontFamily: "EastSeaDokdo",fontSize: 30.0),),
             ),
           ),
         ],
@@ -126,9 +126,25 @@ class Comment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 6.0),
+      padding: EdgeInsets.only(bottom: 6.0,top: 10),
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: Column(
           children: <Widget>[
             ListTile(

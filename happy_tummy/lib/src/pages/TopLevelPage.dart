@@ -180,43 +180,49 @@ class _TopLevelPageState extends State<TopLevelPage> {
 
   Scaffold buildSignInScreen() {
     return Scaffold(
+      backgroundColor: Colors.black54,
       //key: _scaffoldKey,
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: ListView(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                //just for vertical spacing
-                SizedBox(
-                  height: 100,
-                  width: 200,
-                ),
-                //space for teddy actor
-                Center(
-                  child: Container(
-                      height: 250,
-                      width: 300,
-                      child: CircleAvatar(
-                        child: ClipOval(
-                          child: new FlareActor(
-                            "assets/teddy_test.flr",
-                            alignment: Alignment.center,
-                            fit: BoxFit.contain,
-                            animation: animationType,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Colors.black54, Colors.black]),
+        ),
+        child: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: ListView(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //just for vertical spacing
+                  SizedBox(
+                    height: 100,
+                    width: 200,
+                  ),
+                  //space for teddy actor
+                  Center(
+                    child: Container(
+                        height: 250,
+                        width: 300,
+                        child: CircleAvatar(
+                          child: ClipOval(
+                            child: new FlareActor(
+                              "assets/teddy_test.flr",
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                              animation: animationType,
+                            ),
                           ),
-                        ),
-                        backgroundColor: Colors.black45,
-                      )),
-                ),
-                //just for vertical spacing
-                SizedBox(
-                  height: 20,
-                  width: 10,
-                ),
-                //container for textfields user name and password
+                          backgroundColor: Colors.grey.shade400,
+                        )),
+                  ),
+                  //just for vertical spacing
+                  SizedBox(
+                    height: 20,
+                    width: 10,
+                  ),
+                  //container for textfields user name and password
 //                Container(
 //                  height: 140,
 //                  width: 350,
@@ -253,7 +259,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
 //                    ],
 //                  ),
 //                ),
-                //container for raised button
+                  //container for raised button
 //                Container(
 //                  width: 350,
 //                  height: 70,
@@ -298,113 +304,126 @@ class _TopLevelPageState extends State<TopLevelPage> {
 //                    },
 //                  ),
 //                ),
-                Container(
-                  width: 350,
-                  height: 70,
-                  padding: EdgeInsets.only(top: 20),
-                  child: RaisedButton(
-                      color: Colors.pinkAccent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 60.0,
-                            height: 35.0,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/google.png'),
-                                fit: BoxFit.contain,
+                  Container(
+                    width: 280,
+                    height: 70,
+                    padding: EdgeInsets.only(top: 20),
+                    child: RaisedButton(
+                        color: Colors.grey.shade200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 60.0,
+                              height: 35.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/google.png'),
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "Google Sign In",
-                            style: TextStyle(color: Colors.white,fontFamily: "PermanentMarker",fontSize: 22),
-                          ),
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30),
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          animationType = "success";
-                          isSignedIn = true;
-                          showSpinner = false;
-                        });
-                        logInUser();
-                      }),
-                ),
-                Center(
-                  child: Divider(
-                    height: 30.0,
-                    thickness: 3.0,
-                    indent: 80,
-                    endIndent: 80,
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "Google Sign In",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700, fontSize: 22),
+                            ),
+                          ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30),
+                        ),
+                        onPressed: () async {
+                          setState(() {
+                            animationType = "success";
+                            isSignedIn = true;
+                            showSpinner = false;
+                          });
+                          logInUser();
+                        }),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "I'm a restaurant?",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0),
+                  Center(
+                    child: Divider(
+                      height: 30.0,
+                      thickness: 3.0,
+                      indent: 80,
+                      endIndent: 80,
+                      color: Colors.white,
                     ),
-                    SizedBox(width: 5.0),
-                    GestureDetector(
-                      onTap: () {
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "I'm a restaurant?",
+                        style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.0),
+                      ),
+                      SizedBox(width: 5.0),
+                      GestureDetector(
+                        onTap: () {
 //                        Navigator.of(context).pushReplacement(MaterialPageRoute(
 //                            builder: (BuildContext context) => SignUpPage()));
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) => res()));
-                      },
-                      child: Text(
-                        "Sign In Here",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-                Center(
-                  child: Divider(
-                    height: 30.0,
-                    thickness: 2.0,
-                    indent: 120,
-                    endIndent: 120,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 40.0,
-                      height: 25.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ht.png'),
-                          fit: BoxFit.contain,
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => res()));
+                        },
+                        child: Text(
+                          "Sign In Here",
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18.0),
                         ),
                       ),
+                    ],
+                  ),
+                  Center(
+                    child: Divider(
+                      height: 30.0,
+                      thickness: 2.0,
+                      indent: 120,
+                      endIndent: 120,
+                      color: Colors.white,
                     ),
-                    Text(
-                      'Happy Tummy',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 30.0,
+                        height: 30.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(60),
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/ht.png'),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Happy Tummy',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -428,7 +447,6 @@ class _TopLevelPageState extends State<TopLevelPage> {
           TimelinePage(
             gCurrentUser: currentUser,
           ),
-          //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign out")),
           UploadPage(
             gCurrentUser: currentUser,
           ),

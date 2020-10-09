@@ -84,7 +84,7 @@ class _TimelinePageState extends State<TimelinePage> {
           overflow: TextOverflow.ellipsis,
         ),
         centerTitle: true,
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.black,
       ),
       //body: Column( ),
 //      body: RefreshIndicator(
@@ -150,19 +150,20 @@ class CustomDrawer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(
-                    "assets/images/ht.png",
-                    width: 100,
-                    height: 100,
+                  Container(
+                    width: 140.0,
+                    height: 140.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(80),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/ht.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Text("Happy Tummy",style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'PermanentMarker',
-                    fontSize: 20.0,
-                  ),),
                 ],
               )),
           ListTile(

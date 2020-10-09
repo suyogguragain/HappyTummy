@@ -69,7 +69,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       key: _scaffoldGlobalKey,
       appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
         title: Text('Edit Profile',style: TextStyle(color: Colors.white,fontFamily: "PermanentMarker",fontSize: 28.0),),
         actions: <Widget>[
@@ -98,7 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(top: 29.0,left: 50.0,right: 50.0),
                       child: RaisedButton(
-                        color: Colors.pinkAccent,
+                        color: Colors.black45,
                         onPressed: updateUserData,
                         child: Text('Update Profile',style: TextStyle(color: Colors.white,fontSize: 16.0,fontFamily: "Lobster"),),
                       ),
@@ -106,7 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(top: 10.0,left: 50.0,right: 50.0),
                       child: RaisedButton(
-                        color: Colors.pinkAccent,
+                        color: Colors.black45,
                         onPressed: logoutUser,
                         child: Text('Logout',style: TextStyle(color: Colors.white,fontSize: 16.0,fontFamily: "Lobster"),),
                       ),
@@ -131,7 +131,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Padding(
           padding: EdgeInsets.only(top: 13.0),
           child: Text(
-            'Profile Name', style: TextStyle(color: Colors.grey,fontFamily: "Lobster"),
+            'Profile Name', style: TextStyle(color: Colors.black,fontSize: 25,fontFamily: "Lobster"),
           ),
         ),
         TextField(
@@ -160,7 +160,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Padding(
           padding: EdgeInsets.only(top: 13.0),
           child: Text(
-            'Bio', style: TextStyle(color: Colors.grey,fontFamily: "Lobster"),
+            'Bio', style: TextStyle(color: Colors.black,fontSize: 25,fontFamily: "Lobster"),
           ),
         ),
         TextField(
