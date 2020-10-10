@@ -451,7 +451,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
             gCurrentUser: currentUser,
           ),
           HomePage(),
-          EventPage(),
+          EventPage(gCurrentUser: currentUser,),
           OfferPage(),
           //ProfilePage(userProfileId: currentUser?.id),
         ],

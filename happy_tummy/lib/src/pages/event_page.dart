@@ -1,10 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/models/user_model.dart';
+import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
+import 'package:happy_tummy/src/widgets/event_detail.dart';
 
 class EventPage extends StatefulWidget {
+  final User gCurrentUser;
+  EventPage({this.gCurrentUser});
+
   @override
   _EventPageState createState() => _EventPageState();
 }
@@ -20,12 +26,13 @@ class _EventPageState extends State<EventPage> {
     return qn.documents;
   }
 
-  navigateToDetail(DocumentSnapshot restaurant) {
+  navigateToDetail(DocumentSnapshot restaurant,String userid) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => RestaurantDetails(
                   restaurant: restaurant,
+                  userProfileId: userid,
                 )));
   }
 
@@ -81,16 +88,11 @@ class _EventPageState extends State<EventPage> {
                       return ListTile(
                         title: Container(
                           height: 150,
-
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                Colors.black,
-                                Colors.black
-                              ]
-                            ),
+                                end: Alignment.bottomLeft,
+                                colors: [Colors.black, Colors.black]),
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -149,7 +151,7 @@ class _EventPageState extends State<EventPage> {
                         ),
                         //title: Text(snapshot.data[index].data['name']),
                         onTap: () {
-                          navigateToDetail(snapshot.data[index]);
+                          navigateToDetail(snapshot.data[index],widget.gCurrentUser.id);
                         },
                       );
                     });
@@ -162,8 +164,9 @@ class _EventPageState extends State<EventPage> {
 
 class RestaurantDetails extends StatefulWidget {
   final DocumentSnapshot restaurant;
+  final String userProfileId;
 
-  RestaurantDetails({this.restaurant});
+  RestaurantDetails({this.restaurant, this.userProfileId});
 
   @override
   _RestaurantDetailsState createState() => _RestaurantDetailsState();
@@ -268,18 +271,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                       SizedBox(
                                         height: 8,
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            snapshot.data[index]
-                                                .data['description'],
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal),
-                                          )
-                                        ],
-                                      ),
                                       SizedBox(
                                         height: 4,
                                       ),
@@ -292,25 +283,67 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                           SizedBox(
                                             width: 8,
                                           ),
+                                          Text(
+                                            snapshot
+                                                .data[index].data['location'],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
                                           Image.asset(
                                             "assets/images/calender.png",
                                             height: 12,
                                           ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(
+                                            snapshot.data[index].data['date'],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal),
+                                          ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 15,
+                                      Text(
+                                        'Total Seat : ${snapshot.data[index].data['totalseat']}',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal),
                                       ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            print('book');
-                                          },
-                                          child: Text(
-                                            'Book Event',
-                                            style: TextStyle(
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FlatButton(
+                                        padding: EdgeInsets.all(5.0),
+                                        onPressed: () {
+                                          print('${widget.userProfileId}');
+                                          print('${currentUser.id}');
+                                          print('${snapshot.data[index].data['eventId']}');
+                                          print('${snapshot.data[index].data['ownerId']}');
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailPage(eventId: snapshot.data[index].data['eventId'],userId: snapshot.data[index].data['ownerId'])));
+                                        },
+                                        child: Text(
+                                          'Book Event',
+                                          style: TextStyle(
                                               color: Colors.white,
-                                            ),
-                                          ))
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.white,
+                                                width: 1.5),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        focusColor: Colors.white,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -321,8 +354,8 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                       bottomRight: Radius.circular(8)),
                                   child: Image.asset(
                                     'assets/images/second.png',
-                                    height: 170,
-                                    width: 150,
+                                    height: 120,
+                                    width: 100,
                                     fit: BoxFit.fill,
                                   )),
                             ],

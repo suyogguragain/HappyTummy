@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:happy_tummy/restaurant/sections/components/constants.dart';
 import 'package:happy_tummy/restaurant/sections/components/events_card.dart';
 import 'package:happy_tummy/restaurant/sections/components/section_title.dart';
@@ -24,8 +26,25 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
   bool isHover = false;
   Stream taskStream;
 
+  TextEditingController locationTextEditingController = TextEditingController();
+  TextEditingController dateTextEditingController = TextEditingController();
+  TextEditingController totalseatTextEditingController =
+      TextEditingController();
+
   bool headingValidate = false;
   bool descValidate = false;
+
+  getUserCurrentLocation() async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placeMarks = await Geolocator()
+        .placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark mPlaceMark = placeMarks[0];
+    String completeAddressInfo =
+        '${mPlaceMark.subThoroughfare} ${mPlaceMark.thoroughfare},${mPlaceMark.subLocality} ${mPlaceMark.locality},${mPlaceMark.subAdministrativeArea} ${mPlaceMark.administrativeArea},${mPlaceMark.postalCode} ${mPlaceMark.country}';
+    String SpecificAddress = '${mPlaceMark.locality}, ${mPlaceMark.country}';
+    locationTextEditingController.text = SpecificAddress;
+  }
 
   controlUploadAndSave() async {
     setState(() {
@@ -34,10 +53,18 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
 
     saveEventsToFireStore(
         heading: headingTextEditingController.text,
-        desc: descriptionTextEditingController.text);
+        desc: descriptionTextEditingController.text,
+        date: dateTextEditingController.text,
+        totalseat: totalseatTextEditingController.text,
+        location: locationTextEditingController.text,
+
+    );
 
     headingTextEditingController.clear();
     descriptionTextEditingController.clear();
+    dateTextEditingController.clear();
+    totalseatTextEditingController.clear();
+    locationTextEditingController.clear();
 
     setState(() {
       uploading = false;
@@ -45,7 +72,7 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
     });
   }
 
-  saveEventsToFireStore({String heading, String desc}) {
+  saveEventsToFireStore({String heading, String desc,String date,String totalseat,String location}) {
     eventsReference
         .document(widget.restaurantProfileId)
         .collection('userPosts')
@@ -55,7 +82,11 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
       'ownerId': widget.restaurantProfileId,
       'timestamp': DateTime.now(),
       'description': desc,
-      'heading': heading
+      'heading': heading,
+      'date':date,
+      'totalseat':totalseat,
+      'location':location,
+      'bookevent':{}
     });
   }
 
@@ -74,6 +105,9 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
                     snapshot.data.documents[index].data['eventId'],
                     snapshot.data.documents[index].data["heading"],
                     snapshot.data.documents[index].data["ownerId"],
+                    snapshot.data.documents[index].data["date"],
+                    snapshot.data.documents[index].data["totalseat"],
+                    snapshot.data.documents[index].data["location"],
                   );
                 })
             : Container();
@@ -196,10 +230,81 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
                         decoration: InputDecoration(
                             hintText: 'Write details about your events',
                             border: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.black),
+                            hintStyle: TextStyle(color: Colors.black54),
                             errorText: descValidate
                                 ? 'Please enter a Description'
                                 : null),
+                      ),
+                      //eventdate
+                      TextField(
+                        controller: dateTextEditingController,
+                        maxLines: null,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          hintText: 'Event Date [YYYY/MM/DD]',
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(color: Colors.black54),
+//                            errorText: descValidate
+//                                ? 'Please enter a Description'
+//                                : null,
+                        ),
+                      ),
+                      // Total seat
+                      TextField(
+                        controller: totalseatTextEditingController,
+                        style: TextStyle(color: Colors.black54),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: 'Total Sear Available',
+//                            errorText: headingValidate
+//                                ? 'Please enter a Heading'
+//                                : null,
+                        ),
+                      ),
+                      //Location
+                      ListTile(
+                        leading: Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                          size: 26.0,
+                        ),
+                        title: Container(
+                          width: 250.0,
+                          child: TextField(
+                            style: TextStyle(color: Colors.black),
+                            controller: locationTextEditingController,
+                            decoration: InputDecoration(
+                              hintText: "Location",
+                              hintStyle: TextStyle(
+                                  color: Colors.black38,
+                                  fontFamily: "Lobster",
+                                  fontSize: 20.0),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 220.0,
+                        height: 50.0,
+                        alignment: Alignment.topLeft,
+                        child: RaisedButton.icon(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(35.0)),
+                          color: Colors.black54,
+                          icon: Icon(
+                            Icons.location_on,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Get Current Location',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Lobster",
+                                fontSize: 20.0),
+                          ),
+                          onPressed: getUserCurrentLocation,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8, right: 160),
