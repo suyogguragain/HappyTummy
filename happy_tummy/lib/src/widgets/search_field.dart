@@ -5,7 +5,7 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 5.0,
+      elevation: 8.0,
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
       child: TextField(
         style: TextStyle(color: Colors.black, fontSize: 16.0),

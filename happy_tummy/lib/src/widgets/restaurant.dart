@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class FeaturedRestaurant extends StatefulWidget {
   final String id;
   final String name;
@@ -22,11 +23,10 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
           Container(
             height: 200.0,
             width: 340.0,
-//            child: Image.asset(
-//              widget.imagePath,
-//              fit: BoxFit.cover,
-//            ),
-          child: Image.network(widget.imagePath,fit: BoxFit.cover,),
+            child: Image.network(
+              widget.imagePath,
+              fit: BoxFit.cover,
+            ),
           ),
           Positioned(
             left: 0.0,
@@ -78,3 +78,5 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
     );
   }
 }
+
+

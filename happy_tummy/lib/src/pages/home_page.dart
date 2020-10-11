@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.black,
         title: Container(
           width: 250.0,
           child: TextField(
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
             decoration: InputDecoration(
               hintText: "Happy Tummy",
               hintStyle: TextStyle(
-                  color: Colors.white, fontFamily: "Lobster", fontSize: 20.0),
+                  color: Colors.white, fontFamily: "Lobster", fontSize: 30.0),
               border: InputBorder.none,
             ),
           ),
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.orangeAccent,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -151,6 +151,22 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (_, index) {
                           return Container(
                             width: 280,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                topLeft: Radius.circular(30),
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
                             margin: EdgeInsets.only(right: 20.0),
                             child: GestureDetector(
                               onTap: () =>
@@ -171,26 +187,46 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20.0,
           ),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//            children: <Widget>[
-//              Text(
-//                'Nearby restaurants',
-//                style: TextStyle(
-//                  fontSize: 18.0,
-//                  fontWeight: FontWeight.bold,
-//                ),
-//              ),
-//
-//            ],
-//          ),
-//          SizedBox(
-//            height: 20.0,
-//          ),
-//          Container(height: 210, child: Text("nearby")),
-//          SizedBox(
-//            height: 40.0,
-//          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Top Rated restaurants',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Container(
+              height: 150,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Text("top")),
+          SizedBox(
+            height: 40.0,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

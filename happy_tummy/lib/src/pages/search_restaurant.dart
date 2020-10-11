@@ -24,8 +24,11 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Text('Restaurant search'),
-          backgroundColor: Colors.pink,
+          title: Text(
+            'Restaurant search',
+            style: TextStyle(fontFamily: "Lobster", fontSize: 30),
+          ),
+          backgroundColor: Colors.black,
         ),
         body: ListView(children: <Widget>[
           Padding(
@@ -51,7 +54,7 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
           SizedBox(height: 10.0),
           GridView.count(
               padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              crossAxisCount: 2,
+              crossAxisCount: 1,
               crossAxisSpacing: 4.0,
               mainAxisSpacing: 4.0,
               primary: false,
@@ -98,7 +101,20 @@ class UserResult extends StatelessWidget {
                 //displayUserProfile(context, userprofileId: eachUser.id);
               },
               child: ListTile(
-                contentPadding: EdgeInsets.only(top: 4.0, left: 30.0),
+                leading: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(eachUser.photo), fit: BoxFit.cover),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30),
+                      topLeft: Radius.circular(30),
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                  ),
+                ),
                 title: Text(
                   eachUser.name,
                   style: TextStyle(
@@ -121,25 +137,19 @@ class UserResult extends StatelessWidget {
       ),
     );
   }
-//
-//  displayUserProfile(BuildContext context, {String userprofileId}) {
-//    Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//            builder: (context) => RestaurantDetails();
-//  }
-
 }
 
 class Restaurant {
   final String rid;
   final String name;
   final String location;
+  final String photo;
 
   Restaurant({
     this.rid,
     this.name,
     this.location,
+    this.photo,
   });
 
   factory Restaurant.fromDocument(DocumentSnapshot doc) {
@@ -147,6 +157,7 @@ class Restaurant {
       rid: doc.documentID,
       name: doc['name'],
       location: doc['location'],
+      photo: doc['photo'],
     );
   }
 }

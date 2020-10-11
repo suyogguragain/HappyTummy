@@ -27,15 +27,22 @@ class _CusineViewState extends State<CusineView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Text('Happy Tummy'),
-          backgroundColor: Colors.deepOrange,
+          title: Text(
+            'Happy Tummy',
+            style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+          ),
+          backgroundColor: Colors.black,
         ),
         body: ListView(children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
               onTap: controlSearching('${widget.cusinename}'),
-              child: Text("Restaurant having ${widget.cusinename} Cusines"),
+              child: Center(
+                  child: Text(
+                "Restaurant filter based on ${widget.cusinename} Cusines",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
             ),
           ),
           SizedBox(height: 10.0),
@@ -79,7 +86,23 @@ class UserResult extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(3.0),
       child: Container(
-        color: Colors.transparent,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: Column(
           children: <Widget>[
             GestureDetector(
@@ -88,24 +111,35 @@ class UserResult extends StatelessWidget {
                 //displayUserProfile(context, userprofileId: eachUser.id);
               },
               child: ListTile(
-                contentPadding: EdgeInsets.only(top: 4.0, left: 30.0),
+                contentPadding: EdgeInsets.only(top: 4.0, left: 10.0),
                 title: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 42,
-                      backgroundColor: Colors.deepOrange,
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(eachUser.photo),radius: 40,
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(eachUser.photo),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30),
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                        ),
                       ),
                     ),
-                    SizedBox(width: 20,),
-                    Column( mainAxisAlignment: MainAxisAlignment.start,
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           eachUser.name,
                           style: TextStyle(
-                            color: Colors.deepOrange,
+                            color: Colors.black,
                             fontSize: 20.0,
                             fontFamily: 'Lobster',
                           ),
@@ -135,7 +169,6 @@ class UserResult extends StatelessWidget {
                     ),
                   ],
                 ),
-
               ),
             ),
           ],
@@ -152,7 +185,6 @@ class Restaurant {
   final String photo;
   final String cusine;
   final String mealtype;
-
 
   Restaurant({
     this.rid,

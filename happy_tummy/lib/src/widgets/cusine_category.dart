@@ -16,7 +16,7 @@ class _Cusine_CategoryState extends State<Cusine_Category> {
   @override
   Widget build(BuildContext context){
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(20.0),
       child: Stack(
         children: <Widget>[
           GestureDetector(
