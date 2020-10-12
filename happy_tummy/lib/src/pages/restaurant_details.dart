@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/TopLevelPage.dart';
+import 'package:happy_tummy/src/pages/menu_photo.dart';
 import 'package:happy_tummy/src/pages/panaroma.dart';
+import 'package:happy_tummy/src/pages/restaurant_review.dart';
+import 'package:happy_tummy/src/pages/restaurant_reviewview.dart';
+import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class RestaurantDetails extends StatefulWidget {
   final DocumentSnapshot restaurant;
@@ -42,6 +48,24 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
           ),
         ],
       ),
+    );
+  }
+
+  retrieveReviews(){
+    return StreamBuilder(
+      stream: Firestore.instance.collection('restaurantreviews').document(widget.restaurant.data['rid']).collection('reviews').orderBy("timestamp",descending: false).snapshots(),
+      builder: (context,dataSnapshot){
+        if(!dataSnapshot.hasData){
+          return circularProgress();
+        }
+        List<Review> reviews = [];
+        dataSnapshot.data.documents.forEach((document){
+          reviews.add(Review.fromDocument(document));
+        });
+        return ListView(
+          children: reviews,
+        );
+      },
     );
   }
 
@@ -98,27 +122,55 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       fontSize: 20.0, color: Colors.white),
                                 ),
                               ),
-                              Container(
-                                height: 30,
-                                width: 70,
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Rating',
-                                      style: TextStyle(color: Colors.black),
+                              GestureDetector(
+                                onTap: () {
+                                  print('VR');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PanoramaPage(),
                                     ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.orange,
-                                      size: 15,
-                                    )
-                                  ],
+                                  );
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 70,
+                                  margin: EdgeInsets.only(left: 120),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Center(
+                                    child: Text(
+                                      'VR',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    ),
+                                  ),
                                 ),
-                              )
+                              ),
+//                              Container(
+//                                height: 30,
+//                                width: 70,
+//                                padding: EdgeInsets.all(5),
+//                                decoration: BoxDecoration(
+//                                    color: Colors.white,
+//                                    borderRadius: BorderRadius.circular(20)),
+//                                child: Row(
+//                                  children: [
+//                                    Text(
+//                                      'Rating',
+//                                      style: TextStyle(color: Colors.black),
+//                                    ),
+//                                    Icon(
+//                                      Icons.star,
+//                                      color: Colors.orange,
+//                                      size: 15,
+//                                    )
+//                                  ],
+//                                ),
+//                              )
                             ],
                           ),
                           Padding(
@@ -185,7 +237,9 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                             indent: 20,
                             endIndent: 20,
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           DefaultTabController(
                             length: 3,
                             initialIndex: 0,
@@ -196,9 +250,30 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                 unselectedLabelColor: Colors.white,
                                 indicatorColor: Colors.white,
                                 tabs: [
-                                  Tab(child: Text("About",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w300),),),
-                                  Tab(child: Text("Reviews",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w300),),),
-                                  Tab(child: Text("Opening Hours",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w300),),),
+                                  Tab(
+                                    child: Text(
+                                      "About",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                  Tab(
+                                    child: Text(
+                                      "Reviews",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                  Tab(
+                                    child: Text(
+                                      "Opening Hours",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -207,372 +282,325 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                       ),
                     ),
                     Container(
-                      height: 80,
+                      height: 380,
                       child: TabBarView(
                         controller: _controller,
                         children: [
-                          Text('Hero'),
-                          Text('Hero 4556'),
-                          Text('Hero 3'),
+                          Container(
+                              padding: EdgeInsets.all(30),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Cusines : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['cusines'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Mealtype : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['mealtype'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Outlettype : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['outlettype'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Billing Extra : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['billingextra'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Parking : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['parking'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Payment Method : ",
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.restaurant.data['paymentmethod'],
+                                        style: TextStyle(
+                                            fontSize: 16.0, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                      height: 150,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          topLeft: Radius.circular(30),
+                                          bottomLeft: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                        ),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0,
+                                                3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text("top")),
+                                ],
+                              )),
+                          Container(
+                            child: retrieveReviews(),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(30),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Cusines : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['cusines'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Mealtype : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['mealtype'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Outlettype : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['outlettype'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Billing Extra : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['billingextra'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Parking : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['parking'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Payment Method : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['paymentmethod'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Payment Method : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['paymentmethod'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {},
-                      color: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),
-                      child: Text(
-                        "Restaurant Detail",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Cusines",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['cusines'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Mealtype",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['mealtype'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Outlettype",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['outlettype'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Billing Extra",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['billingextra'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Parking",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['parking'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Text(
-                              "Payment Method",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              widget.restaurant.data['paymentmethod'],
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment(1.5, -1.1),
-                  child: Container(
-                      width: 150.0,
-                      height: 150.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white24,
-                      ),
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.settings,
-                        color: Colors.white24,
-                      )),
-                ),
-                Align(
-                  alignment: Alignment(1.3, -2.1),
-                  child: Container(
-                      width: 150.0,
-                      height: 150.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white24,
-                      ),
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.settings,
-                        color: Colors.white24,
-                      )),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 590.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      )),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              print("Gallery");
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              height: 130,
-                              width: 200,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                'Gallery',
-                                style: TextStyle(
-                                    fontSize: 38.0,
-                                    fontFamily: "Lobster",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print("Review");
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              height: 130,
-                              width: 200,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                'Review',
-                                style: TextStyle(
-                                    fontSize: 38.0,
-                                    fontFamily: "Lobster",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              print("Menu");
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              height: 130,
-                              width: 200,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                'Menu',
-                                style: TextStyle(
-                                    fontSize: 38.0,
-                                    fontFamily: "Lobster",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print("VR");
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PanoramaPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              height: 130,
-                              width: 200,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                'VR',
-                                style: TextStyle(
-                                    fontSize: 38.0,
-                                    fontFamily: "Lobster",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 20,
           ),
           Divider(
             thickness: 2,
@@ -580,6 +608,45 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
           createOrientation(),
           Divider(
             thickness: 2,
+          ),
+        ],
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(label: Text('Submit Review'),
+            onPressed: () {
+            print('review');
+            print('${currentUser.id}');
+            print('${widget.restaurant.data['rid']}');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubmitReview(rId:  widget.restaurant.data['rid'],),
+              ),
+            );
+            },
+            heroTag: null,
+          ),
+          SizedBox(width: 60,),
+          FloatingActionButton(
+            backgroundColor: Colors.black87,
+            onPressed: () {
+              print('photo menu');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MenuPhotoPage(),
+                ),
+              );
+            },
+            child: Icon(
+              Icons.restaurant_menu,
+              color: Colors.white,
+              size: 30,
+            ),
+            heroTag: null,
           ),
         ],
       ),
