@@ -20,7 +20,7 @@ class HomeTopInfo extends StatelessWidget {
             ],
           ),
           GestureDetector(
-            child: Icon(Icons.notifications_none, size: 32.0, color: Colors.pinkAccent,),
+            child: Icon(Icons.notifications_none, size: 32.0, color: Colors.black87,),
             onTap:(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> NotificationPage()));
             },

@@ -60,6 +60,8 @@ dependencies:
   qr_flutter: ^3.2.0
   provider: any
   smooth_star_rating: ^1.1.1
+  url_launcher: ^5.5.2
+
 
 
 

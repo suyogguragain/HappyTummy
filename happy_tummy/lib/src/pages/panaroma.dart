@@ -16,6 +16,7 @@ class _PanoramaPageState extends State<PanoramaPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Virtual Restaurant'),
+        backgroundColor: Colors.black87,
       ),
       body: Panorama(
         animSpeed: 2.0,

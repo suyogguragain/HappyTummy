@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/restaurant/models/gallery_model.dart';
+import 'package:happy_tummy/restaurant/ui/widget/tabs.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 import 'package:happy_tummy/src/pages/menu_photo.dart';
 import 'package:happy_tummy/src/pages/panaroma.dart';
+import 'package:happy_tummy/src/pages/restaurant_gallerytile.dart';
 import 'package:happy_tummy/src/pages/restaurant_review.dart';
 import 'package:happy_tummy/src/pages/restaurant_reviewview.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
@@ -20,8 +23,13 @@ class RestaurantDetails extends StatefulWidget {
 class _RestaurantDetailsState extends State<RestaurantDetails>
     with SingleTickerProviderStateMixin {
   TabController _controller;
+  bool loading = false;
+  int countPost = 0;
+  List<Gallery> galleryList = [];
+
   @override
   void initState() {
+    getRestaurantGallery();
     super.initState();
     _controller = new TabController(length: 3, vsync: this);
   }
@@ -51,15 +59,111 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
     );
   }
 
-  retrieveReviews(){
+  displaygallery() {
+    if (loading) {
+      return circularProgress();
+    } else if (galleryList.isEmpty) {
+      return Container(
+        height: 120,
+        width: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Icon(
+                Icons.photo_library,
+                color: Colors.grey,
+                size: 20.0,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: Text(
+                'No Photo',
+                style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Lobster"),
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+      List<GridTile> gridTilesList = [];
+      galleryList.forEach((eachPost) {
+        gridTilesList.add(GridTile(child: RestaurantGalleryTile(eachPost)));
+      });
+    return SizedBox(
+      height: 150,
+      width: MediaQuery.of(context).size.width,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: gridTilesList,
+      ),
+    );
+    }
+  }
+
+  getRestaurantGallery() async {
+    setState(() {
+      loading = true;
+    });
+
+    QuerySnapshot querySnapshot = await gallerysReference
+        .document(widget.restaurant.data['rid'])
+        .collection("restaurantGallery")
+        .orderBy("timestamp", descending: true)
+        .getDocuments();
+
+    setState(() {
+      loading = false;
+      countPost = querySnapshot.documents.length;
+      galleryList = querySnapshot.documents
+          .map((documentSnapshot) => Gallery.fromDocument(documentSnapshot))
+          .toList();
+    });
+  }
+
+  getTasks(String userId) async {
+    return await gallerysReference
+        .document(userId)
+        .collection("restaurantGallery")
+        .snapshots();
+  }
+
+  retrieveReviews() {
     return StreamBuilder(
-      stream: Firestore.instance.collection('restaurantreviews').document(widget.restaurant.data['rid']).collection('reviews').orderBy("timestamp",descending: false).snapshots(),
-      builder: (context,dataSnapshot){
-        if(!dataSnapshot.hasData){
+      stream: Firestore.instance
+          .collection('restaurantreviews')
+          .document(widget.restaurant.data['rid'])
+          .collection('reviews')
+          .orderBy("timestamp", descending: false)
+          .snapshots(),
+      builder: (context, dataSnapshot) {
+        if (!dataSnapshot.hasData) {
           return circularProgress();
         }
         List<Review> reviews = [];
-        dataSnapshot.data.documents.forEach((document){
+        dataSnapshot.data.documents.forEach((document) {
           reviews.add(Review.fromDocument(document));
         });
         return ListView(
@@ -150,27 +254,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                   ),
                                 ),
                               ),
-//                              Container(
-//                                height: 30,
-//                                width: 70,
-//                                padding: EdgeInsets.all(5),
-//                                decoration: BoxDecoration(
-//                                    color: Colors.white,
-//                                    borderRadius: BorderRadius.circular(20)),
-//                                child: Row(
-//                                  children: [
-//                                    Text(
-//                                      'Rating',
-//                                      style: TextStyle(color: Colors.black),
-//                                    ),
-//                                    Icon(
-//                                      Icons.star,
-//                                      color: Colors.orange,
-//                                      size: 15,
-//                                    )
-//                                  ],
-//                                ),
-//                              )
                             ],
                           ),
                           Padding(
@@ -286,163 +369,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                       child: TabBarView(
                         controller: _controller,
                         children: [
-                          Container(
-                              padding: EdgeInsets.all(30),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Cusines : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['cusines'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Mealtype : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['mealtype'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Outlettype : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['outlettype'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Billing Extra : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['billingextra'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Parking : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['parking'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Payment Method : ",
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        widget.restaurant.data['paymentmethod'],
-                                        style: TextStyle(
-                                            fontSize: 16.0, color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Container(
-                                      height: 150,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(30),
-                                          topLeft: Radius.circular(30),
-                                          bottomLeft: Radius.circular(30),
-                                          bottomRight: Radius.circular(30),
-                                        ),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 5,
-                                            blurRadius: 7,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                      ),
-                                      child: Text("top")),
-                                ],
-                              )),
-                          Container(
-                            child: retrieveReviews(),
-                          ),
                           Container(
                             padding: EdgeInsets.all(30),
                             child: Column(
@@ -571,13 +497,152 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                   ],
                                 ),
                                 SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  child: displaygallery(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: retrieveReviews(),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(30),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Monday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['cusines'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
                                   height: 5,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Payment Method : ",
+                                      "Tuesday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['mealtype'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Wednesday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['outlettype'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Thursday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['billingextra'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Friday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['parking'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Saturday : ",
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      widget.restaurant.data['paymentmethod'],
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Sunday : ",
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -615,21 +680,26 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FloatingActionButton.extended(label: Text('Submit Review'),
+          FloatingActionButton.extended(
+            label: Text('Submit Review'),
             onPressed: () {
-            print('review');
-            print('${currentUser.id}');
-            print('${widget.restaurant.data['rid']}');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SubmitReview(rId:  widget.restaurant.data['rid'],),
-              ),
-            );
+              print('review');
+              print('${currentUser.id}');
+              print('${widget.restaurant.data['rid']}');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubmitReview(
+                    rId: widget.restaurant.data['rid'],
+                  ),
+                ),
+              );
             },
             heroTag: null,
           ),
-          SizedBox(width: 60,),
+          SizedBox(
+            width: 60,
+          ),
           FloatingActionButton(
             backgroundColor: Colors.black87,
             onPressed: () {
@@ -637,7 +707,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MenuPhotoPage(),
+                  builder: (context) => MenuPhotoPage(restaurantid:widget.restaurant.data['rid']),
                 ),
               );
             },

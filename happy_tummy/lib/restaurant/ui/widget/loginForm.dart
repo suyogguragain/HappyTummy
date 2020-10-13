@@ -151,7 +151,7 @@ class _LoginFormState extends State<LoginForm> {
                                     animation: animationType,
                                   ),
                                 ),
-                                backgroundColor: Colors.black45,
+                                backgroundColor: Colors.grey,
                               ),
                             ),
                           ),
@@ -162,19 +162,21 @@ class _LoginFormState extends State<LoginForm> {
                   Center(
                     child: Text(
                       "Happy Tummy",
-                      style: TextStyle(fontSize: 32, color: Colors.black54,fontFamily: 'Lobster'),
+                      style: TextStyle(fontSize: 32, color: Colors.white,fontFamily: 'Lobster'),
                     ),
                   ),
                   Container(
                     width: size.width * 0.8,
                     child: Divider(
                       height: size.height * 0.05,
-                      color: Colors.black54,
+                      color: Colors.white,
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(size.height * 0.02),
                     child: TextFormField(
+                      cursorColor: Colors.white,
+                      style: TextStyle(color: Colors.white),
                       controller: _emailController,
                       autovalidate: false,
                       validator: (_) {
@@ -183,16 +185,16 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(
-                            color: Colors.black54, fontSize: size.height * 0.03),
+                            color: Colors.white, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.black, width: 1.0,),
+                              BorderSide(color: Colors.white, width: 1.0,),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
-
+                        fillColor: Colors.white,
                       ),
                     ),
                   ),
@@ -200,6 +202,8 @@ class _LoginFormState extends State<LoginForm> {
                     padding: EdgeInsets.all(size.height * 0.02),
                     child: TextFormField(
                       controller: _passwordController,
+                      cursorColor: Colors.white,
+                      style: TextStyle(color: Colors.white),
                       autocorrect: false,
                       obscureText: true,
                       autovalidate: true,
@@ -211,14 +215,14 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         labelText: "Password",
                         labelStyle: TextStyle(
-                            color: Colors.black54, fontSize: size.height * 0.03),
+                            color: Colors.white, fontSize: size.height * 0.03),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.black, width: 1.0),
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                       ),
                     ),
@@ -270,7 +274,7 @@ class _LoginFormState extends State<LoginForm> {
                             "Are you new? Get an Account",
                             style: TextStyle(
                                 fontSize: size.height * 0.025,
-                                color: Colors.black54),
+                                color: Colors.white),
                           ),
                         )
                       ],

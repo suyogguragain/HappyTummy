@@ -188,45 +188,45 @@ class _HomePageState extends State<HomePage> {
             height: 20.0,
           ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Top Rated restaurants',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Container(
-              height: 150,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Text("top")),
-          SizedBox(
-            height: 40.0,
-          ),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//            children: <Widget>[
+//              Text(
+//                'Top Rated restaurants',
+//                style: TextStyle(
+//                  fontSize: 18.0,
+//                  fontWeight: FontWeight.bold,
+//                ),
+//              ),
+//            ],
+//          ),
+//          SizedBox(
+//            height: 20.0,
+//          ),
+//          Container(
+//              height: 150,
+//              width: 200,
+//              decoration: BoxDecoration(
+//                borderRadius: BorderRadius.only(
+//                  topRight: Radius.circular(30),
+//                  topLeft: Radius.circular(30),
+//                  bottomLeft: Radius.circular(30),
+//                  bottomRight: Radius.circular(30),
+//                ),
+//                color: Colors.white,
+//                boxShadow: [
+//                  BoxShadow(
+//                    color: Colors.grey.withOpacity(0.5),
+//                    spreadRadius: 5,
+//                    blurRadius: 7,
+//                    offset: Offset(0, 3), // changes position of shadow
+//                  ),
+//                ],
+//              ),
+//              child: Text("top")),
+//          SizedBox(
+//            height: 40.0,
+//          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
