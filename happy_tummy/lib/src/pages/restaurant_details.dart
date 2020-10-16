@@ -305,7 +305,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 7),
                                   child: Text(
-                                    '091895327829',
+                                    widget.restaurant.data['phone'],
                                     style: TextStyle(
                                         fontSize: 17.0, color: Colors.white),
                                   ),
@@ -524,7 +524,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['cusines'],
+                                      widget.restaurant.data['monday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -545,7 +545,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['mealtype'],
+                                      widget.restaurant.data['tuesday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -566,7 +566,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['outlettype'],
+                                      widget.restaurant.data['wednesday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -587,7 +587,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['billingextra'],
+                                      widget.restaurant.data['thrusday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -608,7 +608,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['parking'],
+                                      widget.restaurant.data['friday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -629,7 +629,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['paymentmethod'],
+                                      widget.restaurant.data['saturday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),
@@ -650,7 +650,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
                                       width: 10,
                                     ),
                                     Text(
-                                      widget.restaurant.data['paymentmethod'],
+                                      widget.restaurant.data['sunday'],
                                       style: TextStyle(
                                           fontSize: 16.0, color: Colors.grey),
                                     ),

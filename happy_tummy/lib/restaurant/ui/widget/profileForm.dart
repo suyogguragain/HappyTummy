@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:happy_tummy/restaurant/bloc/authentication/bloc.dart';
 import 'package:happy_tummy/restaurant/bloc/profile/bloc.dart';
 import 'package:happy_tummy/restaurant/repositories/restaurantRepository.dart';
@@ -30,11 +31,33 @@ class _ProfileFormState extends State<ProfileForm> {
       TextEditingController();
   final TextEditingController _billingextraController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _latController = TextEditingController();
+  final TextEditingController _longController = TextEditingController();
+  final TextEditingController _sunController = TextEditingController();
+  final TextEditingController _monController = TextEditingController();
+  final TextEditingController _tueController = TextEditingController();
+  final TextEditingController _wedController = TextEditingController();
+  final TextEditingController _thrusController = TextEditingController();
+  final TextEditingController _friController = TextEditingController();
+  final TextEditingController _satController = TextEditingController();
 
   String cusines, mealtype;
   DateTime age;
   File photo;
   ProfileBloc _profileBloc;
+
+  getUserCurrentLocation () async {
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placeMarks = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark mPlaceMark = placeMarks[0];
+    String completeAddressInfo = '${mPlaceMark.subThoroughfare} ${mPlaceMark.thoroughfare},${mPlaceMark.subLocality} ${mPlaceMark.locality},${mPlaceMark.subAdministrativeArea} ${mPlaceMark.administrativeArea},${mPlaceMark.postalCode} ${mPlaceMark.country}';
+    String SpecificAddress = '${mPlaceMark.locality}, ${mPlaceMark.country}';
+    _locationController.text = SpecificAddress;
+    _longController.text = position.longitude.toString();
+    _latController.text = position.latitude.toString();
+  }
+
 
   //UserRepository get _userRepository => widget._userRepository;
 
@@ -45,6 +68,16 @@ class _ProfileFormState extends State<ProfileForm> {
       _paymentmethodController.text.isNotEmpty &&
       _billingextraController.text.isNotEmpty &&
       _locationController.text.isNotEmpty &&
+      _latController.text.isNotEmpty &&
+      _longController.text.isNotEmpty &&
+      _phoneController.text.isNotEmpty &&
+      _sunController.text.isNotEmpty &&
+      _monController.text.isNotEmpty &&
+      _tueController.text.isNotEmpty &&
+      _wedController.text.isNotEmpty &&
+      _thrusController.text.isNotEmpty &&
+      _friController.text.isNotEmpty &&
+      _satController.text.isNotEmpty &&
       cusines != null &&
       mealtype != null &&
       photo != null &&
@@ -63,6 +96,18 @@ class _ProfileFormState extends State<ProfileForm> {
           outlettype: _outlettypeController.text,
           parking: _parkingController.text,
           paymentmethod: _paymentmethodController.text,
+
+          phone: _phoneController.text,
+          longitude: _longController.text,
+          latitude: _latController.text,
+          sunday: _sunController.text,
+          monday: _monController.text,
+          tuesday: _tueController.text,
+          thrusday: _thrusController.text,
+          friday: _friController.text,
+          saturday: _satController.text,
+          wednesday: _wedController.text,
+
           age: age,
           photo: photo,
           cusines: cusines,
@@ -84,6 +129,16 @@ class _ProfileFormState extends State<ProfileForm> {
     _paymentmethodController.dispose();
     _billingextraController.dispose();
     _locationController.dispose();
+    _longController.dispose();
+    _latController.dispose();
+    _phoneController.dispose();
+    _sunController.dispose();
+    _monController.dispose();
+    _tueController.dispose();
+    _wedController.dispose();
+    _thrusController.dispose();
+    _friController.dispose();
+    _satController.dispose();
     super.dispose();
   }
 
@@ -141,51 +196,46 @@ class _ProfileFormState extends State<ProfileForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                   Container(
-                     width: 200,
-                     child: CircleAvatar(
-                       radius: 40,
-                       backgroundColor: Colors.transparent,
-                       child: photo == null
-                           ? GestureDetector(
-                               onTap: () async {
-                                 print("click");
-                                 File getPic = await ImagePicker.pickImage(
-                                   source:ImageSource.gallery,
-                                 );
-                                 //File getPic = await FilePicker.getFile();
-                                 if (getPic != null) {
-                                   setState(() {
-                                     photo = getPic;
-                                   });
-                                 }
-                               },
-
-                               child: Image.asset('assets/images/noimage.png'),
-                             )
-                           : GestureDetector(
-                               onTap: () async {
-                                 //File getPic = await FilePicker.getFile(type: FileType.image);
-                                 File getPic = await ImagePicker.pickImage(
-                                   source:ImageSource.gallery,
-                                 );
-                                 if (getPic != null) {
-                                   setState(() {
-
-                                     photo = getPic;
-
-                                   });
-                                 }
-                               },
-
-                               child: CircleAvatar(
-                                 radius: size.width * 0.3,
-                                 backgroundImage: FileImage(photo),
-                               ),
-                             ),
-                     ),
-                   ),
-
+                  Container(
+                    width: 200,
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.transparent,
+                      child: photo == null
+                          ? GestureDetector(
+                              onTap: () async {
+                                print("click");
+                                File getPic = await ImagePicker.pickImage(
+                                  source: ImageSource.gallery,
+                                );
+                                //File getPic = await FilePicker.getFile();
+                                if (getPic != null) {
+                                  setState(() {
+                                    photo = getPic;
+                                  });
+                                }
+                              },
+                              child: Image.asset('assets/images/noimage.png'),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                //File getPic = await FilePicker.getFile(type: FileType.image);
+                                File getPic = await ImagePicker.pickImage(
+                                  source: ImageSource.gallery,
+                                );
+                                if (getPic != null) {
+                                  setState(() {
+                                    photo = getPic;
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                radius: size.width * 0.3,
+                                backgroundImage: FileImage(photo),
+                              ),
+                            ),
+                    ),
+                  ),
                   textFieldWidget(_nameController, "Name", size),
                   textFieldWidget(_outlettypeController, "Outlet Type", size),
                   textFieldWidget(_parkingController, "Parking", size),
@@ -194,6 +244,45 @@ class _ProfileFormState extends State<ProfileForm> {
                   textFieldWidget(
                       _billingextraController, "BillingExtra", size),
                   textFieldWidget(_locationController, "Location", size),
+                  Container(
+                    width: 220.0,
+                    height: 50.0,
+                    alignment: Alignment.topLeft,
+                    child: RaisedButton.icon(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
+                      color: Colors.black54,
+                      icon: Icon(Icons.location_on,color: Colors.white,),
+                      label: Text('Get Current Location',
+                        style: TextStyle(color: Colors.white,fontFamily: "Lobster",fontSize: 20.0),
+                      ),
+                      onPressed: getUserCurrentLocation,
+                    ),
+                  ),
+                  textFieldWidget(_phoneController, "Phone no", size),
+                  Column(
+                    children: [
+                      Container( alignment: Alignment.topLeft,
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                        'Opening Hours',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          children: [
+                            OpeningFieldWidget(_monController, "Monday", size),
+                            OpeningFieldWidget(_tueController, "Tuesday", size),
+                            OpeningFieldWidget(_wedController, "Wednesday", size),
+                            OpeningFieldWidget(_thrusController, "Thrusday", size),
+                            OpeningFieldWidget(_friController, "Friday", size),
+                            OpeningFieldWidget(_satController, "Saturday", size),
+                            OpeningFieldWidget(_sunController, "Sunday", size),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                   GestureDetector(
                     onTap: () {
                       DatePicker.showDatePicker(
@@ -210,7 +299,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     },
                     child: Text(
                       "Established Date",
-                      style: TextStyle(color: Colors.black54, fontSize: 26),
+                      style: TextStyle(color: Colors.white, fontSize: 26),
                     ),
                   ),
                   SizedBox(
@@ -224,7 +313,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             horizontal: size.height * 0.02),
                         child: Text(
                           "Cusines",
-                          style: TextStyle(color: Colors.black54, fontSize: 26),
+                          style: TextStyle(color: Colors.white, fontSize: 26),
                         ),
                       ),
                       Row(
@@ -272,7 +361,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             horizontal: size.height * 0.02),
                         child: Text(
                           "Meal Type",
-                          style: TextStyle(color: Colors.black54, fontSize: 26),
+                          style: TextStyle(color: Colors.white, fontSize: 26),
                         ),
                       ),
                       Row(
@@ -326,15 +415,17 @@ class _ProfileFormState extends State<ProfileForm> {
                         width: 100,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: isButtonEnabled(state)
-                              ? Colors.blue
-                              : Colors.red,
+                          color:
+                              isButtonEnabled(state) ? Colors.blue : Colors.red,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Center(
                             child: Text(
                           "Save",
-                          style: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 26,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         )),
                       ),
                     ),
@@ -353,16 +444,41 @@ Widget textFieldWidget(controller, text, size) {
   return Padding(
     padding: EdgeInsets.all(size.height * 0.02),
     child: TextField(
+      style: TextStyle(color: Colors.white),
       controller: controller,
       decoration: InputDecoration(
         labelText: text,
         labelStyle:
-            TextStyle(color: Colors.black54, fontSize: size.height * 0.03),
+            TextStyle(color: Colors.white, fontSize: size.height * 0.03),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 1.0),
+          borderSide: BorderSide(color: Colors.white, width: 1.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 1.0),
+          borderSide: BorderSide(color: Colors.white, width: 1.0),
+        ),
+      ),
+    ),
+  );
+}
+
+
+Widget OpeningFieldWidget(controller, text, size) {
+  return Container(
+    padding: EdgeInsets.all(size.height * 0.02),
+    width: 300,
+    height: 70,
+    child: TextField(
+      controller: controller,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(fillColor: Colors.white,
+        labelText: text,
+        labelStyle:
+        TextStyle(color: Colors.white, fontSize: size.height * 0.03),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 1.0,),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 1.0),
         ),
       ),
     ),

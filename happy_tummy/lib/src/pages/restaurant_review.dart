@@ -34,7 +34,7 @@ class _SubmitReviewState extends State<SubmitReview> {
       'restaurantId': widget.rId,
     });
 
-    Firestore.instance.collection('bookevents')..document(widget.rId).collection("reviews").add({
+    Firestore.instance.collection('bookevents')..document(widget.rId).collection("feedItems").add({
       'type':'review',
       'description': descriptionEditingController.text,
       'rating': ratingEditingController.text,

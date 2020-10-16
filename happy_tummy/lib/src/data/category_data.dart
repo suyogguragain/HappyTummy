@@ -18,7 +18,7 @@ final categories = [
 
   Category(
       imagePath: "assets/images/breakfast.png",
-      categoryName: "Breakfast"
+      categoryName: "BreakFast"
   ),
 
   Category(

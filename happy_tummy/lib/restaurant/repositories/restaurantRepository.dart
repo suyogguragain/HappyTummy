@@ -60,6 +60,16 @@ class RestaurantRepository {
       String parking,
       String paymentmethod,
       String billingextra,
+      String phone,
+      String longitude,
+      String latitude,
+      String sunday,
+      String monday,
+      String tuesday,
+      String wednesday,
+      String thrusday,
+      String friday,
+      String saturday,
       DateTime age,
       String location) async {
     StorageUploadTask storageUploadTask;
@@ -83,7 +93,17 @@ class RestaurantRepository {
           'paymentmethod': paymentmethod,
           'billingextra': billingextra,
           "location": location,
-          'age': age
+          'age': age,
+          'phone': phone,
+          'longitude': longitude,
+          'latitude': latitude,
+          'sunday': sunday,
+          'monday': monday,
+          'tuesday': tuesday,
+          'wednesday': wednesday,
+          'thrusday': thrusday,
+          'friday': friday,
+          'saturday': saturday,
         });
       });
     });

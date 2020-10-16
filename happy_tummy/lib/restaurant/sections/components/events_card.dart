@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/restaurant/sections/components/booked_events.dart';
 import 'package:happy_tummy/restaurant/sections/components/constants.dart';
 
 
@@ -109,9 +110,14 @@ class _EventsCardState extends State<EventsCard> {
                       ],
                     ),
                     SizedBox(height: 5),
-                    Text(
-                      'Booked Seat: ${widget.totalseat}',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    GestureDetector(
+                      onTap:(){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> BookedEvents(restaurantid: widget.ownerId,eventid: widget.documentId)));
+                      },
+                      child: Text(
+                        'Booked Seat: Click',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
                     ),
                   ],
                 ),

@@ -48,7 +48,7 @@ class Tabs extends StatelessWidget {
 
     return Theme(
       data: ThemeData(
-        primaryColor: Colors.deepOrange,
+        primaryColor: Colors.black,
         accentColor: Colors.white,
       ),
       child: DefaultTabController(

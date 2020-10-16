@@ -141,7 +141,7 @@ class _EventState extends State<Event> {
       Firestore.instance
           .collection('bookevents')
           .document(ownerId)
-          .collection('events')
+          .collection('feedItems')
           .document(eventId)
           .get()
           .then((document) {
@@ -159,9 +159,8 @@ class _EventState extends State<Event> {
       Firestore.instance
           .collection('bookevents')
           .document(ownerId)
-          .collection('events')
-          .document(eventId)
-          .setData({
+          .collection('feedItems')
+          .add({
         'type': 'booked',
         'username': currentUser.username,
         'userId': currentUser.id,
@@ -171,7 +170,8 @@ class _EventState extends State<Event> {
         'date': date,
         'location': location,
         'totalseat': totalseat,
-        'heading': heading
+        'heading': heading,
+        'userProfileImg': currentUser.url
       });
     }
   }
