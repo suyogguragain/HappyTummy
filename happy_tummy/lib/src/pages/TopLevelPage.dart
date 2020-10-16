@@ -4,8 +4,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:happy_tummy/restaurant/restaur.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/CreateAccountPage.dart';
 import 'package:happy_tummy/src/pages/TimelinePage.dart';
@@ -13,15 +15,13 @@ import 'package:happy_tummy/src/pages/UploadPage.dart';
 import 'package:happy_tummy/src/pages/event_page.dart';
 import 'package:happy_tummy/src/pages/home_page.dart';
 import 'package:happy_tummy/src/pages/offer_page.dart';
-import 'package:happy_tummy/src/pages/post_page.dart';
-import 'package:happy_tummy/src/pages/profile_page.dart';
-import 'package:happy_tummy/src/pages/signup_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection('users');
 final postsReference = Firestore.instance.collection('posts');
-final StorageReference storageReference = FirebaseStorage.instance.ref().child('Posts Pictures');
+final StorageReference storageReference =
+    FirebaseStorage.instance.ref().child('Posts Pictures');
 final activityFeedReferences = Firestore.instance.collection('feed');
 final commentsReferences = Firestore.instance.collection('comments');
 final followersReferences = Firestore.instance.collection('followers');
@@ -49,19 +49,17 @@ class _TopLevelPageState extends State<TopLevelPage> {
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   //final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-
   @override
   void initState() {
     // TODO: implement initState
-    passwordFocusNode.addListener((){
-      if(passwordFocusNode.hasFocus){
+    passwordFocusNode.addListener(() {
+      if (passwordFocusNode.hasFocus) {
         setState(() {
-          animationType="test";
+          animationType = "test";
         });
-      }else{
+      } else {
         setState(() {
-          animationType="idle";
+          animationType = "idle";
         });
       }
     });
@@ -69,38 +67,33 @@ class _TopLevelPageState extends State<TopLevelPage> {
 
     pageController = PageController();
 
-    gSignIn.onCurrentUserChanged.listen((gSignInAccount){
+    gSignIn.onCurrentUserChanged.listen((gSignInAccount) {
       controlSignIn(gSignInAccount);
-    }, onError: (gError){
+    }, onError: (gError) {
       print("Error " + gError);
     });
 
-    gSignIn.signInSilently(suppressErrors: false).then((gSignInAccount){
+    gSignIn.signInSilently(suppressErrors: false).then((gSignInAccount) {
       controlSignIn(gSignInAccount);
-    }).catchError((gError){
+    }).catchError((gError) {
       print("Error " + gError);
     });
   }
 
-
-  controlSignIn(GoogleSignInAccount signInAccount )async{
-    if(signInAccount != null)
-    {
+  controlSignIn(GoogleSignInAccount signInAccount) async {
+    if (signInAccount != null) {
       await saveUserInfoToFireStore();
       setState(() {
         isSignedIn = true;
       });
 
       //configureRealTimePushNotifications();
-    }
-    else{
+    } else {
       setState(() {
         isSignedIn = false;
       });
     }
   }
-
-
 
 //  configureRealTimePushNotifications(){
 //    final GoogleSignInAccount gUser = gSignIn.currentUser;
@@ -137,37 +130,40 @@ class _TopLevelPageState extends State<TopLevelPage> {
 //    });
 //  }
 
-
-
   saveUserInfoToFireStore() async {
     final GoogleSignInAccount gCurrentUser = gSignIn.currentUser;
-    DocumentSnapshot documentSnapshot = await usersReference.document(gCurrentUser.id).get();
+    DocumentSnapshot documentSnapshot =
+        await usersReference.document(gCurrentUser.id).get();
 
-    if (!documentSnapshot.exists){
-      final username = await Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAccountPage()));
+    if (!documentSnapshot.exists) {
+      final username = await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CreateAccountPage()));
 
       usersReference.document(gCurrentUser.id).setData({
-        'id':gCurrentUser.id,
-        'profileName':gCurrentUser.displayName,
-        'username':username,
-        'url':gCurrentUser.photoUrl,
-        'email':gCurrentUser.email,
-        'bio':'',
-        'timestamp':timestamp,
+        'id': gCurrentUser.id,
+        'profileName': gCurrentUser.displayName,
+        'username': username,
+        'url': gCurrentUser.photoUrl,
+        'email': gCurrentUser.email,
+        'bio': '',
+        'timestamp': timestamp,
       });
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
     }
 
-    await followersReferences.document(gCurrentUser.id).collection("userFollowers").document(gCurrentUser.id).setData({ });
+    await followersReferences
+        .document(gCurrentUser.id)
+        .collection("userFollowers")
+        .document(gCurrentUser.id)
+        .setData({});
 
     currentUser = User.fromDocument(documentSnapshot);
   }
 
-  void dispose(){
+  void dispose() {
     pageController.dispose();
     super.dispose();
   }
-
 
   logInUser() {
     gSignIn.signIn();
@@ -177,210 +173,280 @@ class _TopLevelPageState extends State<TopLevelPage> {
     gSignIn.signOut();
   }
 
-
-
-  Scaffold buildSignInScreen(){
+  Scaffold buildSignInScreen() {
     return Scaffold(
+      backgroundColor: Colors.black54,
       //key: _scaffoldKey,
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: ListView(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                //just for vertical spacing
-                SizedBox(
-                  height: 50,
-                  width: 200,
-                )    ,
-                //space for teddy actor
-                Center(
-                  child: Container(
-                      height: 250,
-                      width: 300,
-                      child: CircleAvatar(
-                        child: ClipOval(
-                          child: new FlareActor("assets/teddy_test.flr", alignment: Alignment.center, fit: BoxFit.contain, animation: animationType,),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Colors.black54, Colors.black]),
+        ),
+        child: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: ListView(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //just for vertical spacing
+                  SizedBox(
+                    height: 100,
+                    width: 200,
+                  ),
+                  //space for teddy actor
+                  Center(
+                    child: Container(
+                        height: 250,
+                        width: 300,
+                        child: CircleAvatar(
+                          child: ClipOval(
+                            child: new FlareActor(
+                              "assets/teddy_test.flr",
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                              animation: animationType,
+                            ),
+                          ),
+                          backgroundColor: Colors.grey.shade400,
+                        )),
+                  ),
+                  //just for vertical spacing
+                  SizedBox(
+                    height: 20,
+                    width: 10,
+                  ),
+                  //container for textfields user name and password
+//                Container(
+//                  height: 140,
+//                  width: 350,
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.all(Radius.circular(30)),
+//                      color: Colors.white),
+//                  child: Column(
+//                    children: <Widget>[
+//                      TextFormField(
+//                        keyboardType: TextInputType.emailAddress,
+//                        textAlign: TextAlign.center,
+//                        onChanged: (value) {
+//                          email = value;
+//                        },
+//                        decoration: InputDecoration(
+//                            border: InputBorder.none,
+//                            hintText: "Email",
+//                            contentPadding: EdgeInsets.all(20)),
+//                      ),
+//                      Divider(),
+//                      TextFormField(
+//                        textAlign: TextAlign.center,
+//                        onChanged: (value) {
+//                          password = value;
+//                        },
+//                        obscureText: true,
+//                        decoration: InputDecoration(
+//                            border: InputBorder.none,
+//                            hintText: "Password",
+//                            contentPadding: EdgeInsets.all(20)),
+////                    controller: passwordController,
+//                        focusNode: passwordFocusNode,
+//                      ),
+//                    ],
+//                  ),
+//                ),
+                  //container for raised button
+//                Container(
+//                  width: 350,
+//                  height: 70,
+//                  padding: EdgeInsets.only(top: 20),
+//                  child: RaisedButton(
+//                    color: Colors.pinkAccent,
+//                    child: Text(
+//                      "Submit",
+//                      style: TextStyle(color: Colors.white),
+//                    ),
+//                    shape: RoundedRectangleBorder(
+//                      borderRadius: new BorderRadius.circular(30),
+//                    ),
+//                    onPressed: () async {
+//                      try {
+//                        setState(() {
+//                          showSpinner = true;
+//                        });
+//                        final user = await _auth.signInWithEmailAndPassword(
+//                            email: email, password: password);
+//                        if (user != null) {
+//                          setState(() {
+//                            animationType = "success";
+//                            isSignedIn = true;
+//                            showSpinner = false;
+//                          });
+//                        } else {
+//                          setState(() {
+//                            showSpinner = false;
+//                            isSignedIn = false;
+//                            animationType = "fail";
+//                          });
+//                        }
+//                      } catch (e) {
+//                        setState(() {
+//                          isSignedIn = false;
+//                          showSpinner = false;
+//                          animationType = "fail";
+//                        });
+//                        print(e);
+//                      }
+//                    },
+//                  ),
+//                ),
+                  Container(
+                    width: 280,
+                    height: 70,
+                    padding: EdgeInsets.only(top: 20),
+                    child: RaisedButton(
+                        color: Colors.grey.shade200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 60.0,
+                              height: 35.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/google.png'),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "Google Sign In",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700, fontSize: 22),
+                            ),
+                          ],
                         ),
-                        backgroundColor: Colors.black45,
-                      )
-                  ),
-                ),
-                //just for vertical spacing
-                SizedBox(
-                  height: 20,
-                  width: 10,
-                )    ,
-                //container for textfields user name and password
-                Container(
-                  height: 140,
-                  width: 350,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        onChanged:(value){
-                          email = value;
-                        },
-                        decoration: InputDecoration(border: InputBorder.none, hintText: "Email", contentPadding: EdgeInsets.all(20)),
-                      ),
-                      Divider(),
-                      TextFormField(
-                        textAlign: TextAlign.center,
-                        onChanged:(value){
-                          password = value;
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(border: InputBorder.none, hintText: "Password", contentPadding: EdgeInsets.all(20)),
-//                    controller: passwordController,
-                        focusNode: passwordFocusNode,
-                      ),
-                    ],
-                  ),
-                ),
-                //container for raised button
-                Container(
-                  width: 350,
-                  height: 70,
-                  padding: EdgeInsets.only(top: 20),
-                  child: RaisedButton(
-                    color: Colors.pinkAccent,
-                    child: Text("Submit", style: TextStyle(color: Colors.white),),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30),
-                    ),
-                    onPressed: () async {
-                      try{
-                        setState(() {
-                          showSpinner = true;
-                        });
-                        final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-                        if (user != null){
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30),
+                        ),
+                        onPressed: () async {
                           setState(() {
                             animationType = "success";
                             isSignedIn = true;
                             showSpinner = false;
                           });
-                        }else{
-                          setState(() {
-                            showSpinner = false;
-                            isSignedIn = false;
-                            animationType = "fail";
-                          });
-                        }
-                      }catch(e){
-                        setState(() {
-                          isSignedIn = false;
-                          showSpinner = false;
-                          animationType = "fail";
-                        });
-                        print(e);
-                      }
-                    },
+                          logInUser();
+                        }),
                   ),
-                ),
-                Center(
-                  child: Divider(
-                    height: 30.0,
-                    thickness: 3.0,
-                    indent: 80,
-                    endIndent:80 ,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                          color: Color(0xFFBDC2CB),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0),
+                  Center(
+                    child: Divider(
+                      height: 30.0,
+                      thickness: 3.0,
+                      indent: 80,
+                      endIndent: 80,
+                      color: Colors.white,
                     ),
-                    SizedBox(width: 5.0),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) => SignUpPage()));
-                      },
-                      child: Text(
-                        "Sign up",
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "I'm a restaurant?",
                         style: TextStyle(
-                            color: Colors.blueAccent,
+                            color: Colors.grey.shade700,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
+                            fontSize: 14.0),
                       ),
-                    ),
-                  ],
-                ),
-                Center(
-                  child: Divider(
-                    height: 30.0,
-                    thickness: 2.0,
-                    indent: 120,
-                    endIndent:120 ,
+                      SizedBox(width: 5.0),
+                      GestureDetector(
+                        onTap: () {
+//                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+//                            builder: (BuildContext context) => SignUpPage()));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => res()));
+                        },
+                        child: Text(
+                          "Sign In Here",
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18.0),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () => logInUser(),
-                      child: Container(
-                        width: 40.0,
-                        height: 25.0,
+                  Center(
+                    child: Divider(
+                      height: 30.0,
+                      thickness: 2.0,
+                      indent: 120,
+                      endIndent: 120,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 30.0,
+                        height: 30.0,
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(60),
                           image: DecorationImage(
-                            image: AssetImage('assets/images/google.png'),
+                            image: AssetImage('assets/images/ht.png'),
                             fit: BoxFit.contain,
                           ),
                         ),
                       ),
-                    ),
-                    Text(
-                      'Google Login',
-                      style: TextStyle(
-                        fontSize:12.0,
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 10,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      Text(
+                        'Happy Tummy',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  whenPageChanges (int pageIndex){
+  whenPageChanges(int pageIndex) {
     setState(() {
       this.getPageIndex = pageIndex;
     });
   }
 
-  onTapChangePage( int pageIndex){
-    pageController.animateToPage(pageIndex, duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
+  onTapChangePage(int pageIndex) {
+    pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
   }
 
-
-  Scaffold buildHomeScreen(){
+  Scaffold buildHomeScreen() {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          TimelinePage(gCurrentUser: currentUser,),
-          //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign out")),
-          UploadPage(gCurrentUser: currentUser,),
+          TimelinePage(
+            gCurrentUser: currentUser,
+          ),
+          UploadPage(
+            gCurrentUser: currentUser,
+          ),
           HomePage(),
-          EventPage(),
+          EventPage(gCurrentUser: currentUser,),
           OfferPage(),
           //ProfilePage(userProfileId: currentUser?.id),
         ],
@@ -389,34 +455,54 @@ class _TopLevelPageState extends State<TopLevelPage> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: CupertinoTabBar(
-        currentIndex:  getPageIndex,
+        currentIndex: getPageIndex,
         onTap: onTapChangePage,
         backgroundColor: Colors.black,
-        activeColor: Colors.pinkAccent,
+        activeColor: Colors.deepOrange,
         inactiveColor: Colors.white,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.rss_feed,), title: Text("Feed"),),
-          BottomNavigationBarItem(icon: Icon(Icons.photo_camera,), title: Text("Camera"),),
-          BottomNavigationBarItem(icon: Icon(Icons.home,), title: Text("Home"),),
-          BottomNavigationBarItem(icon: Icon(Icons.event,), title: Text("Event"),),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer,), title: Text("Offers"),),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.rss_feed,
+            ),
+            title: Text("Feed"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.photo_camera,
+            ),
+            title: Text("Camera"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+            ),
+            title: Text("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.event,
+            ),
+            title: Text("Event"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.local_offer,
+            ),
+            title: Text("Offers"),
+          ),
           //BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
         ],
       ),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    if (isSignedIn){
+    if (isSignedIn) {
       return buildHomeScreen();
-    }
-    else{
+    } else {
       return buildSignInScreen();
     }
   }
 }
-
-
-

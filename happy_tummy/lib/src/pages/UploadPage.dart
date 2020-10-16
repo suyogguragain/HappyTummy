@@ -55,28 +55,27 @@ class _UploadPageState extends State<UploadPage>  with AutomaticKeepAliveClientM
       builder: (context){
         return SimpleDialog(
           title: Text('New Post',style: TextStyle(
-            color: Colors.lightBlueAccent,
+            color: Colors.black,
             fontWeight: FontWeight.normal,
-            fontFamily: "PermanentMarker",
             fontSize: 30.0,
           ),
           ),
           children: <Widget>[
             SimpleDialogOption(
               child: Text('Capture image with camera',style: TextStyle(
-                color: Colors.pink,fontWeight: FontWeight.bold,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
               ),
               onPressed: captureImageWithCamera,
             ),
             SimpleDialogOption(
               child: Text('Select image from gallery',style: TextStyle(
-                color: Colors.pink,fontWeight: FontWeight.bold,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
               ),
               onPressed: pickImageFromGallery,
             ),
             SimpleDialogOption(
               child: Text('Cancel',style: TextStyle(
-                color: Colors.pink,fontWeight: FontWeight.bold,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
               ),
               onPressed:() => Navigator.pop(context),
             ),
@@ -92,13 +91,13 @@ class _UploadPageState extends State<UploadPage>  with AutomaticKeepAliveClientM
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add_a_photo,color: Colors.lightBlueAccent,size: 100.0,),
+          Icon(Icons.add_a_photo,color: Colors.grey,size: 100.0,),
           Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: RaisedButton(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0),),
                 child: Text("Upload Post",style:TextStyle(color:Colors.white,fontSize: 20.0,fontFamily: "Lobster"),),
-                color: Colors.pinkAccent,
+                color: Colors.black,
                 onPressed: () => takeImage(context)
             ),
           )
@@ -178,7 +177,7 @@ class _UploadPageState extends State<UploadPage>  with AutomaticKeepAliveClientM
   displayUploadFormScreen(){
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Colors.black,
         leading: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white,), onPressed: ClearPostInfo),
         title: Text('New Post', style: TextStyle(fontSize: 24.0, color: Colors.white,fontWeight: FontWeight.bold,fontFamily: 'PermanentMarker'),),
         actions: <Widget>[
@@ -246,7 +245,7 @@ class _UploadPageState extends State<UploadPage>  with AutomaticKeepAliveClientM
             alignment: Alignment.center,
             child: RaisedButton.icon(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
-              color: Colors.pink,
+              color: Colors.black54,
               icon: Icon(Icons.location_on,color: Colors.white,),
               label: Text('Get Current Location',
                 style: TextStyle(color: Colors.white,fontFamily: "Lobster",fontSize: 20.0),

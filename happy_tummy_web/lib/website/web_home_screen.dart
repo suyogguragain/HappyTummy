@@ -1,4 +1,6 @@
+import 'dart:html';
 import 'dart:ui';
+import 'package:firebase/firebase.dart' as fb;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,42 @@ class WebHomePage extends StatefulWidget {
 }
 
 class _WebHomePageState extends State<WebHomePage> {
+  void uploadImage({@required Function(File file) onSelected}) {
+    InputElement uploadInput = FileUploadInputElement()..accept = 'image/*';
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected(file);
+      });
+    });
+  }
+
+  void uploadToStorage(String user) {
+    final dateTime = DateTime.now();
+    final userId = user;
+    final path = '$userId/$dateTime';
+    uploadImage(
+      onSelected: (file) {
+        fb
+            .storage()
+            .refFromURL('gs://happy-tummy-app-472d1.appspot.com')
+            .child(path)
+            .put(file)
+            .future
+            .then((_) {
+          Firestore.instance
+              .collection('restaurantprofilephoto')
+              .document(user)
+              .setData({'photo_url': path, 'rid': user});
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -180,6 +218,7 @@ class _WebHomePageState extends State<WebHomePage> {
                                 label:
                                     Text('Profile Photo'), //`Text` to display
                                 onPressed: () {
+                                  uploadToStorage(widget.restaurantProfileId);
                                   print('Profile Photo');
                                 },
                               ),

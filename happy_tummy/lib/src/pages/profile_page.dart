@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +10,9 @@ import 'package:happy_tummy/src/widgets/PostTileWidget.dart';
 import 'package:happy_tummy/src/widgets/PostWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
-
 User gCurrentUsers;
 
 class ProfilePage extends StatefulWidget {
-
   final String userProfileId;
 
   ProfilePage({this.userProfileId});
@@ -28,32 +25,35 @@ class _ProfilePageState extends State<ProfilePage> {
   final String currentOnlineUserId = currentUser.id;
   bool loading = false;
   int countPost = 0;
-  List <Post> postsList = [];
-  String postOrientation ="grid";
+  List<Post> postsList = [];
+  String postOrientation = "grid";
   int countTotalFollowers = 0;
   int countTotalFollowings = 0;
   bool following = false;
 
-  void initState(){
+  void initState() {
     getAllProfilePost();
     getAllFollowers();
     getAllFollowings();
     checkIfAlreadyFollowing();
   }
 
-  getAllFollowers() async{
-    QuerySnapshot querySnapshot = await followersReferences.document(widget.userProfileId)
-        .collection("userFollowers").getDocuments();
+  getAllFollowers() async {
+    QuerySnapshot querySnapshot = await followersReferences
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .getDocuments();
 
     setState(() {
       countTotalFollowers = querySnapshot.documents.length;
     });
   }
 
-
-  getAllFollowings() async{
-    QuerySnapshot querySnapshot = await followingReferences.document(widget.userProfileId)
-        .collection("userFollowing").getDocuments();
+  getAllFollowings() async {
+    QuerySnapshot querySnapshot = await followingReferences
+        .document(widget.userProfileId)
+        .collection("userFollowing")
+        .getDocuments();
 
     setState(() {
       countTotalFollowings = querySnapshot.documents.length;
@@ -61,25 +61,46 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   checkIfAlreadyFollowing() async {
-    DocumentSnapshot documentSnapshot = await followersReferences.document(widget.userProfileId).collection("userFollowers").document(currentOnlineUserId).get();
+    DocumentSnapshot documentSnapshot = await followersReferences
+        .document(widget.userProfileId)
+        .collection("userFollowers")
+        .document(currentOnlineUserId)
+        .get();
 
     setState(() {
       following = documentSnapshot.exists;
     });
   }
 
-  createProfileTopView(){
+  createProfileTopView() {
     return FutureBuilder(
-        future: usersReference.document(widget.userProfileId).get(),
-        builder: (context,dataSnapshot){
-          if(!dataSnapshot.hasData){
-            return circularProgress();
-          }
-          User user = User.fromDocument(dataSnapshot.data);
-          return Padding(
-            padding: EdgeInsets.all(17.0),
+      future: usersReference.document(widget.userProfileId).get(),
+      builder: (context, dataSnapshot) {
+        if (!dataSnapshot.hasData) {
+          return circularProgress();
+        }
+        User user = User.fromDocument(dataSnapshot.data);
+        return Padding(
+          padding: EdgeInsets.all(17.0),
+          child: Container(
+            height: 290,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
             child: Column(
               children: <Widget>[
+                SizedBox(
+                  height: 5,
+                ),
                 CircleAvatar(
                   radius: 45.0,
                   backgroundColor: Colors.grey,
@@ -89,21 +110,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 13.0),
                   child: Text(
-                    user.username,style: TextStyle(fontSize: 24.0,color: Colors.black38,fontFamily: "Lobster"),
+                    user.username,
+                    style: TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.black38,
+                        fontFamily: "Lobster"),
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 5.0,right: 33.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 33.0),
                   child: Text(
-                    user.profileName,style: TextStyle(fontSize: 16.0,color: Colors.black45),
+                    user.profileName,
+                    style: TextStyle(fontSize: 16.0, color: Colors.black45),
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 3.0),
                   child: Text(
-                    user.bio,style: TextStyle(fontSize: 14.0,color: Colors.black45),
+                    user.bio,
+                    style: TextStyle(fontSize: 14.0, color: Colors.black45),
                   ),
                 ),
                 Divider(),
@@ -111,48 +138,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Expanded(
                       flex: 1,
-                        child: Column(
-                          children: <Widget>[
-                            createButton(),
-                            SizedBox(
-                              height: 12.0,
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                createColumn('Posts',countPost),
-                                createColumn('Followers',countTotalFollowers),
-                                createColumn('Following',countTotalFollowings),
-                              ],
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        children: <Widget>[
+                          createButton(),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              createColumn('Posts', countPost),
+                              createColumn('Followers', countTotalFollowers),
+                              createColumn('Following', countTotalFollowings),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 
-  createColumn(String title, int count){
+  createColumn(String title, int count) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           count.toString(),
-          style: TextStyle(fontSize: 20.0, color: Colors.pink,fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 20.0, color: Colors.pink, fontWeight: FontWeight.bold),
         ),
-        SizedBox(width: 4.0,),
+        SizedBox(
+          width: 4.0,
+        ),
         Container(
           margin: EdgeInsets.only(top: 5.0),
           child: Text(
             title,
-            style: TextStyle(fontSize: 16.0, color: Colors.black,fontWeight: FontWeight.w400),
+            style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.black,
+                fontWeight: FontWeight.w400),
           ),
         ),
       ],
@@ -161,68 +195,86 @@ class _ProfilePageState extends State<ProfilePage> {
 
   createButton() {
     bool ownProfile = currentOnlineUserId == widget.userProfileId;
-    if(ownProfile){
-      return createButtonTitleAndFunction(title:'Edit Profile' ,performFunction: editUserProfile,);
-    }
-    else if(following){
-      return createButtonTitleAndFunction(title:'Unfollow' ,performFunction: controlUnfollowUser,);
-    }
-    else if(!following){
-      return createButtonTitleAndFunction(title:'follow' ,performFunction: controlfollowUser,);
+    if (ownProfile) {
+      return createButtonTitleAndFunction(
+        title: 'Edit Profile',
+        performFunction: editUserProfile,
+      );
+    } else if (following) {
+      return createButtonTitleAndFunction(
+        title: 'Unfollow',
+        performFunction: controlUnfollowUser,
+      );
+    } else if (!following) {
+      return createButtonTitleAndFunction(
+        title: 'follow',
+        performFunction: controlfollowUser,
+      );
     }
   }
 
-  controlUnfollowUser(){
+  controlUnfollowUser() {
     setState(() {
       following = false;
     });
-    followersReferences.document(widget.userProfileId)
+    followersReferences
+        .document(widget.userProfileId)
         .collection("userFollowers")
         .document(currentOnlineUserId)
         .get()
         .then((document) {
-            if(document.exists){
-              document.reference.delete();
-            }
+      if (document.exists) {
+        document.reference.delete();
+      }
     });
 
-    followingReferences.document(currentOnlineUserId)
+    followingReferences
+        .document(currentOnlineUserId)
         .collection("userFollowing")
         .document(widget.userProfileId)
         .get()
         .then((document) {
-      if(document.exists){
+      if (document.exists) {
         document.reference.delete();
       }
     });
 
-    activityFeedReferences.document(widget.userProfileId).collection('feedItems')
-    .document(currentOnlineUserId).get().then((document) {
-      if(document.exists){
+    activityFeedReferences
+        .document(widget.userProfileId)
+        .collection('feedItems')
+        .document(currentOnlineUserId)
+        .get()
+        .then((document) {
+      if (document.exists) {
         document.reference.delete();
       }
     });
-
   }
 
-  controlfollowUser(){
+  controlfollowUser() {
     setState(() {
       following = true;
     });
 
-    followersReferences.document(widget.userProfileId).collection("userFollowers")
+    followersReferences
+        .document(widget.userProfileId)
+        .collection("userFollowers")
         .document(currentOnlineUserId)
         .setData({});
 
-    followingReferences.document(currentOnlineUserId).collection("userFollowing")
+    followingReferences
+        .document(currentOnlineUserId)
+        .collection("userFollowing")
         .document(widget.userProfileId)
         .setData({});
 
-    activityFeedReferences.document(widget.userProfileId)
-        .collection('feedItems').document(currentOnlineUserId)
+    activityFeedReferences
+        .document(widget.userProfileId)
+        .collection('feedItems')
+        .document(currentOnlineUserId)
         .setData({
-      "type":"follow",
-      "ownerId":widget.userProfileId,
+      "type": "follow",
+      "ownerId": widget.userProfileId,
       "username": currentUser.username,
       "timestamp": DateTime.now(),
       "userProfileImg": currentUser.url,
@@ -230,177 +282,180 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-
-
-
-
-  Container createButtonTitleAndFunction({String title,Function performFunction}){
-
+  Container createButtonTitleAndFunction(
+      {String title, Function performFunction}) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           RaisedButton(
             onPressed: performFunction,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            color: Colors.pink,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            color: Colors.black45,
             elevation: 2.0,
             textColor: Colors.black,
-            padding: EdgeInsets.only(top: 10.0,bottom: 10.0,left: 40.0,right: 40.0),
+            padding: EdgeInsets.only(
+                top: 10.0, bottom: 10.0, left: 40.0, right: 40.0),
             child: Text(
               title,
-              style: TextStyle(fontSize: 20.0,
-                  color: following ? Colors.white: Colors.white ,
-                  fontWeight: FontWeight.w400,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: following ? Colors.white : Colors.white,
+                fontWeight: FontWeight.w400,
               ),
-              ),
+            ),
           ),
         ],
       ),
     );
-
-    //    return Container(
-//      child: FlatButton(
-//        onPressed: performFunction,
-//        child: Container(
-//          width: 180.0,
-//          height: 26.0,
-//          child: Text(
-//            title,
-//            style: TextStyle(fontSize: 16.0, color: following ? Colors.white: Colors.white ,fontWeight: FontWeight.w400),
-//          ),
-//          alignment: Alignment.center,
-//          decoration: BoxDecoration(
-//            color: following ? Colors.pink : Colors.pinkAccent,
-//            border: Border.all(color: following ? Colors.grey : Colors.white70),
-//            borderRadius: BorderRadius.circular(6.0),
-//          ),
-//        ),
-//      ),
-//    );
   }
 
-  editUserProfile(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(currentOnlineUserId: currentOnlineUserId,)));
+  editUserProfile() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProfilePage(
+                  currentOnlineUserId: currentOnlineUserId,
+                )));
   }
 
-  displayProfilePost(){
-    if(loading){
+  displayProfilePost() {
+    if (loading) {
       return circularProgress();
-    }
-    else if(postsList.isEmpty){
+    } else if (postsList.isEmpty) {
       return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(30.0),
-              child: Icon(Icons.photo_library,color: Colors.grey,size: 200.0,),
+              child: Icon(
+                Icons.photo_library,
+                color: Colors.grey,
+                size: 200.0,
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.0),
-              child: Text('No Posts',style: TextStyle(color: Colors.redAccent,fontSize: 40.0,fontWeight: FontWeight.bold,fontFamily: "Lobster"),),
+              child: Text(
+                'No Posts',
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Lobster"),
+              ),
             )
           ],
         ),
       );
-    }
-    else if ( postOrientation =='grid'){
+    } else if (postOrientation == 'grid') {
       List<GridTile> gridTilesList = [];
       postsList.forEach((eachPost) {
         gridTilesList.add(GridTile(child: PostTile(eachPost)));
       });
-      return GridView.count(
-        crossAxisCount: 1,
-        childAspectRatio: 3.1,
-        mainAxisSpacing: 1.5,
-        crossAxisSpacing: 1.5,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children:  gridTilesList,
+      return Container(
+        margin: EdgeInsets.only(top: 15,bottom: 10,left: 15,right: 15),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: GridView.count(
+          crossAxisCount: 1,
+          childAspectRatio: 3.1,
+          mainAxisSpacing: 1.5,
+          crossAxisSpacing: 1.5,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: gridTilesList,
+        ),
       );
     }
-//    else if (postOrientation =='list'){
-//      return Column(
-//        children: postsList,
-////        children: <Widget>[
-////          Text('Suyog hero'),
-////        ],
-//      );
-//    }
   }
-
 
   getAllProfilePost() async {
     setState(() {
       loading = true;
     });
 
-    QuerySnapshot querySnapshot = await postsReference.document(widget.userProfileId).collection("userPosts").orderBy("timestamp",descending: true).getDocuments();
+    QuerySnapshot querySnapshot = await postsReference
+        .document(widget.userProfileId)
+        .collection("userPosts")
+        .orderBy("timestamp", descending: true)
+        .getDocuments();
 
     setState(() {
       loading = false;
       countPost = querySnapshot.documents.length;
-      postsList = querySnapshot.documents.map((documentSnapshot) => Post.fromDocument(documentSnapshot)).toList();
+      postsList = querySnapshot.documents
+          .map((documentSnapshot) => Post.fromDocument(documentSnapshot))
+          .toList();
     });
   }
 
-  createListAndGridPostOrientation(){
+  createListAndGridPostOrientation() {
     return Padding(
-      padding: const EdgeInsets.only(top:8.0,bottom: 10.0,left: 20.0),
-      child: Row(
-        children: <Widget>[
-          Text("Recent Posts",
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            "Recent Posts",
             style: TextStyle(
-            fontSize: 30.0,
-            fontFamily: 'Lobster',
-            color: Colors.pink,
-            wordSpacing: 1.2,
-          ),),
-//        IconButton(
-//            icon: Icon(Icons.grid_on),
-//            onPressed: () => setOrientation('grid'),
-//            color: postOrientation == 'grid' ? Theme.of(context).primaryColor:Colors.grey,
-//        ),
-//        IconButton(
-//          icon: Icon(Icons.list),
-//          onPressed:  () => setOrientation('list'),
-//          color: postOrientation == 'list' ? Theme.of(context).primaryColor:Colors.grey,
-//        ),
-        ],
+              fontSize: 30.0,
+              fontFamily: 'Lobster',
+              color: Colors.pink,
+              wordSpacing: 1.2,
+            ),
+          ),
+        ),
       ),
     );
-  }
-
-  setOrientation(String orientation){
-    setState(() {
-      this.postOrientation = orientation;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(context,strTitle: "Profile",),
-      body: ListView(
-        children: <Widget>[
-          createProfileTopView(),
-          Divider(),
-          createListAndGridPostOrientation(),
-          displayProfilePost(),
-        ],
+      appBar: header(
+        context,
+        strTitle: "Profile",
+      ),
+      body: Container(
+        child: ListView(
+          children: <Widget>[
+            createProfileTopView(),
+            createListAndGridPostOrientation(),
+            displayProfilePost(),
+          ],
+        ),
       ),
     );
   }
 }
-
-//FloatingActionButton.extended(
-//onPressed: (){
-//print("pressed");
-//},
-//backgroundColor: Colors.white,
-//foregroundColor: Colors.black,
-//
-//icon: Icon(Icons.notifications),
-//label: Text('Notifications'),
-//),
