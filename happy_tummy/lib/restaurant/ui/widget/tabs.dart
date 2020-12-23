@@ -67,7 +67,7 @@ class Tabs extends StatelessWidget {
                   print(userId);
                   BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
                 },
-              )
+              ),
             ],
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(48.0),
