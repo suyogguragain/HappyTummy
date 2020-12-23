@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/restaurant/foodorder/uploadfooditem.dart';
 import 'package:happy_tummy/restaurant/models/menu_model.dart';
 import 'package:happy_tummy/restaurant/sections/components/menu_card.dart';
 import 'package:happy_tummy/restaurant/ui/widget/tabs.dart';
@@ -167,6 +168,17 @@ class _MenuPageState extends State<MenuPage> {
             displayProfilePost(),
           ]
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          print(widget.restaurantProfileId);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UploadFoodItemPage(restaurantProfileId: widget.restaurantProfileId)));
+//          Route route = MaterialPageRoute(builder: (c) => UploadFoodItemPage(restaurantProfileId: widget.restaurantProfileId,));
+//          Navigator.pushReplacement(context, route);
+        },
+        child: Icon(Icons.restaurant_menu),
+        backgroundColor: Colors.orangeAccent,
       ),
     );
   }

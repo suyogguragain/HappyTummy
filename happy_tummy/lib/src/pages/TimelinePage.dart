@@ -5,11 +5,14 @@ import 'package:foldable_sidebar/foldable_sidebar.dart';
 import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/NotificationPage.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
+import 'package:happy_tummy/src/pages/order/restaurantlistpage.dart';
 import 'package:happy_tummy/src/pages/post_page.dart';
 import 'package:happy_tummy/src/pages/profile_page.dart';
+import 'package:happy_tummy/src/pages/tip_calculator.dart';
 import 'package:happy_tummy/src/widgets/PostWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 import 'package:swipedetector/swipedetector.dart';
+
 
 
 class TimelinePage extends StatefulWidget {
@@ -182,10 +185,12 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              debugPrint("Tapped settings");
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TipCalculator()));
+              closeDrawer;
+              debugPrint("Tapped TipCalculator");
             },
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
+            leading: Icon(Icons.calculate_rounded),
+            title: Text("Tip Calculator"),
           ),
           Divider(
             height: 1,
@@ -198,6 +203,18 @@ class CustomDrawer extends StatelessWidget {
             },
             leading: Icon(Icons.notifications),
             title: Text("Notifications"),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantListPage()));
+              closeDrawer;
+            },
+            leading: Icon(Icons.shopping_cart),
+            title: Text("Order Food"),
           ),
           Divider(
             height: 1,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,6 +17,7 @@ import 'package:happy_tummy/src/pages/UploadPage.dart';
 import 'package:happy_tummy/src/pages/event_page.dart';
 import 'package:happy_tummy/src/pages/home_page.dart';
 import 'package:happy_tummy/src/pages/offer_page.dart';
+import 'package:happy_tummy/src/pages/order/config/config.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
@@ -83,6 +86,14 @@ class _TopLevelPageState extends State<TopLevelPage> {
   controlSignIn(GoogleSignInAccount signInAccount) async {
     if (signInAccount != null) {
       await saveUserInfoToFireStore();
+
+//      await saveUserInfoToFireStore().then((value){
+//        Navigator.pop(context);
+//        Route route = MaterialPageRoute(builder: (c) => TimelinePage());
+//        Navigator.pushReplacement(context, route);
+//      });
+
+
       setState(() {
         isSignedIn = true;
       });
@@ -147,8 +158,17 @@ class _TopLevelPageState extends State<TopLevelPage> {
         'email': gCurrentUser.email,
         'bio': '',
         'timestamp': timestamp,
+        'userCart':{},
+
       });
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
+
+//      await HappyTummy.sharedPreferences.setString("id", gCurrentUser.id);
+//      await HappyTummy.sharedPreferences.setString(HappyTummy.userEmail, gCurrentUser.email);
+//      await HappyTummy.sharedPreferences.setString(HappyTummy.userName, username);
+//      await HappyTummy.sharedPreferences.setString(HappyTummy.userAvatarUrl, gCurrentUser.photoUrl);
+//      await HappyTummy.sharedPreferences.setStringList(HappyTummy.userCartList, ['garbageValue']);
+
     }
 
     await followersReferences
