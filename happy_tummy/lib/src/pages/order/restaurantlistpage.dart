@@ -20,25 +20,17 @@ Future getrestaurants() async {
   return qn.documents;
 }
 
-//navigateToDetail(DocumentSnapshot restaurant) {
-//  Navigator.push(
-//    context,
-//    MaterialPageRoute(
-//      builder: (context) => RestaurantDetails(
-//        restaurant: restaurant,
-//      ),
-//    ),
-//  );
-//}
-
-navigateToDetail() {
+navigateToDetail(DocumentSnapshot restaurant) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => OrderFoodList(),
+      builder: (context) => OrderFoodList(
+        restaurant: restaurant,
+      ),
     ),
   );
 }
+
 
 @override
 void initState() {
@@ -85,10 +77,10 @@ void initState() {
                             ),
                             //margin: EdgeInsets.only(right: 20.0),
                             child: GestureDetector(
-//                              onTap: () =>
-////                                  navigateToDetail(snapshot.data[index]),
-                                                            onTap: () =>
-                                  navigateToDetail(),
+                              onTap: () =>
+                                  navigateToDetail(snapshot.data[index]),
+//                                                            onTap: () =>
+//                                  navigateToDetail(),
                               child: OrderSectionRestaurantList(
                                   id: snapshot.data[index].data['rid'],
                                   name: snapshot.data[index].data['name'],

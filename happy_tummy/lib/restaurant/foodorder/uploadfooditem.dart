@@ -224,7 +224,7 @@ class _UploaderState extends State<Uploader> {
 
     String downloadUrl = await uploadPhoto(widget.file);
 
-    savePostInfoToFireStore(url: downloadUrl,name: nameTextEditingController.text, description: descriptionTextEditingController.text,category: categoriesTextEditingController.text,price: priceTextEditingController.text);
+    savePostInfoToFireStore(url: downloadUrl,name: nameTextEditingController.text, description: descriptionTextEditingController.text,category: categoriesTextEditingController.text,price: int.parse(priceTextEditingController.text));
 
     nameTextEditingController.clear();
     descriptionTextEditingController.clear();
@@ -257,7 +257,7 @@ class _UploaderState extends State<Uploader> {
     return downloadUrl;
   }
 
-  savePostInfoToFireStore({String url, String name, String description,String category,String price}) {
+  savePostInfoToFireStore({String url, String name, String description,String category,int price}) {
     menuReference
         .document(widget.rid)
         .collection('restaurantFoodItems')
