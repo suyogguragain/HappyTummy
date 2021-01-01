@@ -210,7 +210,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantListPage()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantListPage(currentUser: currentUser.id,)));
               closeDrawer;
             },
             leading: Icon(Icons.shopping_cart),

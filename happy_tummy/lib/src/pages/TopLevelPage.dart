@@ -17,7 +17,6 @@ import 'package:happy_tummy/src/pages/UploadPage.dart';
 import 'package:happy_tummy/src/pages/event_page.dart';
 import 'package:happy_tummy/src/pages/home_page.dart';
 import 'package:happy_tummy/src/pages/offer_page.dart';
-import 'package:happy_tummy/src/pages/order/config/config.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();

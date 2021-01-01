@@ -12,8 +12,8 @@ AppBar header (context, {bool isAppTitle=false ,String strTitle, disableBackButt
       isAppTitle ? "HappyTummy" : strTitle,
       style: TextStyle(
         color: Colors.white,
-        fontFamily: isAppTitle ? 'PermanentMarker' : "PermanentMarker",
-        fontSize: isAppTitle ? 32.0 : 32.0,
+        fontFamily: isAppTitle ? 'Roboto' : "Roboto",
+        fontSize: isAppTitle ? 28.0 : 28.0,
       ),
       overflow: TextOverflow.ellipsis,
     ),

@@ -208,6 +208,7 @@ class Uploader extends StatefulWidget {
 }
 
 class _UploaderState extends State<Uploader> {
+
   final FirebaseStorage _storage =
       FirebaseStorage(storageBucket: 'gs://happy-tummy-app-472d1.appspot.com');
 
@@ -218,13 +219,29 @@ class _UploaderState extends State<Uploader> {
       TextEditingController();
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController priceTextEditingController = TextEditingController();
+  var selectedCurrency, selectedType;
+  List<String> _accountType = <String>[
+    'momo',
+    'chowmein',
+    'thukpa',
+    'chopsuey',
+    'pasta',
+    'beverges',
+    'desserts',
+    'non-veg',
+    'vegeterian',
+    'specialities',
+    'others',
+    'pizza',
+    'burgers'
+  ];
 
-  void _startUpload() async {
+  void _startUpload( String cate) async {
     await compressingPhoto();
 
     String downloadUrl = await uploadPhoto(widget.file);
 
-    savePostInfoToFireStore(url: downloadUrl,name: nameTextEditingController.text, description: descriptionTextEditingController.text,category: categoriesTextEditingController.text,price: int.parse(priceTextEditingController.text));
+    savePostInfoToFireStore(url: downloadUrl,name: nameTextEditingController.text, description: descriptionTextEditingController.text,category: cate,price: int.parse(priceTextEditingController.text));
 
     nameTextEditingController.clear();
     descriptionTextEditingController.clear();
@@ -279,26 +296,53 @@ class _UploaderState extends State<Uploader> {
     // Allows user to decide when to start the upload
     return Column(
       children: [
-        ListTile(
-          leading: Icon(
-            Icons.category,
-            color: Colors.black,
-            size: 30.0,
-          ),
-          title: Container(
-            width: 250.0,
-            child: TextField(
+//        ListTile(
+//          leading: Icon(
+//            Icons.category,
+//            color: Colors.black,
+//            size: 30.0,
+//          ),
+//          title: Container(
+//            width: 250.0,
+//            child: TextField(
+//              style: TextStyle(color: Colors.black),
+//              controller: categoriesTextEditingController,
+//              decoration: InputDecoration(
+//                hintText: "Category",
+//                hintStyle: TextStyle(
+//                    color: Colors.black38,
+//                    fontFamily: "Lobster",
+//                    fontSize: 20.0),
+//                border: InputBorder.none,
+//              ),
+//            ),
+//          ),
+//        ),
+        Divider(
+          indent: 20.0,
+          endIndent: 20.0,
+        ),
+        DropdownButton(
+          items: _accountType
+              .map((value) => DropdownMenuItem(
+            child: Text(
+              value,
               style: TextStyle(color: Colors.black),
-              controller: categoriesTextEditingController,
-              decoration: InputDecoration(
-                hintText: "Category",
-                hintStyle: TextStyle(
-                    color: Colors.black38,
-                    fontFamily: "Lobster",
-                    fontSize: 20.0),
-                border: InputBorder.none,
-              ),
             ),
+            value: value,
+          ))
+              .toList(),
+          onChanged: (selectedAccountType) {
+            print('$selectedAccountType');
+            setState(() {
+              selectedType = selectedAccountType;
+            });
+          },
+          value: selectedType,
+          isExpanded: false,
+          hint: Text(
+            'Choose Category Type',
+            style: TextStyle(color: Colors.black),
           ),
         ),
         Divider(
@@ -385,7 +429,8 @@ class _UploaderState extends State<Uploader> {
             label: Text('Upload ',style:TextStyle(fontSize: 20),),
             icon: Icon(Icons.cloud_upload),
             onPressed: () {
-              _startUpload();
+              print(selectedType);
+              _startUpload(selectedType);
               final snackBar = SnackBar(
                 backgroundColor: Colors.blue,
                 content: Text(

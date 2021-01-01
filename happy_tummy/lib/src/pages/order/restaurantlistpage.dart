@@ -6,6 +6,10 @@ import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class RestaurantListPage extends StatefulWidget {
+  final String currentUser;
+
+  RestaurantListPage({this.currentUser});
+
   @override
   _RestaurantListPageState createState() => _RestaurantListPageState();
 }
@@ -26,6 +30,7 @@ navigateToDetail(DocumentSnapshot restaurant) {
     MaterialPageRoute(
       builder: (context) => OrderFoodList(
         restaurant: restaurant,
+        currentUser: widget.currentUser,
       ),
     ),
   );

@@ -1,105 +1,17 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:flutter/material.dart';
-//import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-//import 'package:happy_tummy/src/models/fooditem_model.dart';
-//import 'package:happy_tummy/src/pages/order/widget/orderSearchBox.dart';
-//import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
-//
-//class OrderFoodList extends StatefulWidget {
-//  final DocumentSnapshot restaurant;
-//
-//  OrderFoodList({this.restaurant});
-//
-//  @override
-//  _OrderFoodListState createState() => _OrderFoodListState();
-//}
-//
-//class _OrderFoodListState extends State<OrderFoodList> {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text(
-//          "Food Menu",
-//        ),
-//        backgroundColor: Colors.black,
-//        centerTitle: true,
-//        actions: [
-//          Padding(
-//            padding: const EdgeInsets.only(right: 18.0),
-//            child: GestureDetector(
-//              child: Icon(
-//                Icons.add_shopping_cart,
-//                color: Colors.white,
-//                size: 27,
-//              ),
-//              onTap: () {
-//                print('cart');
-//              },
-//            ),
-//          ),
-//        ],
-//      ),
-//      body: CustomScrollView(
-//        slivers: [
-//          SliverPersistentHeader(pinned: true, delegate: SearchBoxDelegate()),
-////          StreamBuilder<QuerySnapshot>(
-////            stream: Firestore.instance.collection('restarurantMenu').document(widget.restaurant.data['rid']).collection('restaurantFoodItems').limit(15).orderBy("timestamp",descending: true).snapshots(),
-////            builder: (context,dataSnapshot){
-////              return !dataSnapshot.hasData
-////                  ? SliverToBoxAdapter(child: Center(child: circularProgress(),),)
-////                  : SliverStaggeredGrid.countBuilder(crossAxisCount: 1,  staggeredTileBuilder: (c) => StaggeredTile.fit(1), itemBuilder: (context,index){
-////                    FoodItemModel model = FoodItemModel.fromJson(dataSnapshot.data.documents[index].data);
-////                    return sourceInfo(model,context);
-////              },
-////                itemCount: dataSnapshot.data.documents.length,
-////              );
-////            },
-////          )
-//        Text(widget.restaurant.data['name']),
-//        ],
-//      ),
-//    );
-//  }
-//}
-////
-////Widget sourceInfo (FoodItemModel model, BuildContext context, {Color background, removeCartFunction}){
-////  return InkWell(
-////    splashColor: Colors.pink,
-////    child: Padding(
-////      padding: EdgeInsets.all(6),
-////      child: Container(
-////        height: 190.0,
-////        width: MediaQuery.of(context).size.width,
-////        child: Row(
-////          children: [
-////            Image.network(model.url,width: 140.0,height: 140.0,),
-////            SizedBox(width: 4.0,),
-////
-////          ],
-////        ),
-////      ),
-////    ),
-////  );
-////}
-//
-//
-////////////////////
-//
-//
-//
-//
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/models/fooditem_model.dart';
+import 'package:happy_tummy/src/pages/order/screen/myorder_page.dart';
+import 'package:happy_tummy/src/pages/order/screen/ordercart.dart';
+import 'package:happy_tummy/src/pages/order/widget/orderSearchBox.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class OrderFoodList extends StatefulWidget {
   final DocumentSnapshot restaurant;
+  final String currentUser;
 
-  OrderFoodList({this.restaurant});
+  OrderFoodList({this.restaurant, this.currentUser});
 
   @override
   _OrderFoodListState createState() => _OrderFoodListState();
@@ -115,14 +27,14 @@ class _OrderFoodListState extends State<OrderFoodList>
     super.initState();
   }
 
-
-  retrieveFoodItems() {
+  retrieveFoodItems(String str) {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('restarurantMenu')
           .document(widget.restaurant.data['rid'])
           .collection('restaurantFoodItems')
           .orderBy("timestamp", descending: false)
+          .where('category', isEqualTo: str)
           .snapshots(),
       builder: (context, dataSnapshot) {
         if (!dataSnapshot.hasData) {
@@ -133,6 +45,7 @@ class _OrderFoodListState extends State<OrderFoodList>
           fooditem.add(FoodItemModel.fromDocument(document));
         });
         return ListView(
+          scrollDirection: Axis.horizontal,
           children: fooditem,
         );
       },
@@ -148,74 +61,188 @@ class _OrderFoodListState extends State<OrderFoodList>
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: GestureDetector(
-              child: Icon(
-                Icons.add_shopping_cart,
-                color: Colors.white,
-                size: 27,
-              ),
-              onTap: () {
-                print('cart');
-              },
-            ),
-          ),
-        ],
       ),
       body: ListView(
         children: [
-          InkWell(
-            onTap: () {
-              print('searchfood');
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => SearchFoodItem(),
-//            ),
-//          );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black, Colors.black],
-                  begin: FractionalOffset(0.0, 0.0),
-                  end: FractionalOffset(1.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp,
-                ),
-              ),
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: 80.0,
-              child: InkWell(
+          Row(
+            children: [
+//              InkWell(
+//                onTap: () {
+//                  print('searchfood');
+////                  Navigator.push(
+////                    context,
+////                    MaterialPageRoute(
+////                      builder: (context) => SearchFood(
+////                        restaurantid: widget.restaurant.data['rid'],
+////                      ),
+////                    ),
+////                  );
+//                },
+//                child: Container(
+//                  decoration: BoxDecoration(
+//                    gradient: LinearGradient(
+//                      colors: [Colors.black, Colors.black],
+//                      begin: FractionalOffset(0.0, 0.0),
+//                      end: FractionalOffset(1.0, 0.0),
+//                      stops: [0.0, 1.0],
+//                      tileMode: TileMode.clamp,
+//                    ),
+//                  ),
+//                  alignment: Alignment.center,
+//                  width: MediaQuery.of(context).size.width * 0.7,
+//                  height: 80.0,
+//                  child: InkWell(
+//                    child: Container(
+//                      margin: EdgeInsets.only(left: 10, right: 10),
+//                      width: MediaQuery.of(context).size.width,
+//                      height: 50.0,
+//                      decoration: BoxDecoration(
+//                        color: Colors.white,
+//                        borderRadius: BorderRadius.circular(6),
+//                      ),
+//                      child: Row(
+//                        children: [
+//                          Padding(
+//                            padding: EdgeInsets.only(left: 8),
+//                            child: Icon(
+//                              Icons.search,
+//                              color: Colors.blueGrey,
+//                            ),
+//                          ),
+//                          Padding(
+//                            padding: EdgeInsets.only(left: 8),
+//                            child: Text("Search here"),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ),
+
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderCart(
+                        restaurantid: widget.restaurant.data['rid'],
+                      ),
+                    ),
+                  );
+                },
                 child: Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  width: MediaQuery.of(context).size.width,
-                  height: 50.0,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6),
+                    gradient: LinearGradient(
+                      colors: [Colors.black, Colors.black],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp,
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.blueGrey,
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 60.0,
+                  child: InkWell(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 45.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_shopping_cart,
+                              color: Colors.black,
+                              size: 27,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Cart",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Text("Search here"),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyOrderPage(restaurantid: widget.restaurant.data['rid'],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.black, Colors.black],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 60.0,
+                  child: InkWell(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 45.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.offline_pin,
+                              color: Colors.black,
+                              size: 27,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "My Order",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
           ),
           Container(
             child: Stack(
@@ -223,9 +250,37 @@ class _OrderFoodListState extends State<OrderFoodList>
                 Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height,
+                      height: 260,
                       child: Container(
-                        child: retrieveFoodItems(),
+                        child: retrieveFoodItems('pasta'),
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 260,
+                      child: Container(
+                        child: retrieveFoodItems("vegeterian"),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 260,
+                      child: Container(
+                        child: retrieveFoodItems("beverges"),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 260,
+                      child: Container(
+                        child: retrieveFoodItems("momo"),
                       ),
                     ),
                   ],
