@@ -6,6 +6,10 @@ import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class RestaurantListPage extends StatefulWidget {
+  final String currentUser;
+
+  RestaurantListPage({this.currentUser});
+
   @override
   _RestaurantListPageState createState() => _RestaurantListPageState();
 }
@@ -20,25 +24,18 @@ Future getrestaurants() async {
   return qn.documents;
 }
 
-//navigateToDetail(DocumentSnapshot restaurant) {
-//  Navigator.push(
-//    context,
-//    MaterialPageRoute(
-//      builder: (context) => RestaurantDetails(
-//        restaurant: restaurant,
-//      ),
-//    ),
-//  );
-//}
-
-navigateToDetail() {
+navigateToDetail(DocumentSnapshot restaurant) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => OrderFoodList(),
+      builder: (context) => OrderFoodList(
+        restaurant: restaurant,
+        currentUser: widget.currentUser,
+      ),
     ),
   );
 }
+
 
 @override
 void initState() {
@@ -85,10 +82,10 @@ void initState() {
                             ),
                             //margin: EdgeInsets.only(right: 20.0),
                             child: GestureDetector(
-//                              onTap: () =>
-////                                  navigateToDetail(snapshot.data[index]),
-                                                            onTap: () =>
-                                  navigateToDetail(),
+                              onTap: () =>
+                                  navigateToDetail(snapshot.data[index]),
+//                                                            onTap: () =>
+//                                  navigateToDetail(),
                               child: OrderSectionRestaurantList(
                                   id: snapshot.data[index].data['rid'],
                                   name: snapshot.data[index].data['name'],

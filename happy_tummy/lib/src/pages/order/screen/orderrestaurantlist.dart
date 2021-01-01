@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 class OrderSectionRestaurantList extends StatefulWidget {
   final String id;
@@ -7,13 +7,16 @@ class OrderSectionRestaurantList extends StatefulWidget {
   final String imagePath;
   final String location;
 
-  OrderSectionRestaurantList({this.id, this.name, this.imagePath, this.location});
+  OrderSectionRestaurantList(
+      {this.id, this.name, this.imagePath, this.location});
 
   @override
-  _OrderSectionRestaurantListState createState() => _OrderSectionRestaurantListState();
+  _OrderSectionRestaurantListState createState() =>
+      _OrderSectionRestaurantListState();
 }
 
-class _OrderSectionRestaurantListState extends State<OrderSectionRestaurantList> {
+class _OrderSectionRestaurantListState
+    extends State<OrderSectionRestaurantList> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -22,7 +25,7 @@ class _OrderSectionRestaurantListState extends State<OrderSectionRestaurantList>
         children: <Widget>[
           Container(
             height: 110.0,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width ,
             child: Image.network(
               widget.imagePath,
               fit: BoxFit.cover,
@@ -73,12 +76,23 @@ class _OrderSectionRestaurantListState extends State<OrderSectionRestaurantList>
               ],
             ),
           ),
-
+          Positioned(
+            right: 0.0,
+            bottom: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.black, Colors.black12],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter),
+              ),
+              height: 110.0,
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: Icon(Icons.arrow_right,color: Colors.white,size: 50,),
+            ),
+          )
         ],
       ),
-
     );
   }
 }
-
-

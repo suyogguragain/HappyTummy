@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tummy/restaurant/bloc/blocDelegate.dart';
 import 'package:happy_tummy/restaurant/repositories/restaurantRepository.dart';
-import 'package:happy_tummy/src/pages/order/config/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app.dart';
 

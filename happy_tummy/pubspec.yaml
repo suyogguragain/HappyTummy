@@ -62,6 +62,8 @@ dependencies:
   smooth_star_rating: ^1.1.1
   url_launcher: ^5.5.2
   shared_preferences: ^0.5.6+1
+  get: ^3.13.2
+
 
 
 
@@ -118,6 +120,10 @@ flutter:
      - family: PermanentMarker
        fonts:
              - asset: assets/fonts/PermanentMarker-Regular.ttf
+
+     - family: Roboto
+       fonts:
+             - asset: assets/fonts/RobotoCondensed-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
