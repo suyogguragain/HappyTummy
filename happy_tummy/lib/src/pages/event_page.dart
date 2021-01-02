@@ -87,7 +87,7 @@ class _EventPageState extends State<EventPage> {
                     itemBuilder: (_, index) {
                       return ListTile(
                         title: Container(
-                          height: 150,
+                          height: 140,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,

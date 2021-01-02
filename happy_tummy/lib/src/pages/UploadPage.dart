@@ -63,19 +63,19 @@ class _UploadPageState extends State<UploadPage>  with AutomaticKeepAliveClientM
           children: <Widget>[
             SimpleDialogOption(
               child: Text('Capture image with camera',style: TextStyle(
-                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Roboto",),
               ),
               onPressed: captureImageWithCamera,
             ),
             SimpleDialogOption(
               child: Text('Select image from gallery',style: TextStyle(
-                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Roboto",),
               ),
               onPressed: pickImageFromGallery,
             ),
             SimpleDialogOption(
               child: Text('Cancel',style: TextStyle(
-                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Lobster",),
+                color: Colors.black,fontWeight: FontWeight.normal,fontSize: 20.0,fontFamily: "Roboto",),
               ),
               onPressed:() => Navigator.pop(context),
             ),

@@ -76,38 +76,39 @@ class _TipCalculatorState extends State<TipCalculator> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.asset("assets/images/ht.png", width: 100,height: 100,),
-              SizedBox(height: 8,),
-              Text("Tip Calculator"),
-              SizedBox(height: 24,),
+              SizedBox(height: 12,),
+              Text("Tip Calculator", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30.0,color: Colors.black),),
+              SizedBox(height: 4,),
               TextField(
                 onChanged: (val){
                   billAmount = double.parse(val);
                 },
-                decoration: InputDecoration(hintText: "Bill"),
+                decoration: InputDecoration(hintText: "Bill",hintStyle: TextStyle(fontSize: 25,color: Colors.black54),),
                 keyboardType: TextInputType.number,
+                style: TextStyle(fontSize: 25),
               ),
               SizedBox(
                 height: 20,
               ),
               Row(
                 children: <Widget>[
-                  Text("Tip %"),
+                  Text("Tip %",style: TextStyle(fontSize: 25.0,color: Colors.black),),
                   Spacer(),
                   Row(
                     children: <Widget>[
                       GestureDetector(onTap: () {
                         tipPercentDecrement();
-                      }, child: Icon(Icons.remove_circle)),
+                      }, child: Icon(Icons.remove_circle, size: 30)),
                       SizedBox(
                         width: 8,
                       ),
-                      Text("$tipPercent %"),
+                      Text("$tipPercent %",style: TextStyle(fontSize: 20.0,color: Colors.black),),
                       SizedBox(
                         width: 8,
                       ),
                       GestureDetector(onTap: () {
                         tipPercentIncrement();
-                      }, child: Icon(Icons.add_circle))
+                      }, child: Icon(Icons.add_circle,size: 30))
                     ],
                   ),
                 ],
@@ -118,23 +119,23 @@ class _TipCalculatorState extends State<TipCalculator> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text("People"),
+                  Text("No.of People",style: TextStyle(fontSize: 25.0,color: Colors.black),),
                   Spacer(),
                   Row(
                     children: <Widget>[
                       GestureDetector(onTap: () {
                         peopleDecrement();
-                      }, child: Icon(Icons.remove_circle)),
+                      }, child: Icon(Icons.remove_circle,size: 30)),
                       SizedBox(
                         width: 8,
                       ),
-                      Text("$people"),
+                      Text("$people",style: TextStyle(fontSize: 20.0,color: Colors.black),),
                       SizedBox(
                         width: 8,
                       ),
                       GestureDetector(onTap: () {
                         peopleIncrement();
-                      }, child: Icon(Icons.add_circle))
+                      }, child: Icon(Icons.add_circle,size: 30,))
                     ],
                   ),
                 ],
@@ -147,21 +148,21 @@ class _TipCalculatorState extends State<TipCalculator> {
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 12,horizontal: 22),
+                  padding: EdgeInsets.symmetric(vertical: 16,horizontal: 32),
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(20)
                   ),
                   child: Text("Calculate", style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16
+                      fontSize: 25
                   ),),
                 ),
               ),
-              SizedBox(height: 16,),
-              tip != 0 ? Text(people == 1 ? "Tip : ${tip.toStringAsFixed(2)}": "Tip : ${tip.toStringAsFixed(2)} per person",style: TextStyle(fontSize: 18),) : Container(),
+              SizedBox(height: 36,),
+              tip != 0 ? Text(people == 1 ? "Tip : ${tip.toStringAsFixed(2)}": "Tip Per Person : Rs. ${tip.toStringAsFixed(2)}",style: TextStyle(fontSize: 28),) : Container(),
               SizedBox(height: 8,),
-              totalBill != 0 ? Text(people == 1 ? "Total : ${totalBill.toStringAsFixed(2)}": "Total : ${totalBill.toStringAsFixed(2)} per person",style: TextStyle(fontSize: 18)) : Container()
+              totalBill != 0 ? Text(people == 1 ? "Total : ${totalBill.toStringAsFixed(2)}": "Total Per Person : Rs.${totalBill.toStringAsFixed(2)}",style: TextStyle(fontSize: 28)) : Container()
             ],
           ),
         ),
