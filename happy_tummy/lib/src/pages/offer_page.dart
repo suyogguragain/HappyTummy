@@ -42,7 +42,41 @@ class _OfferPageState extends State<OfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(context, strTitle: "Offers"),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        title: Text(
+          "Offers",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Roboto",
+            fontSize: 28.0,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              child: Icon(
+                Icons.qr_code_scanner,
+                size: 30,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QRCode(),
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
       body: Container(
         child: FutureBuilder(
             future: _data,
@@ -86,10 +120,8 @@ class _OfferPageState extends State<OfferPage> {
                           height: 150,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(39),
-                            gradient: LinearGradient(colors: [
-                              Colors.black,
-                              Colors.black
-                            ]),
+                            gradient: LinearGradient(
+                                colors: [Colors.black, Colors.black]),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -148,17 +180,6 @@ class _OfferPageState extends State<OfferPage> {
                     });
               }
             }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QRCode(),
-            ),
-          );
-        },
-        child: Icon(Icons.qr_code_scanner),
       ),
     );
   }
@@ -303,12 +324,12 @@ class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
                               ),
                               ClipRRect(
                                   borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(8),
-                                      bottomRight: Radius.circular(8)),
+                                      topRight: Radius.circular(18),
+                                      bottomRight: Radius.circular(18)),
                                   child: Image.asset(
-                                    'assets/images/second.png',
+                                    'assets/images/offer.jpg',
                                     height: 170,
-                                    width: 150,
+                                    width: 170,
                                     fit: BoxFit.fill,
                                   )),
                             ],
@@ -317,7 +338,8 @@ class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
                       );
                     });
               }
-            }),
+            },
+        ),
       ),
     );
   }

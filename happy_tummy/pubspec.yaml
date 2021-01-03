@@ -25,6 +25,11 @@ dependencies:
     sdk: flutter
   flare_flutter: ^1.7.1
 
+  happytummy_sentiment:
+    git:
+      url: https://github.com/bi3wa3/happytummy_sentiment
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -63,7 +68,8 @@ dependencies:
   url_launcher: ^5.5.2
   shared_preferences: ^0.5.6+1
   get: ^3.13.2
-
+  timeline_tile: ^0.1.0
+  flutter_svg: ^0.18.0
 
 
 

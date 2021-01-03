@@ -16,15 +16,33 @@ class SubmitReview extends StatefulWidget {
 
 class _SubmitReviewState extends State<SubmitReview> {
   double rating = 0.0;
+  bool _validate = false;
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
 
-  saveReview(){
+  bool validateTextField(String userInput) {
+    if (userInput.isEmpty) {
+      setState(() {
+        _validate = true;
+      });
+      return false;
+    }
+    setState(() {
+      _validate = false;
+    });
+    return true;
+  }
+
+  saveReview() {
     print(descriptionEditingController.text);
     print(ratingEditingController.text);
     print(currentUser.id);
 
-    Firestore.instance.collection('restaurantreviews').document(widget.rId).collection("reviews").add({
+    Firestore.instance
+        .collection('restaurantreviews')
+        .document(widget.rId)
+        .collection("reviews")
+        .add({
       'username': currentUser.username,
       'description': descriptionEditingController.text,
       'rating': ratingEditingController.text,
@@ -34,20 +52,22 @@ class _SubmitReviewState extends State<SubmitReview> {
       'restaurantId': widget.rId,
     });
 
-    Firestore.instance.collection('bookevents')..document(widget.rId).collection("feedItems").add({
-      'type':'review',
-      'description': descriptionEditingController.text,
-      'rating': ratingEditingController.text,
-      'restaurantId': widget.rId,
-      'userId':currentUser.id,
-      'username':currentUser.username,
-      'userProfileImg':currentUser.url,
-      'timestamp':timestamp,
-    });
+    Firestore.instance.collection('bookevents')
+      ..document(widget.rId).collection("feedItems").add({
+        'type': 'review',
+        'description': descriptionEditingController.text,
+        'rating': ratingEditingController.text,
+        'restaurantId': widget.rId,
+        'userId': currentUser.id,
+        'username': currentUser.username,
+        'userProfileImg': currentUser.url,
+        'timestamp': timestamp,
+      });
 
     descriptionEditingController.clear();
     ratingEditingController.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +133,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                     controller: descriptionEditingController,
                     decoration: InputDecoration(
                       labelText: '              Write your review...',
+                      errorText: _validate ? 'Please enter a review' : null,
                       labelStyle: TextStyle(
                           color: Colors.black,
                           fontFamily: "Lobster",
@@ -126,7 +147,15 @@ class _SubmitReviewState extends State<SubmitReview> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: saveReview,
+                  onTap: () {
+                    setState(() {
+                      validateTextField(descriptionEditingController.text);
+                    });
+                    if (validateTextField(descriptionEditingController.text) ==
+                            true) {
+                      saveReview;
+                    }
+                  },
                   child: Container(
                     height: 60,
                     width: 180,
@@ -137,8 +166,8 @@ class _SubmitReviewState extends State<SubmitReview> {
                     child: Center(
                         child: Text(
                       "Send",
-                      style:
-                          TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 20),
                     )),
                   ),
                 ),

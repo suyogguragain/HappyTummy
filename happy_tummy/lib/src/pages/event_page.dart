@@ -348,16 +348,21 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                   ),
                                 ),
                               ),
-                              ClipRRect(
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20,bottom: 20),
+                                child: ClipRRect(
                                   borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(8),
-                                      bottomRight: Radius.circular(8)),
-                                  child: Image.asset(
-                                    'assets/images/second.png',
-                                    height: 120,
-                                    width: 100,
-                                    fit: BoxFit.fill,
-                                  )),
+                                      topRight: Radius.circular(18),
+                                      bottomLeft: Radius.circular(18),
+                                      topLeft: Radius.circular(18),
+                                      bottomRight: Radius.circular(18)),
+                                    child: Image.asset(
+                                      'assets/images/event.jpg',
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.fill,
+                                    )),
+                              ),
                             ],
                           ),
                         ),

@@ -98,9 +98,7 @@ class NoticationsItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
             topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
           color: Colors.white,
