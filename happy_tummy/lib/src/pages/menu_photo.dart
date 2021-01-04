@@ -29,7 +29,6 @@ class _MenuPhotoPageState extends State<MenuPhotoPage> {
       return circularProgress();
     } else if (menuList.isEmpty) {
       return Container(
-
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -73,7 +72,7 @@ class _MenuPhotoPageState extends State<MenuPhotoPage> {
         gridTilesList.add(GridTile(child: RestaurantMenuTile(eachPost)));
       });
       return SizedBox(
-        height: 320,
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: ListView(
           scrollDirection: Axis.vertical,

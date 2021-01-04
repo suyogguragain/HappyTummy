@@ -14,36 +14,34 @@ class RestaurantListPage extends StatefulWidget {
   _RestaurantListPageState createState() => _RestaurantListPageState();
 }
 
-class _RestaurantListPageState extends State<RestaurantListPage> { Future _data;
+class _RestaurantListPageState extends State<RestaurantListPage> {
+  Future _data;
 
-Future getrestaurants() async {
-  var firestore = Firestore.instance;
+  Future getrestaurants() async {
+    var firestore = Firestore.instance;
 
-  QuerySnapshot qn = await firestore.collection('restaurants').getDocuments();
+    QuerySnapshot qn = await firestore.collection('restaurants').getDocuments();
 
-  return qn.documents;
-}
+    return qn.documents;
+  }
 
-navigateToDetail(DocumentSnapshot restaurant) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => OrderFoodList(
-        restaurant: restaurant,
-        currentUser: widget.currentUser,
+  navigateToDetail(DocumentSnapshot restaurant) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderFoodList(
+          restaurant: restaurant,
+          currentUser: widget.currentUser,
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-
-@override
-void initState() {
-  super.initState();
-  _data = getrestaurants();
-}
-
-
+  @override
+  void initState() {
+    super.initState();
+    _data = getrestaurants();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +68,8 @@ void initState() {
                         itemCount: snapshot.data.length,
                         itemBuilder: (_, index) {
                           return Container(
-                            margin: EdgeInsets.only(top: 10,left: 10,right: 10),
+                            margin:
+                                EdgeInsets.only(top: 10, left: 10, right: 10),
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
@@ -91,7 +90,7 @@ void initState() {
                                   name: snapshot.data[index].data['name'],
                                   imagePath: snapshot.data[index].data['photo'],
                                   location:
-                                  snapshot.data[index].data['location']),
+                                      snapshot.data[index].data['location']),
                             ),
                           );
                         });
