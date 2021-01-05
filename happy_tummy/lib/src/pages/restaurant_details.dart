@@ -178,9 +178,10 @@ class _RestaurantDetailsState extends State<RestaurantDetails>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        centerTitle: true,
         title: Text(
           widget.restaurant.data['name'],
-          style: TextStyle(fontFamily: "Lobster", fontSize: 25),
+          style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
       ),
       body: ListView(

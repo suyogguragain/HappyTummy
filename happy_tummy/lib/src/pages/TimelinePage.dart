@@ -123,7 +123,7 @@ class _TimelinePageState extends State<TimelinePage> {
           "HappyTummy",
           style: TextStyle(
             color: Colors.white,
-            fontFamily: "PermanentMarker",
+            fontFamily: "Roboto",
             fontSize: 32.0,
           ),
           overflow: TextOverflow.ellipsis,

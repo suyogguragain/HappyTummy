@@ -29,9 +29,10 @@ class _MealTypeViewState extends State<MealTypeView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+          centerTitle: true,
           title: Text(
             'Happy Tummy',
-            style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+            style: TextStyle(fontSize: 30, fontFamily: "Roboto"),
           ),
           backgroundColor: Colors.black,
         ),

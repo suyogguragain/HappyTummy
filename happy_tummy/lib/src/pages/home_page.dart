@@ -66,24 +66,30 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Container(
-          width: 250.0,
-          child: TextField(
-            style: TextStyle(
-                color: Colors.white, fontFamily: "Lobster", fontSize: 20.0),
-            controller: locationTextEditingController,
-            decoration: InputDecoration(
-              hintText: "Happy Tummy",
-              hintStyle: TextStyle(
-                  color: Colors.white, fontFamily: "Lobster", fontSize: 30.0),
-              border: InputBorder.none,
-            ),
-          ),
+        centerTitle: true,
+        title: Text(
+          'Happy Tummy',
+          style: TextStyle(
+              color: Colors.white, fontFamily: "Roboto", fontSize: 30.0),
         ),
-        leading: GestureDetector(
-          onTap: getUserCurrentLocation,
-          child: Icon(Icons.location_on),
-        ),
+//        title: Container(
+//          width: 250.0,
+//          child: TextField(
+//            style: TextStyle(
+//                color: Colors.white, fontFamily: "Lobster", fontSize: 20.0),
+//            controller: locationTextEditingController,
+//            decoration: InputDecoration(
+//              hintText: "Happy Tummy",
+//              hintStyle: TextStyle(
+//                  color: Colors.white, fontFamily: "Roboto", fontSize: 30.0),
+//              border: InputBorder.none,
+//            ),
+//          ),
+//        ),
+//        leading: GestureDetector(
+//          onTap: getUserCurrentLocation,
+//          child: Icon(Icons.location_on),
+//        ),
       ),
       body: ListView(
         padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
@@ -163,7 +169,8 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.grey.withOpacity(0.5),
                                   spreadRadius: 5,
                                   blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ],
                             ),

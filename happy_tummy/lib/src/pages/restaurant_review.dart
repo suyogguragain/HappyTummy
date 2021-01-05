@@ -72,10 +72,11 @@ class _SubmitReviewState extends State<SubmitReview> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.black87,
           title: Text(
             'Review',
-            style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+            style: TextStyle(fontSize: 30, fontFamily: "Roboto"),
           ),
         ),
         body: SingleChildScrollView(
@@ -136,14 +137,14 @@ class _SubmitReviewState extends State<SubmitReview> {
                       errorText: _validate ? 'Please enter a review' : null,
                       labelStyle: TextStyle(
                           color: Colors.black,
-                          fontFamily: "Lobster",
-                          fontSize: 25.0),
+                          fontFamily: "Roboto",
+                          fontSize: 35.0),
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                     ),
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.black,fontSize: 25),
                   ),
                 ),
                 GestureDetector(
@@ -151,11 +152,13 @@ class _SubmitReviewState extends State<SubmitReview> {
                     setState(() {
                       validateTextField(descriptionEditingController.text);
                     });
-                    if (validateTextField(descriptionEditingController.text) ==
-                            true) {
-                      saveReview;
-                      print('godd job');
-                    }
+                    saveReview();
+//                    if (validateTextField(descriptionEditingController.text) ==
+//                            true) {
+//                      saveReview;
+//                      print(descriptionEditingController.text);
+//                    }
+                  Navigator.of(context).pop();
                   },
                   child: Container(
                     height: 60,

@@ -114,9 +114,10 @@ class _MenuPhotoPageState extends State<MenuPhotoPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
+        centerTitle: true,
         title: Text(
           'Menu',
-          style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+          style: TextStyle(fontSize: 30, fontFamily: "Roboto"),
         ),
       ),
       body: Container(
