@@ -2,11 +2,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_tummy/restaurant/foodorder/foodItem_Card.dart';
 import 'package:happy_tummy/restaurant/foodorder/foodshiftorder.dart';
 import 'package:happy_tummy/restaurant/models/food_model.dart';
 import 'package:happy_tummy/restaurant/ui/widget/tabs.dart';
-import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as InD;
 import 'package:path_provider/path_provider.dart';
@@ -25,78 +23,164 @@ class _UploadFoodItemPageState extends State<UploadFoodItemPage> {
   bool loading = false;
   int countPost = 0;
   List<FoodItem> postsList = [];
+  Stream taskStream;
 
-  displayProfilePost() {
-    if (loading) {
-      return circularProgress();
-    } else if (postsList.isEmpty) {
-      return Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top:30.0),
-              child: Icon(
-                Icons.photo_library,
-                color: Colors.grey,
-                size: 150.0,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: Text(
-                'No Food Items',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Lobster"),
-              ),
-            )
-          ],
-        ),
-      );
-    } else {
-      List<GridTile> gridTilesList = [];
-      postsList.forEach((eachPost) {
-        gridTilesList.add(GridTile(child: MenuTile(eachPost)));
-      });
-      return GridView.count(
-        crossAxisCount: 1,
-        childAspectRatio: 3.5,
-        mainAxisSpacing: 1.5,
-        crossAxisSpacing: 0.5,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: gridTilesList,
-      );
-    }
+  deleteTask(String restaurantId, String postId) {
+    Firestore.instance
+        .collection("restarurantMenu")
+        .document(restaurantId)
+        .collection("restaurantFoodItems")
+        .document(postId)
+        .delete()
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 
-  getAllProfilePost() async {
-    setState(() {
-      loading = true;
-    });
-
-    QuerySnapshot querySnapshot = await Firestore.instance
-        .collection("restarurantMenu")
-        .document(widget.restaurantProfileId)
-        .collection("restaurantFoodItems")
-        .orderBy("timestamp", descending: true)
-        .getDocuments();
-
-    setState(() {
-      loading = false;
-      countPost = querySnapshot.documents.length;
-      postsList = querySnapshot.documents
-          .map((documentSnapshot) => FoodItem.fromDocument(documentSnapshot))
-          .toList();
-    });
+  Widget retrieveFoodItems() {
+    return StreamBuilder(
+      stream: taskStream,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.only(top: 3),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 100,
+                        margin: EdgeInsets.only(
+                            top: 10, left: 10, right: 10, bottom: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.teal[50],
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(8, 10, 10, 10),
+                              width: MediaQuery.of(context).size.width / 3.2,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image(
+                                  image: NetworkImage(
+                                    snapshot.data.documents[index].data["url"],
+                                  ),
+                                  fit: BoxFit.fill,
+                                  height:
+                                      MediaQuery.of(context).size.height / 7,
+                                  width: MediaQuery.of(context).size.height / 5,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 20, 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Text(
+                                        snapshot
+                                            .data.documents[index].data["name"],
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          fontFamily: 'PermantMarker',
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 1.0,
+                                        )),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                        snapshot.data.documents[index]
+                                            .data["category"],
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'PermantMarker',
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.5,
+                                            color: Colors.blue)),
+                                    SizedBox(height: 10),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: 'Rs.',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFFF4D479),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      TextSpan(
+                                        text: snapshot
+                                            .data.documents[index].data["price"]
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Color(0xFFF4D479),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ])),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 8,
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      deleteTask(
+                                          snapshot.data.documents[index]
+                                              .data["ownerId"],
+                                          snapshot.data.documents[index]
+                                              .data["postId"]);
+                                    },
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.redAccent,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                })
+            : Text(
+                'suyog',
+                style: TextStyle(fontSize: 50),
+              );
+      },
+    );
   }
 
   @override
   void initState() {
-    getAllProfilePost();
+    getTasks(widget.restaurantProfileId).then((val) {
+      taskStream = val;
+      setState(() {});
+    });
+
     super.initState();
   }
 
@@ -141,8 +225,9 @@ class _UploadFoodItemPageState extends State<UploadFoodItemPage> {
         title: Center(child: Text("Add New FoodItem")),
         actions: [
           FlatButton(
-              onPressed: (){
-                Route route = MaterialPageRoute(builder: (c) => FoodShiftOrders());
+              onPressed: () {
+                Route route =
+                    MaterialPageRoute(builder: (c) => FoodShiftOrders(restaurantProfileId: widget.restaurantProfileId,));
                 Navigator.pushReplacement(context, route);
               },
               child: Icon(
@@ -171,9 +256,15 @@ class _UploadFoodItemPageState extends State<UploadFoodItemPage> {
 
       // Preview the image and crop it
       body: ListView(
+        scrollDirection: Axis.vertical,
         children: <Widget>[
           if (_imageFile != null) ...[
-            Container(height: 200,width: 200, child: Image.file(_imageFile),color: Colors.white,),
+            Container(
+              height: 200,
+              width: 200,
+              child: Image.file(_imageFile),
+              color: Colors.white,
+            ),
             Row(
               children: <Widget>[
                 Text(
@@ -191,7 +282,7 @@ class _UploadFoodItemPageState extends State<UploadFoodItemPage> {
             ),
             Uploader(file: _imageFile, rid: widget.restaurantProfileId)
           ] else ...[
-            displayProfilePost(),
+            Container(child: retrieveFoodItems(),height: MediaQuery.of(context).size.height,)
           ]
         ],
       ),
@@ -208,7 +299,6 @@ class Uploader extends StatefulWidget {
 }
 
 class _UploaderState extends State<Uploader> {
-
   final FirebaseStorage _storage =
       FirebaseStorage(storageBucket: 'gs://happy-tummy-app-472d1.appspot.com');
 
@@ -236,12 +326,17 @@ class _UploaderState extends State<Uploader> {
     'burgers'
   ];
 
-  void _startUpload( String cate) async {
+  void _startUpload(String cate) async {
     await compressingPhoto();
 
     String downloadUrl = await uploadPhoto(widget.file);
 
-    savePostInfoToFireStore(url: downloadUrl,name: nameTextEditingController.text, description: descriptionTextEditingController.text,category: cate,price: int.parse(priceTextEditingController.text));
+    savePostInfoToFireStore(
+        url: downloadUrl,
+        name: nameTextEditingController.text,
+        description: descriptionTextEditingController.text,
+        category: cate,
+        price: int.parse(priceTextEditingController.text));
 
     nameTextEditingController.clear();
     descriptionTextEditingController.clear();
@@ -274,7 +369,12 @@ class _UploaderState extends State<Uploader> {
     return downloadUrl;
   }
 
-  savePostInfoToFireStore({String url, String name, String description,String category,int price}) {
+  savePostInfoToFireStore(
+      {String url,
+      String name,
+      String description,
+      String category,
+      int price}) {
     menuReference
         .document(widget.rid)
         .collection('restaurantFoodItems')
@@ -284,10 +384,10 @@ class _UploaderState extends State<Uploader> {
       'ownerId': widget.rid,
       'timestamp': DateTime.now(),
       'url': url,
-      'name':name,
-      'description':description,
-      'category':category,
-      'price':price,
+      'name': name,
+      'description': description,
+      'category': category,
+      'price': price,
     });
   }
 
@@ -325,12 +425,12 @@ class _UploaderState extends State<Uploader> {
         DropdownButton(
           items: _accountType
               .map((value) => DropdownMenuItem(
-            child: Text(
-              value,
-              style: TextStyle(color: Colors.black),
-            ),
-            value: value,
-          ))
+                    child: Text(
+                      value,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    value: value,
+                  ))
               .toList(),
           onChanged: (selectedAccountType) {
             print('$selectedAccountType');
@@ -426,7 +526,10 @@ class _UploaderState extends State<Uploader> {
         ),
         Container(
           child: FlatButton.icon(
-            label: Text('Upload ',style:TextStyle(fontSize: 20),),
+            label: Text(
+              'Upload ',
+              style: TextStyle(fontSize: 20),
+            ),
             icon: Icon(Icons.cloud_upload),
             onPressed: () {
               print(selectedType);

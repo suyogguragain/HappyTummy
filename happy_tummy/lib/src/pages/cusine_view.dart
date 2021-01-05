@@ -29,8 +29,9 @@ class _CusineViewState extends State<CusineView> {
         appBar: new AppBar(
           title: Text(
             'Happy Tummy',
-            style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+            style: TextStyle(fontSize: 30, fontFamily: "Roboto"),
           ),
+          centerTitle: true,
           backgroundColor: Colors.black,
         ),
         body: ListView(children: <Widget>[

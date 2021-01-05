@@ -58,7 +58,7 @@ class Tabs extends StatelessWidget {
             centerTitle: true,
             title: Text(
               "Happy Tummy",
-              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold,fontFamily: "Lobster"),
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold,fontFamily: "Roboto"),
             ),
             actions: <Widget>[
               IconButton(

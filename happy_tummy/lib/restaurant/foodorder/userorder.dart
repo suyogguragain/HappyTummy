@@ -1,21 +1,22 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 import 'package:happy_tummy/src/pages/order/screen/icon_svg.dart';
+import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class MyOrderPage extends StatefulWidget {
+class UserOrder extends StatefulWidget {
   final String restaurantid;
+  final String userid;
 
-  MyOrderPage({this.restaurantid});
+  UserOrder({this.restaurantid,this.userid});
 
   @override
-  _MyOrderPageState createState() => _MyOrderPageState();
+  _UserOrderState createState() => _UserOrderState();
 }
 
-class _MyOrderPageState extends State<MyOrderPage> {
+class _UserOrderState extends State<UserOrder> {
   Stream taskStream;
   Stream addressStream;
 
@@ -25,86 +26,86 @@ class _MyOrderPageState extends State<MyOrderPage> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                padding: EdgeInsets.only(top: 3),
-                itemCount: snapshot.data.documents.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15, right: 15, bottom: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.teal[50],
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            )),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
-                              width: MediaQuery.of(context).size.width / 5,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image(
-                                  image: NetworkImage(
-                                    snapshot.data.documents[index].data["url"],
-                                  ),
-                                  fit: BoxFit.fill,
-                                ),
+            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.only(top: 3),
+            itemCount: snapshot.data.documents.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    margin: EdgeInsets.only(
+                        top: 10, left: 15, right: 15, bottom: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.teal[50],
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        )),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+                          width: MediaQuery.of(context).size.width / 5,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image(
+                              image: NetworkImage(
+                                snapshot.data.documents[index].data["url"],
                               ),
+                              fit: BoxFit.fill,
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      snapshot
-                                          .data.documents[index].data["name"],
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontFamily: 'PermantMarker',
-                                        fontWeight: FontWeight.w700,
-                                        letterSpacing: 1.0,
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 8,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      snapshot.data.documents[index]
-                                          .data["quantity"]
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'PermantMarker',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.5,
-                                          color: Colors.blue)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 9,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  RichText(
-                                      text: TextSpan(children: [
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  snapshot
+                                      .data.documents[index].data["name"],
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontFamily: 'PermantMarker',
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1.0,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 8,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  snapshot.data.documents[index]
+                                      .data["quantity"]
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'PermantMarker',
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 0.5,
+                                      color: Colors.blue)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 9,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(
+                                  text: TextSpan(children: [
                                     TextSpan(
                                       text: 'Rs.',
                                       style: TextStyle(
@@ -123,15 +124,15 @@ class _MyOrderPageState extends State<MyOrderPage> {
                                       ),
                                     ),
                                   ]))
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                })
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            })
             : Text('');
       },
     );
@@ -143,62 +144,62 @@ class _MyOrderPageState extends State<MyOrderPage> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                padding: EdgeInsets.only(top: 3),
-                itemCount: snapshot.data.documents.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15, right: 15, bottom: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.teal[50],
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            )),
-                        child: Column(
-                          children: [
-                            Text(
-                              snapshot.data.documents[index].data["address"],
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontFamily: 'PermantMarker',
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.5,
-                                  color: Colors.redAccent),
-                            ),
-                            Text(
-                              snapshot.data.documents[index].data["username"],
-                              style: TextStyle(
-                                fontSize: 28.0,
-                                fontFamily: 'PermantMarker',
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.0,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data.documents[index].data["phone"]
-                                  .toString(),
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: 'PermantMarker',
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.5,
-                                  color: Colors.blue),
-                            ),
-                          ],
+            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.only(top: 3),
+            itemCount: snapshot.data.documents.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 120,
+                    margin: EdgeInsets.only(
+                        top: 10, left: 15, right: 15, bottom: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.teal[50],
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        )),
+                    child: Column(
+                      children: [
+                        Text(
+                          snapshot.data.documents[index].data["address"],
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: 'PermantMarker',
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.5,
+                              color: Colors.redAccent),
                         ),
-                      ),
-                    ],
-                  );
-                })
+                        Text(
+                          snapshot.data.documents[index].data["username"],
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            fontFamily: 'PermantMarker',
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        Text(
+                          snapshot.data.documents[index].data["phone"]
+                              .toString(),
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontFamily: 'PermantMarker',
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.5,
+                              color: Colors.blue),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            })
             : Text('');
       },
     );
@@ -206,12 +207,12 @@ class _MyOrderPageState extends State<MyOrderPage> {
 
   @override
   void initState() {
-    getTasks(currentUser.id).then((val) {
+    getTasks().then((val) {
       taskStream = val;
       setState(() {});
     });
 
-    getAddress(currentUser.id).then((val) {
+    getAddress().then((val) {
       addressStream = val;
       setState(() {});
     });
@@ -219,22 +220,22 @@ class _MyOrderPageState extends State<MyOrderPage> {
     super.initState();
   }
 
-  getAddress(String userId) async {
+  getAddress() async {
     return await Firestore.instance
         .collection("order")
         .document(widget.restaurantid)
         .collection('checkout')
-        .document(userId)
+        .document(widget.userid)
         .collection("address")
         .snapshots();
   }
 
-  getTasks(String userId) async {
+  getTasks() async {
     return await Firestore.instance
         .collection("order")
         .document(widget.restaurantid)
         .collection('checkout')
-        .document(userId)
+        .document(widget.userid)
         .collection("foodlist")
         .snapshots();
   }

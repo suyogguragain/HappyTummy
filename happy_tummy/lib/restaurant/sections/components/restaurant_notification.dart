@@ -26,7 +26,7 @@ class _RestaurantNotificationPageState extends State<RestaurantNotificationPage>
         title: Text("Notification" ,
           style: TextStyle(
             color: Colors.white,
-            fontFamily: "PermanentMarker",
+            fontFamily: "Roboto",
             fontSize:32.0,
           ),
           overflow: TextOverflow.ellipsis,
@@ -138,11 +138,11 @@ class NoticationsItem extends StatelessWidget {
                 TextSpan(
                     text: '$username',
                     style: TextStyle(
-                        fontWeight: FontWeight.normal, fontFamily: "Lobster")),
+                        fontWeight: FontWeight.normal, fontFamily: "Roboto")),
                 TextSpan(
-                    text: " $notificationItemText",
+                    text: "   $notificationItemText",
                     style: TextStyle(
-                        fontWeight: FontWeight.normal, fontFamily: "Lobster")),
+                        fontWeight: FontWeight.bold, fontFamily: "Roboto")),
               ],
             ),
           ),

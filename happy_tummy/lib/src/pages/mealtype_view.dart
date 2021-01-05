@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/restaurant_details.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
+import 'package:happy_tummy/src/widgets/restaurant.dart';
 
 class MealTypeView extends StatefulWidget {
   final String mealtype;
@@ -27,9 +29,10 @@ class _MealTypeViewState extends State<MealTypeView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+          centerTitle: true,
           title: Text(
             'Happy Tummy',
-            style: TextStyle(fontSize: 30, fontFamily: "Lobster"),
+            style: TextStyle(fontSize: 30, fontFamily: "Roboto"),
           ),
           backgroundColor: Colors.black,
         ),
@@ -91,9 +94,7 @@ class UserResult extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
             topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
           color: Colors.white,
@@ -114,7 +115,8 @@ class UserResult extends StatelessWidget {
                 //displayUserProfile(context, userprofileId: eachUser.id);
               },
               child: ListTile(
-                contentPadding: EdgeInsets.only(top: 2.0, left: 10.0,bottom: 2.0,right: 10),
+                contentPadding: EdgeInsets.only(
+                    top: 2.0, left: 10.0, bottom: 2.0, right: 10),
                 title: Row(
                   children: [
                     Container(

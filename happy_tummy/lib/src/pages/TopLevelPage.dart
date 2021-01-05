@@ -7,6 +7,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:foldable_sidebar/foldable_sidebar.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:happy_tummy/restaurant/restaur.dart';
@@ -18,6 +19,7 @@ import 'package:happy_tummy/src/pages/event_page.dart';
 import 'package:happy_tummy/src/pages/home_page.dart';
 import 'package:happy_tummy/src/pages/offer_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection('users');
@@ -48,7 +50,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
   final passwordFocusNode = FocusNode();
   PageController pageController;
   int getPageIndex = 0;
-  //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FSBStatus status;
   //final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -91,7 +93,6 @@ class _TopLevelPageState extends State<TopLevelPage> {
 //        Route route = MaterialPageRoute(builder: (c) => TimelinePage());
 //        Navigator.pushReplacement(context, route);
 //      });
-
 
       setState(() {
         isSignedIn = true;
@@ -157,8 +158,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
         'email': gCurrentUser.email,
         'bio': '',
         'timestamp': timestamp,
-        'userCart':{},
-
+        'userCart': {},
       });
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
 
@@ -198,8 +198,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
       //key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.black54, Colors.black]),
+          gradient: LinearGradient(colors: [Colors.black54, Colors.black]),
         ),
         child: ModalProgressHUD(
           inAsyncCall: showSpinner,
@@ -354,7 +353,7 @@ class _TopLevelPageState extends State<TopLevelPage> {
                         onPressed: () async {
                           setState(() {
                             animationType = "success";
-                            isSignedIn = true;
+                            //isSignedIn = true;
                             showSpinner = false;
                           });
                           logInUser();
@@ -456,28 +455,49 @@ class _TopLevelPageState extends State<TopLevelPage> {
 
   Scaffold buildHomeScreen() {
     return Scaffold(
-      body: PageView(
-        children: <Widget>[
-          TimelinePage(
-            gCurrentUser: currentUser,
+      body: SwipeDetector(
+        onSwipeLeft: (){
+          status = FSBStatus.FSB_CLOSE;
+        },
+        onSwipeRight: (){
+          status = FSBStatus.FSB_OPEN;
+        },
+        child: FoldableSidebarBuilder(
+          status: status,
+          drawer: CustomDrawer(
+            closeDrawer: () {
+              setState(() {
+                status = FSBStatus.FSB_CLOSE;
+              });
+            },
           ),
-          UploadPage(
-            gCurrentUser: currentUser,
+          screenContents: PageView(
+         // child: PageView(
+            children: <Widget>[
+              TimelinePage(
+                gCurrentUser: currentUser,
+              ),
+              UploadPage(
+                gCurrentUser: currentUser,
+              ),
+              HomePage(),
+              EventPage(
+                gCurrentUser: currentUser,
+              ),
+              OfferPage(),
+              //ProfilePage(userProfileId: currentUser?.id),
+            ],
+            controller: pageController,
+            onPageChanged: whenPageChanges,
+            physics: NeverScrollableScrollPhysics(),
           ),
-          HomePage(),
-          EventPage(gCurrentUser: currentUser,),
-          OfferPage(),
-          //ProfilePage(userProfileId: currentUser?.id),
-        ],
-        controller: pageController,
-        onPageChanged: whenPageChanges,
-        physics: NeverScrollableScrollPhysics(),
+        ),
       ),
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: getPageIndex,
         onTap: onTapChangePage,
         backgroundColor: Colors.black,
-        activeColor: Colors.deepOrange,
+        activeColor: Colors.blueGrey,
         inactiveColor: Colors.white,
         items: [
           BottomNavigationBarItem(
@@ -512,6 +532,15 @@ class _TopLevelPageState extends State<TopLevelPage> {
           ),
           //BottomNavigationBarItem(icon: Icon(Icons.person,), title: Text("Profile"),),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: ( ) {
+          setState(() {
+            status = status == FSBStatus.FSB_OPEN ? FSBStatus.FSB_CLOSE  : FSBStatus.FSB_OPEN;
+          });
+        },
+        child: Icon(Icons.menu,color: Colors.blueGrey,),
+        backgroundColor: Colors.white,
       ),
     );
   }

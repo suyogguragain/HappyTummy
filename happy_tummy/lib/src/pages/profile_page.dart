@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
         return Padding(
           padding: EdgeInsets.all(17.0),
           child: Container(
-            height: 290,
+            height: 300,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(40),
               color: Colors.white,
@@ -99,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 5,
+                  height: 15,
                 ),
                 CircleAvatar(
                   radius: 45.0,
@@ -113,13 +113,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     user.username,
                     style: TextStyle(
                         fontSize: 24.0,
-                        color: Colors.black38,
-                        fontFamily: "Lobster"),
+                        color: Colors.black,
+                        fontFamily: "Roboto"),
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 5.0, right: 33.0),
+                  padding: EdgeInsets.only(top: 5.0),
                   child: Text(
                     user.profileName,
                     style: TextStyle(fontSize: 16.0, color: Colors.black45),
@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 3.0),
                   child: Text(
-                    user.bio,
+                    user.bio.trim(),
                     style: TextStyle(fontSize: 14.0, color: Colors.black45),
                   ),
                 ),
@@ -142,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: <Widget>[
                           createButton(),
                           SizedBox(
-                            height: 12.0,
+                            height: 10.0,
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
@@ -329,23 +329,20 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(30.0),
+              padding: EdgeInsets.only(top:30.0),
               child: Icon(
                 Icons.photo_library,
                 color: Colors.grey,
-                size: 200.0,
+                size: 100.0,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: Text(
-                'No Posts',
-                style: TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Lobster"),
-              ),
+            Text(
+              'No Posts',
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Lobster"),
             )
           ],
         ),

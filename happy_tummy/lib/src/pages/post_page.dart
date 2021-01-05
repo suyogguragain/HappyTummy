@@ -32,7 +32,7 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
     return AppBar(
       backgroundColor: Colors.black,
        title: TextFormField(
-          style: TextStyle(fontSize: 20.0,color: Colors.white,fontFamily:'PermanentMarker',),
+          style: TextStyle(fontSize: 20.0,color: Colors.white,fontFamily:'Roboto',),
           controller: searchTextEditingController,
           decoration: InputDecoration(
               hintText: 'Search Users',

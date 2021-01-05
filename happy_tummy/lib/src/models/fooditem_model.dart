@@ -58,7 +58,7 @@ class FoodItemModel extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Container(
-              height: 260,
+              height: MediaQuery.of(context).size.height / 3.1,
               width: 200,
               margin: EdgeInsets.only(left: 15,right: 5),
               decoration: BoxDecoration(
@@ -83,7 +83,7 @@ class FoodItemModel extends StatelessWidget {
                       child: Image.network(
                         url,
                         fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height / 4.0,
+                        height: MediaQuery.of(context).size.height / 5.0,
                         width: MediaQuery.of(context).size.width / 2.52,
                       ),
                     ),

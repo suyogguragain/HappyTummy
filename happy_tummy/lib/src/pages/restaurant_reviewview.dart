@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:happytummy_sentiment/happytummy_sentiment.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class Review extends StatelessWidget {
@@ -33,6 +34,8 @@ class Review extends StatelessWidget {
       restaurantId: documentSnapshot['restaurantId'],
     );
   }
+
+  final sentiment = Sentiment();
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +127,7 @@ class Review extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
+            Text('${(sentiment.analysis(description,emoji:true))}'),
           ],
         ),
       ),

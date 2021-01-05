@@ -175,7 +175,7 @@ class _MenuPageState extends State<MenuPage> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => UploadFoodItemPage(restaurantProfileId: widget.restaurantProfileId)));
 //          Route route = MaterialPageRoute(builder: (c) => UploadFoodItemPage(restaurantProfileId: widget.restaurantProfileId,));
-//          Navigator.pushReplacement(context, route);
+////          Navigator.pushReplacement(context, route);
         },
         child: Icon(Icons.restaurant_menu),
         backgroundColor: Colors.orangeAccent,

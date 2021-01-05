@@ -26,9 +26,10 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
         appBar: new AppBar(
           title: Text(
             'Restaurant search',
-            style: TextStyle(fontFamily: "Lobster", fontSize: 30),
+            style: TextStyle(fontFamily: "Roboto", fontSize: 30),
           ),
           backgroundColor: Colors.black,
+          centerTitle: true,
         ),
         body: ListView(children: <Widget>[
           Padding(
