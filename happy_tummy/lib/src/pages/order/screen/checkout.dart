@@ -129,7 +129,7 @@ class _CheckoutState extends State<Checkout> {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2,
                             )),
-                        Text('Rs:50',
+                        Text('  ',
                             style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.w300,
@@ -151,13 +151,13 @@ class _CheckoutState extends State<Checkout> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Quality',
+                        Text('Quantity',
                             style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2,
                             )),
-                        Text('12',
+                        Text(' ',
                             style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.w300,

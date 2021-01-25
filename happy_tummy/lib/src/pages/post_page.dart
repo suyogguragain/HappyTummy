@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,50 +12,64 @@ class PostPage extends StatefulWidget {
   _PostPageState createState() => _PostPageState();
 }
 
-class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<PostPage> {
+class _PostPageState extends State<PostPage>
+    with AutomaticKeepAliveClientMixin<PostPage> {
   TextEditingController searchTextEditingController = TextEditingController();
   Future<QuerySnapshot> futureSearchResults;
 
-  emptyTextFormField(){
+  emptyTextFormField() {
     searchTextEditingController.clear();
   }
 
-  controlSearching(String str){
-    Future<QuerySnapshot> allUser = usersReference.where('username',isGreaterThanOrEqualTo:str).getDocuments();
+  controlSearching(String str) {
+    Future<QuerySnapshot> allUser = usersReference
+        .where('username', isGreaterThanOrEqualTo: str)
+        .getDocuments();
     setState(() {
       futureSearchResults = allUser;
     });
   }
 
-  AppBar searchPageHeader(){
+  AppBar searchPageHeader() {
     return AppBar(
       backgroundColor: Colors.black,
-       title: TextFormField(
-          style: TextStyle(fontSize: 20.0,color: Colors.white,fontFamily:'Roboto',),
-          controller: searchTextEditingController,
-          decoration: InputDecoration(
-              hintText: 'Search Users',
-              hintStyle: TextStyle(color: Colors.white),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.lightBlueAccent),
-              ),
-              filled: true,
-              prefixIcon: Icon(Icons.person_pin,color: Colors.white,size:20.0,),
-              suffixIcon: IconButton(icon: Icon(Icons.clear_all,color: Colors.white,),
-                onPressed:emptyTextFormField,
-              )
-          ),
-          onFieldSubmitted: controlSearching,
+      title: TextFormField(
+        style: TextStyle(
+          fontSize: 20.0,
+          color: Colors.white,
+          fontFamily: 'Roboto',
         ),
+        controller: searchTextEditingController,
+        decoration: InputDecoration(
+            hintText: 'Search Users',
+            hintStyle: TextStyle(color: Colors.white),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlueAccent),
+            ),
+            filled: true,
+            prefixIcon: Icon(
+              Icons.person_pin,
+              color: Colors.white,
+              size: 20.0,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.clear_all,
+                color: Colors.white,
+              ),
+              onPressed: emptyTextFormField,
+            )),
+        onFieldSubmitted: controlSearching,
+      ),
 //        Icon(Icons.notifications_none, size: 32.0, color: Colors.pinkAccent,),
 //      ],
     );
   }
 
-  Container displayNoSearchResultScreen(){
+  Container displayNoSearchResultScreen() {
     final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
       child: Center(
@@ -64,11 +77,20 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            Icon(Icons.youtube_searched_for,color: Colors.grey,size: 150.0,),
+            Icon(
+              Icons.youtube_searched_for,
+              color: Colors.grey,
+              size: 150.0,
+            ),
             Text(
               'Search Users',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500,fontSize: 22.0,fontFamily:'Lobster',),
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+                fontSize: 22.0,
+                fontFamily: 'Roboto',
+              ),
             ),
           ],
         ),
@@ -76,23 +98,21 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
     );
   }
 
-  displayUserFoundScreen(){
+  displayUserFoundScreen() {
     return FutureBuilder(
       future: futureSearchResults,
-      builder: (context,dataSnapshot){
-        if (!dataSnapshot.hasData){
+      builder: (context, dataSnapshot) {
+        if (!dataSnapshot.hasData) {
           return circularProgress();
         }
 
-        List <UserResult> searchUsersResult = [];
-        dataSnapshot.data.documents.forEach((document){
+        List<UserResult> searchUsersResult = [];
+        dataSnapshot.data.documents.forEach((document) {
           User eachUser = User.fromDocument(document);
           UserResult userResult = UserResult(eachUser);
           searchUsersResult.add(userResult);
         });
-        return ListView(physics: NeverScrollableScrollPhysics(),
-            children: searchUsersResult
-        );
+        return ListView(children: searchUsersResult);
       },
     );
   }
@@ -104,43 +124,63 @@ class _PostPageState extends State<PostPage> with AutomaticKeepAliveClientMixin<
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: searchPageHeader(),
-      body: futureSearchResults == null ? displayNoSearchResultScreen() : displayUserFoundScreen(),
+      body: futureSearchResults == null
+          ? displayNoSearchResultScreen()
+          : displayUserFoundScreen(),
     );
   }
 }
 
-
 class UserResult extends StatelessWidget {
-
   final User eachUser;
   UserResult(this.eachUser);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(3.0),
+      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
       child: Container(
-        color: Colors.transparent,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 3,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        //color: Colors.transparent,
         child: Column(
           children: <Widget>[
             GestureDetector(
-              onTap:  () => displayUserProfile(context, userprofileId: eachUser.id),
+              onTap: () =>
+                  displayUserProfile(context, userprofileId: eachUser.id),
               child: ListTile(
-                contentPadding: EdgeInsets.only(top:4.0,left: 30.0),
+                selectedTileColor: Colors.blueGrey,
+                contentPadding: EdgeInsets.only(top: 4.0, left: 30.0),
                 leading: CircleAvatar(
                   backgroundColor: Colors.black,
                   radius: 30.0,
                   backgroundImage: CachedNetworkImageProvider(eachUser.url),
                 ),
-                title: Text(eachUser.profileName,style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontSize: 20.0,
-                  fontFamily: 'Lobster',
-                ),),
-                subtitle: Text(eachUser.username,style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontSize: 13.0,
-                ),),
+                title: Text(
+                  eachUser.profileName,
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 20.0,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                subtitle: Text(
+                  eachUser.username,
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 13.0,
+                    fontFamily: 'Lobster',
+                  ),
+                ),
               ),
             ),
           ],
@@ -149,8 +189,10 @@ class UserResult extends StatelessWidget {
     );
   }
 
-  displayUserProfile(BuildContext context, {String userprofileId}){
-    Navigator.push( context, MaterialPageRoute(builder: (context) => ProfilePage(userProfileId: userprofileId)));
+  displayUserProfile(BuildContext context, {String userprofileId}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(userProfileId: userprofileId)));
   }
-
 }

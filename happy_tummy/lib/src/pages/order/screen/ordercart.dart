@@ -161,7 +161,7 @@ class _OrderCartState extends State<OrderCart> {
                                             .data.documents[index].data["price"]
                                             .toString(),
                                         style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: 20,
                                           color: Color(0xFFF4D479),
                                           fontWeight: FontWeight.w400,
                                         ),

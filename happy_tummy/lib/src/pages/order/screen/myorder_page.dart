@@ -64,7 +64,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
                               width: 15,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 3,
+                              width: MediaQuery.of(context).size.width / 2.2,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

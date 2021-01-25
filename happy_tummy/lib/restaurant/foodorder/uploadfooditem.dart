@@ -52,7 +52,7 @@ class _UploadFoodItemPageState extends State<UploadFoodItemPage> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 100,
+                        height: 130,
                         margin: EdgeInsets.only(
                             top: 10, left: 10, right: 10, bottom: 5),
                         decoration: BoxDecoration(
