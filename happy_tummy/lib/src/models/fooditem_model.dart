@@ -104,7 +104,7 @@ class FoodItemModel extends StatelessWidget {
                     RichText(
                         text: TextSpan(children: [
                       TextSpan(
-                        text: '\$ ',
+                        text: 'Rs ',
                         style: TextStyle(
                             fontSize: 18,
                             color: Colors.black,

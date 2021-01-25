@@ -249,13 +249,22 @@ class _OrderFoodListState extends State<OrderFoodList>
               children: [
                 Column(
                   children: [
+//                    Container(
+//                      height: 260,
+//                      child: Container(
+//                        child: retrieveFoodItems('pasta'),
+//                      ),
+//                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       height: 260,
                       child: Container(
-                        child: retrieveFoodItems('pasta'),
+                        child: retrieveFoodItems('pizza'),
                       ),
                     ),
-
                     SizedBox(
                       height: 10,
                     ),

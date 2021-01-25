@@ -196,6 +196,7 @@ class RestaurantEventDetails extends StatefulWidget {
 
 class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
   Future _data;
+
   Future getoffers() async {
     var firestore = Firestore.instance;
 
@@ -228,117 +229,117 @@ class _RestaurantEventDetailsState extends State<RestaurantEventDetails> {
       appBar: header(context, strTitle: "${widget.restaurant.data['name']}"),
       body: Container(
         child: FutureBuilder(
-            future: _data,
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
+          future: _data,
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              return Center(
+                child: Text("Loading"),
+              );
+            } else {
+              if (!snapshot.hasData) {
                 return Center(
-                  child: Text("Loading"),
+                  child: ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      circularProgress(),
+                      Icon(
+                        Icons.event_busy,
+                        color: Colors.lightBlueAccent,
+                        size: 150.0,
+                      ),
+                      Text(
+                        'No Events Available',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 22.0,
+                          fontFamily: 'Lobster',
+                        ),
+                      ),
+                    ],
+                  ),
                 );
-              } else {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: ListView(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        circularProgress(),
-                        Icon(
-                          Icons.event_busy,
-                          color: Colors.lightBlueAccent,
-                          size: 150.0,
+              }
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index) {
+                    return ListTile(
+                      title: Container(
+                        height: 180,
+                        margin: EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: Color(0xff29404E),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
                         ),
-                        Text(
-                          'No Events Available',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 22.0,
-                            fontFamily: 'Lobster',
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (_, index) {
-                      return ListTile(
-                        title: Container(
-                          height: 180,
-                          margin: EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: Color(0xff29404E),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 16),
-                                  width:
-                                      MediaQuery.of(context).size.width - 100,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data[index].data['title'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            snapshot.data[index]
-                                                .data['description'],
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 16),
+                                width: MediaQuery.of(context).size.width - 100,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data[index].data['title'],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal),
-                                          )
+                                                fontSize: 14),
+                                            text: snapshot.data[index]
+                                                .data['description'],
+                                          ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(18),
-                                      bottomRight: Radius.circular(18)),
-                                  child: Image.asset(
-                                    'assets/images/offer.jpg',
-                                    height: 170,
-                                    width: 170,
-                                    fit: BoxFit.fill,
-                                  )),
-                            ],
-                          ),
+                            ),
+                            ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(18),
+                                    bottomRight: Radius.circular(18)),
+                                child: Image.asset(
+                                  'assets/images/offer.jpg',
+                                  height: 170,
+                                  width: 170,
+                                  fit: BoxFit.fill,
+                                )),
+                          ],
                         ),
-                      );
-                    });
-              }
-            },
+                      ),
+                    );
+                  });
+            }
+          },
         ),
       ),
     );

@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/models/user_model.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 import 'package:uuid/uuid.dart';
+
+User current;
 
 class CommentsPage extends StatefulWidget {
   final String postId;
@@ -171,6 +174,7 @@ class _CommentState extends State<Comment> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.only(top: 3),
                 itemCount: snapshot.data.documents.length,
@@ -190,7 +194,8 @@ class _CommentState extends State<Comment> {
                                   width: 40,
                                   height: 40,
                                   child: ClipRRect(
-                                    child: Image.network(widget.url),
+                                    child: Image.network(snapshot
+                                        .data.documents[index].data["url"]),
                                     borderRadius: BorderRadius.circular(10),
                                   )),
                             ),
@@ -207,7 +212,8 @@ class _CommentState extends State<Comment> {
                                         Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            snapshot.data.documents[index].data["username"],
+                                            snapshot.data.documents[index]
+                                                .data["username"],
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold),
@@ -216,7 +222,10 @@ class _CommentState extends State<Comment> {
                                         Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 4.0),
-                                            child: Text(snapshot.data.documents[index].data["comment"])),
+                                            child: Text(snapshot
+                                                .data
+                                                .documents[index]
+                                                .data["comment"])),
                                       ],
                                     ),
                                   ),
@@ -234,8 +243,9 @@ class _CommentState extends State<Comment> {
                                   child: Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.38,
-                                    child: Text(tAgo
-                                        .format(snapshot.data.documents[index].data["timestamp"].toDate())),
+                                    child: Text(tAgo.format(snapshot
+                                        .data.documents[index].data["timestamp"]
+                                        .toDate())),
                                   ),
                                 ),
                               ],
@@ -279,7 +289,7 @@ class _CommentState extends State<Comment> {
         .document(commentid)
         .collection('replies')
         .add({
-      'username': widget.username,
+      'username': currentUser.username,
       'comment': replycomment,
       'timestamp': DateTime.now(),
       'url': currentUser.url,
@@ -319,6 +329,9 @@ class _CommentState extends State<Comment> {
                 onPressed: () {
                   saveReplyCommentInfoToFireStore(widget.postId,
                       widget.commentId, replycomment.text.toString());
+                  print(currentUser.id);
+                  print(currentUser.profileName);
+                  print(currentUser.url);
 
                   Navigator.of(context).pop(replycomment.text.toString());
                   print(replycomment.text.toString());
@@ -416,6 +429,9 @@ class _CommentState extends State<Comment> {
                                   GestureDetector(
                                       onTap: () {
                                         print('leave comment of comment');
+                                        print(currentUser.id);
+                                        print(currentUser.profileName);
+                                        print(currentUser.url);
                                         createdAlertDialog(context,
                                             widget.postId, widget.commentId);
                                       },

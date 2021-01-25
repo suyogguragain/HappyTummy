@@ -5,15 +5,20 @@ import 'package:happy_tummy/src/pages/PostScreenPage.dart';
 import 'package:happy_tummy/src/widgets/PostWidget.dart';
 
 class PostTile extends StatelessWidget {
-
   final Post post;
 
   PostTile(this.post);
 
-  displayFullPost(context){
+  displayFullPost(context) {
     print(post.ownerId);
     print(post.postId);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PostScreenPage(postId: post.postId,userId: post.ownerId,)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PostScreenPage(
+                  postId: post.postId,
+                  userId: post.ownerId,
+                )));
   }
 
   @override
@@ -28,21 +33,28 @@ class PostTile extends StatelessWidget {
               child: CircleAvatar(
                 backgroundImage: CachedNetworkImageProvider(post.url),
                 radius: 45.0,
-              ),//Image.network(post.url),
+              ), //Image.network(post.url),
             ),
             Column(
               children: <Widget>[
-                Text(post.location,style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Lobster',
-                  color: Colors.black54,
-                  wordSpacing: 1.2,
-                ),),
-                Text(post.description,style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.grey,
-                  fontFamily: 'Lobster',
-                ),),
+                Text(
+                  post.location,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'Lobster',
+                    color: Colors.black54,
+                    wordSpacing: 1.2,
+                  ),
+                ),
+                Text(
+                  post.description
+                      .substring(0, (post.description.length <= 10) ?  6 : 20),
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.grey,
+                    fontFamily: 'Lobster',
+                  ),
+                ),
               ],
             ),
           ],

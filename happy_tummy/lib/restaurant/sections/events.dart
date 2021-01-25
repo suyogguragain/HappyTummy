@@ -255,7 +255,7 @@ class _FoodEventsSectionState extends State<FoodEventsSection> {
                         style: TextStyle(color: Colors.black54),
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Total Sear Available',
+                            labelText: 'Total Seat Available',
 //                            errorText: headingValidate
 //                                ? 'Please enter a Heading'
 //                                : null,

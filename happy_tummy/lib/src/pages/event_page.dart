@@ -125,24 +125,14 @@ class _EventPageState extends State<EventPage> {
                                 Positioned(
                                   left: 100.0,
                                   bottom: 70.0,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            snapshot.data[index].data['name'],
-                                            style: TextStyle(
-                                              fontSize: 32.0,
-                                              fontFamily: "Lobster",
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  child: Text(
+                                    snapshot.data[index].data['name'],
+                                    style: TextStyle(
+                                      fontSize: 32.0,
+                                      fontFamily: "Lobster",
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -265,7 +255,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                                         snapshot.data[index].data['heading'],
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 28,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
