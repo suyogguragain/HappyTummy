@@ -357,8 +357,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "37b81524c7b85486272eb2535d6ecfdaf7a160f8"
-      url: "https://github.com/bi3wa3/happytummy_sentiment"
+      resolved-ref: f640aacc01612b9ec11b09a47b04f2a59144b3b9
+      url: "https://github.com/suyogguragain/happytummy_sentiment"
     source: git
     version: "0.0.1"
   http:
