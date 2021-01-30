@@ -27,7 +27,7 @@ dependencies:
 
   happytummy_sentiment:
     git:
-      url: https://github.com/bi3wa3/happytummy_sentiment
+      url: https://github.com/suyogguragain/happytummy_sentiment
 
 
 
