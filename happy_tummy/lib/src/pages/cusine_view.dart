@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_tummy/src/pages/short_restaurantprofile.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 
 class CusineView extends StatefulWidget {
@@ -109,6 +110,11 @@ class UserResult extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 print('${eachUser.rid}');
+                Route route = MaterialPageRoute(
+                    builder: (c) => FilterRestaurantProfile(
+                      restaurantProfileId: eachUser.rid,
+                    ));
+                Navigator.pushReplacement(context, route);
                 //displayUserProfile(context, userprofileId: eachUser.id);
               },
               child: ListTile(

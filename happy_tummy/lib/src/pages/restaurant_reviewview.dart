@@ -11,6 +11,7 @@ class Review extends StatelessWidget {
   final String url;
   final String description;
   final String rating;
+  //final double rating;
   final Timestamp timestamp;
   final String restaurantId;
 
@@ -29,13 +30,14 @@ class Review extends StatelessWidget {
       userId: documentSnapshot['userId'],
       url: documentSnapshot['url'],
       description: documentSnapshot['description'],
-      rating: documentSnapshot['rating'],
+      rating: documentSnapshot['rating'].toString(),
       timestamp: documentSnapshot['timestamp'],
       restaurantId: documentSnapshot['restaurantId'],
     );
   }
 
   final sentiment = Sentiment();
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class Review extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        rating,
+                        ((double.parse(rating) + (sentiment.analysis1(description,emoji:true)))/ 2).toString(),
                         style: TextStyle(color: Colors.black),
                       ),
                       Icon(
