@@ -10,6 +10,7 @@ import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 class Event extends StatefulWidget {
   final String eventId;
   final String ownerId;
+  final String uId;
   final dynamic bookevents;
   final String date;
   final String description;
@@ -20,6 +21,7 @@ class Event extends StatefulWidget {
   Event({
     this.eventId,
     this.ownerId,
+    this.uId,
     this.bookevents,
     this.date,
     this.description,
@@ -32,6 +34,7 @@ class Event extends StatefulWidget {
     return Event(
       eventId: documentSnapshot['eventId'],
       ownerId: documentSnapshot['ownerId'],
+      uId: documentSnapshot['userId'],
       bookevents: documentSnapshot['bookevent'],
       date: documentSnapshot['date'],
       description: documentSnapshot['description'],
@@ -59,6 +62,7 @@ class Event extends StatefulWidget {
   _EventState createState() => _EventState(
         eventId: this.eventId,
         ownerId: this.ownerId,
+        uId: this.uId,
         bookevents: this.bookevents,
         date: this.date,
         description: this.description,
@@ -72,6 +76,7 @@ class Event extends StatefulWidget {
 class _EventState extends State<Event> {
   final String eventId;
   final String ownerId;
+  final String uId;
   final bookevents;
   final String date;
   final String description;
@@ -86,6 +91,7 @@ class _EventState extends State<Event> {
   _EventState({
     this.eventId,
     this.ownerId,
+    this.uId,
     this.bookevents,
     this.date,
     this.description,
@@ -127,15 +133,38 @@ class _EventState extends State<Event> {
             ),
             createPostHead(),
             createPostPicture(),
-            createPostFooter()
+            createPostFooter(),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
+
     );
   }
 
+//  removeLike() {
+//    bool isNotPostOwner = currentOnlineUserId != ownerId;
+//
+//    if (isNotPostOwner) {
+//      Firestore.instance
+//          .collection('bookevents')
+//          .document(ownerId)
+//          .collection('feedItems')
+//          .document(eventId)
+//          .get()
+//          .then((document) {
+//        if (document.exists) {
+//          document.reference.delete();
+//        }
+//      });
+//    }
+//  }
+
   removeLike() {
     bool isNotPostOwner = currentOnlineUserId != ownerId;
+    bool isPostOwner = currentOnlineUserId == uId;
 
     if (isNotPostOwner) {
       Firestore.instance
@@ -143,12 +172,7 @@ class _EventState extends State<Event> {
           .document(ownerId)
           .collection('feedItems')
           .document(eventId)
-          .get()
-          .then((document) {
-        if (document.exists) {
-          document.reference.delete();
-        }
-      });
+          .delete();
     }
   }
 
@@ -160,7 +184,8 @@ class _EventState extends State<Event> {
           .collection('bookevents')
           .document(ownerId)
           .collection('feedItems')
-          .add({
+          .document(eventId)
+          .setData({
         'type': 'booked',
         'username': currentUser.username,
         'userId': currentUser.id,
@@ -175,6 +200,30 @@ class _EventState extends State<Event> {
       });
     }
   }
+
+//  addLike() {
+//    bool isNotPostOwner = currentOnlineUserId != ownerId;
+//
+//    if (isNotPostOwner) {
+//      Firestore.instance
+//          .collection('bookevents')
+//          .document(ownerId)
+//          .collection('feedItems')
+//          .add({
+//        'type': 'booked',
+//        'username': currentUser.username,
+//        'userId': currentUser.id,
+//        'timestamp': DateTime.now(),
+//        'eventId': eventId,
+//        'ownerId': ownerId,
+//        'date': date,
+//        'location': location,
+//        'totalseat': totalseat,
+//        'heading': heading,
+//        'userProfileImg': currentUser.url
+//      });
+//    }
+//  }
 
   controlUserLikePost() {
     bool _booked = bookevents[currentOnlineUserId] == true;
@@ -360,7 +409,6 @@ class _EventState extends State<Event> {
       ),
     );
   }
-
 
   createPostFooter() {
     return Container(

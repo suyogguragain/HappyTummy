@@ -75,6 +75,7 @@ class _CheckoutState extends State<Checkout> {
         address: addressTextEditingController.text,
         phone: phonenumberTextEditingController.text);
 
+
     personnameTextEditingController.clear();
     addressTextEditingController.clear();
     phonenumberTextEditingController.clear();
@@ -100,6 +101,19 @@ class _CheckoutState extends State<Checkout> {
       'address': address,
       'phone': phone,
     });
+
+    Firestore.instance
+        .collection('order')
+        .document(widget.restaurantid)
+        .collection('userlist')
+        .document(widget.currentuserid)
+        .setData({
+      'rId': widget.restaurantid,
+      'timestamp': DateTime.now(),
+      'uId': widget.currentuserid,
+      'profileName': name
+    });
+
   }
 
   @override

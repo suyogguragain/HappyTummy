@@ -19,6 +19,7 @@ class _SubmitReviewState extends State<SubmitReview> {
   bool _validate = false;
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
+  double a = 0.0;
 
   bool validateTextField(String userInput) {
     if (userInput.isEmpty) {
@@ -33,11 +34,10 @@ class _SubmitReviewState extends State<SubmitReview> {
     return true;
   }
 
-  saveReview() {
-    print(descriptionEditingController.text);
-    print(ratingEditingController.text);
-    print(currentUser.id);
-
+  save( double s){
+    print('value is:');
+    print(s);
+    print(s.runtimeType);
     Firestore.instance
         .collection('restaurantreviews')
         .document(widget.rId)
@@ -45,7 +45,7 @@ class _SubmitReviewState extends State<SubmitReview> {
         .add({
       'username': currentUser.username,
       'description': descriptionEditingController.text,
-      'rating': ratingEditingController.text,
+      'rating': s,
       'timestamp': DateTime.now(),
       'url': currentUser.url,
       'userId': currentUser.id,
@@ -56,13 +56,50 @@ class _SubmitReviewState extends State<SubmitReview> {
       ..document(widget.rId).collection("feedItems").add({
         'type': 'review',
         'description': descriptionEditingController.text,
-        'rating': ratingEditingController.text,
+        'rating': s,
         'restaurantId': widget.rId,
         'userId': currentUser.id,
         'username': currentUser.username,
         'userProfileImg': currentUser.url,
         'timestamp': timestamp,
       });
+
+    descriptionEditingController.clear();
+    ratingEditingController.clear();
+
+  }
+
+  saveReview() {
+
+    print(descriptionEditingController.text);
+    print(ratingEditingController.text );
+    print(currentUser.id);
+
+//    Firestore.instance
+//        .collection('restaurantreviews')
+//        .document(widget.rId)
+//        .collection("reviews")
+//        .add({
+//      'username': currentUser.username,
+//      'description': descriptionEditingController.text,
+//      'rating': ratingEditingController.text,
+//      'timestamp': DateTime.now(),
+//      'url': currentUser.url,
+//      'userId': currentUser.id,
+//      'restaurantId': widget.rId,
+//    });
+//
+//    Firestore.instance.collection('bookevents')
+//      ..document(widget.rId).collection("feedItems").add({
+//        'type': 'review',
+//        'description': descriptionEditingController.text,
+//        'rating': ratingEditingController.text,
+//        'restaurantId': widget.rId,
+//        'userId': currentUser.id,
+//        'username': currentUser.username,
+//        'userProfileImg': currentUser.url,
+//        'timestamp': timestamp,
+//      });
 
     descriptionEditingController.clear();
     ratingEditingController.clear();
@@ -117,7 +154,8 @@ class _SubmitReviewState extends State<SubmitReview> {
                   allowHalfRating: true,
                   onRated: (value) {
                     ratingEditingController.text = value.toString();
-                    print(ratingEditingController.text);
+                    a=value;
+//                    print(ratingEditingController.text);
                   },
                 ),
                 SizedBox(
@@ -133,7 +171,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                   child: TextFormField(
                     controller: descriptionEditingController,
                     decoration: InputDecoration(
-                      labelText: '              Write your review...',
+                      labelText: 'Write your review...',
                       errorText: _validate ? 'Please enter a review' : null,
                       labelStyle: TextStyle(
                           color: Colors.black,
@@ -153,6 +191,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                       validateTextField(descriptionEditingController.text);
                     });
                     saveReview();
+                    save(a);
 //                    if (validateTextField(descriptionEditingController.text) ==
 //                            true) {
 //                      saveReview;
