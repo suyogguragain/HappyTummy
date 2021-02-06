@@ -91,7 +91,7 @@ class FoodItemModel extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      name,
+                      name.substring(0,(name.length <=22)? name.length: 22),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 20,

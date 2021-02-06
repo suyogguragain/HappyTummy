@@ -21,7 +21,7 @@ class _MyOrdersState extends State<FoodShiftOrders> {
   Future getusers() async {
     var firestore = Firestore.instance;
 
-    QuerySnapshot qn = await firestore.collection('users').getDocuments();
+    QuerySnapshot qn = await firestore.collection('order').document(widget.restaurantProfileId).collection('userlist').getDocuments();
 
     return qn.documents;
   }
@@ -81,7 +81,7 @@ class _MyOrdersState extends State<FoodShiftOrders> {
                             ),
                            // margin: EdgeInsets.only(right: 20.0),
                             child: GestureDetector(
-                              onTap: () => navigateToDetail(snapshot.data[index].data['id'],widget.restaurantProfileId),
+                              onTap: () => navigateToDetail(snapshot.data[index].data['uId'],widget.restaurantProfileId),
                               child: Container(
                                 decoration: BoxDecoration(color: Colors.black54,
                                   borderRadius: BorderRadius.only(

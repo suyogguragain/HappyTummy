@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_tummy/src/pages/TopLevelPage.dart';
 import 'package:happy_tummy/src/pages/order/screen/checkout.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderCart extends StatefulWidget {
   final String restaurantid;
@@ -116,22 +117,20 @@ class _OrderCartState extends State<OrderCart> {
                               width: 10,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 2.5,
+                              width: MediaQuery.of(context).size.width / 2,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 0, 20, 20),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height: 18),
+                                    SizedBox(height: 10),
                                     Text(
-                                        snapshot
-                                            .data.documents[index].data["name"],
+                                        snapshot.data.documents[index].data["name"].substring(0,snapshot.data.documents[index].data["name"].length >=20 ? (snapshot.data.documents[index].data["name"].length/1.3).round():snapshot.data.documents[index].data["name"].length),
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontFamily: 'PermantMarker',
                                           fontWeight: FontWeight.w700,
-                                          letterSpacing: 1.0,
                                         )),
                                     SizedBox(
                                       height: 5,
@@ -172,7 +171,7 @@ class _OrderCartState extends State<OrderCart> {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 8,
+                             // width: MediaQuery.of(context).size.width / 8,
                               child: Row(
                                 children: [
                                   GestureDetector(
@@ -186,7 +185,7 @@ class _OrderCartState extends State<OrderCart> {
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.redAccent,
-                                      size: 30,
+                                      size: 25,
                                     ),
                                   ),
                                 ],
@@ -200,8 +199,7 @@ class _OrderCartState extends State<OrderCart> {
                         child: Row(
                           children: [
                             GestureDetector(
-
-                              onTap: () {
+                                onTap: () {
 //                                saveCheckoutInfoToFireStore(
 //                                  snapshot.data.documents[index].data["name"],
 //                                  snapshot.data.documents[index].data["price"],
@@ -212,20 +210,15 @@ class _OrderCartState extends State<OrderCart> {
 //                                  snapshot.data.documents[index]
 //                                      .data["restaurantId"],
 //                                );
-                              },
-
-                              child: Text('')
-                            ),
+                                },
+                                child: Text('')),
                           ],
                         ),
                       ),
                     ],
                   );
                 })
-            : Text(
-                'suyog',
-                style: TextStyle(fontSize: 50),
-              );
+            : Text('');
       },
     );
   }

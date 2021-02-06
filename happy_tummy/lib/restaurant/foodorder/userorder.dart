@@ -1,16 +1,16 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happy_tummy/src/pages/order/screen/icon_svg.dart';
 import 'package:happy_tummy/src/widgets/HeaderWidget.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:uuid/uuid.dart';
 
 class UserOrder extends StatefulWidget {
   final String restaurantid;
   final String userid;
 
-  UserOrder({this.restaurantid,this.userid});
+  UserOrder({this.restaurantid, this.userid});
 
   @override
   _UserOrderState createState() => _UserOrderState();
@@ -19,6 +19,8 @@ class UserOrder extends StatefulWidget {
 class _UserOrderState extends State<UserOrder> {
   Stream taskStream;
   Stream addressStream;
+  String shippingId = Uuid().v4();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget taskList() {
     return StreamBuilder(
@@ -26,96 +28,118 @@ class _UserOrderState extends State<UserOrder> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-            scrollDirection: Axis.vertical,
-            padding: EdgeInsets.only(top: 3),
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    margin: EdgeInsets.only(
-                        top: 10, left: 15, right: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.teal[50],
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        )),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
-                          width: MediaQuery.of(context).size.width / 5,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image(
-                              image: NetworkImage(
-                                snapshot.data.documents[index].data["url"],
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.only(top: 3),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        margin: EdgeInsets.only(
+                            top: 10, left: 15, right: 15, bottom: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.teal[50],
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+                              width: MediaQuery.of(context).size.width / 5,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image(
+                                  image: NetworkImage(
+                                    snapshot.data.documents[index].data["url"],
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
                               ),
-                              fit: BoxFit.fill,
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  snapshot
-                                      .data.documents[index].data["name"],
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'PermantMarker',
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 1.0,
-                                  )),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 8,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  snapshot.data.documents[index]
-                                      .data["quantity"]
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'PermantMarker',
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.5,
-                                      color: Colors.blue)),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 9,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              RichText(
-                                  text: TextSpan(children: [
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2.2,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      snapshot
+                                          .data.documents[index].data["name"]
+                                          .substring(
+                                              0,
+                                              snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["name"]
+                                                          .length >=
+                                                      20
+                                                  ? (snapshot
+                                                              .data
+                                                              .documents[index]
+                                                              .data["name"]
+                                                              .length /
+                                                          1.3)
+                                                      .round()
+                                                  : snapshot
+                                                      .data
+                                                      .documents[index]
+                                                      .data["name"]
+                                                      .length),
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontFamily: 'PermantMarker',
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 1.0,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              // width: MediaQuery.of(context).size.width ,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      snapshot.data.documents[index]
+                                          .data["quantity"]
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'PermantMarker',
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.5,
+                                          color: Colors.blue)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              // width: MediaQuery.of(context).size.width ,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  RichText(
+                                      text: TextSpan(children: [
                                     TextSpan(
-                                      text: 'Rs.',
+                                      text: '  Rs.',
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     TextSpan(
-                                      text: snapshot
-                                          .data.documents[index].data["price"]
+                                      text: (snapshot.data.documents[index]
+                                                  .data["price"] *
+                                              snapshot.data.documents[index]
+                                                  .data["quantity"])
                                           .toString(),
                                       style: TextStyle(
                                         fontSize: 15,
@@ -124,15 +148,15 @@ class _UserOrderState extends State<UserOrder> {
                                       ),
                                     ),
                                   ]))
-                            ],
-                          ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            })
+                      ),
+                    ],
+                  );
+                })
             : Text('');
       },
     );
@@ -144,62 +168,62 @@ class _UserOrderState extends State<UserOrder> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-            scrollDirection: Axis.vertical,
-            padding: EdgeInsets.only(top: 3),
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 120,
-                    margin: EdgeInsets.only(
-                        top: 10, left: 15, right: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.teal[50],
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        )),
-                    child: Column(
-                      children: [
-                        Text(
-                          snapshot.data.documents[index].data["address"],
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontFamily: 'PermantMarker',
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                              color: Colors.redAccent),
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.only(top: 3),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                        margin: EdgeInsets.only(
+                            top: 10, left: 15, right: 15, bottom: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.teal[50],
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )),
+                        child: Column(
+                          children: [
+                            Text(
+                              snapshot.data.documents[index].data["address"],
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontFamily: 'PermantMarker',
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.5,
+                                  color: Colors.redAccent),
+                            ),
+                            Text(
+                              snapshot.data.documents[index].data["username"],
+                              style: TextStyle(
+                                fontSize: 28.0,
+                                fontFamily: 'PermantMarker',
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                            Text(
+                              snapshot.data.documents[index].data["phone"]
+                                  .toString(),
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontFamily: 'PermantMarker',
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.5,
+                                  color: Colors.blue),
+                            ),
+                          ],
                         ),
-                        Text(
-                          snapshot.data.documents[index].data["username"],
-                          style: TextStyle(
-                            fontSize: 28.0,
-                            fontFamily: 'PermantMarker',
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        Text(
-                          snapshot.data.documents[index].data["phone"]
-                              .toString(),
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'PermantMarker',
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                              color: Colors.blue),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            })
+                      ),
+                    ],
+                  );
+                })
             : Text('');
       },
     );
@@ -240,9 +264,31 @@ class _UserOrderState extends State<UserOrder> {
         .snapshots();
   }
 
+  OrderShipped() {
+    Firestore.instance
+        .collection('order')
+        .document(widget.restaurantid)
+        .collection('checkout')
+        .document(widget.userid)
+        .collection('shipping')
+        .document(shippingId)
+        .setData({
+      'shippingId': shippingId,
+      'timestamp': DateTime.now(),
+      'restaurantId': widget.restaurantid,
+      'message': "Your order has been shipped! ",
+    });
+  }
+
+  _displaySnackBar(BuildContext context) {
+    final snackBar = SnackBar(content: Text('Shipping details send successfully.'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Order Info",
@@ -299,200 +345,49 @@ class _UserOrderState extends State<UserOrder> {
                 ),
               ),
             ),
-            address(),
-          ],
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TimelineTile(
-              alignment: TimelineAlign.center,
-              isFirst: true,
-              indicatorStyle: const IndicatorStyle(
-                width: 20,
-                color: Colors.purple,
-                indicatorY: 0.2,
-                padding: EdgeInsets.all(8),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              margin: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 5),
+              padding: EdgeInsets.only(left: 20),
+              decoration: BoxDecoration(
+                  color: Colors.teal[50],
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  )),
+              child: Row(
+                children: [
+                  Text(
+                    'If Order has been Shipped!! (click here->)',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'PermantMarker',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.5,
+                        color: Colors.green),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      print('Clicked');
+                      print(widget.restaurantid);
+                      OrderShipped();
+                      _displaySnackBar(context);
+                    },
+                    child: Icon(
+                      Icons.local_shipping_outlined,
+                      color: Colors.red,
+                      size: 35,
+                    ),
+                  ),
+                ],
               ),
-              leftChild: Container(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      order_processed,
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Order Processed",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "we are preparing your order",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            TimelineTile(
-              alignment: TimelineAlign.center,
-              indicatorStyle: const IndicatorStyle(
-                width: 20,
-                color: Colors.yellowAccent,
-                padding: EdgeInsets.all(8),
-                indicatorY: 0.3,
-              ),
-              rightChild: Container(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      order_confirmed,
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Order Confirmed",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "order has been confirmed",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            TimelineTile(
-              alignment: TimelineAlign.center,
-              indicatorStyle: const IndicatorStyle(
-                width: 20,
-                color: Colors.redAccent,
-                padding: EdgeInsets.all(8),
-                indicatorY: 0.3,
-              ),
-              leftChild: Container(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      order_shipped,
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Order Shipped",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "order has been shipped",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            TimelineTile(
-              alignment: TimelineAlign.center,
-              indicatorStyle: const IndicatorStyle(
-                width: 20,
-                color: Colors.lightBlueAccent,
-                padding: EdgeInsets.all(8),
-                indicatorY: 0.3,
-              ),
-              rightChild: Container(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      order_onTheWay,
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "On The Way",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "order in the way",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            TimelineTile(
-              alignment: TimelineAlign.center,
-              isLast: true,
-              indicatorStyle: const IndicatorStyle(
-                width: 20,
-                color: Colors.green,
-                padding: EdgeInsets.all(8),
-                indicatorY: 0.3,
-              ),
-              leftChild: Container(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      order_delivered,
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Delivered",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "oh yaa!",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ]),

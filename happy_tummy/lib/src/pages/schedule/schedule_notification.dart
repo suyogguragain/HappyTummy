@@ -28,7 +28,7 @@ class _ScheduleNotificationState extends State<ScheduleNotification> {
 
   Future _showNotification() async {
     var androidDetails = new AndroidNotificationDetails(
-        "Channel ID", "Desi programmer", "This is my channel",
+        "User ID", "Happy Tummy", "Food App",
         importance: Importance.Max);
     var iSODetails = new IOSNotificationDetails();
     var generalNotificationDetails =
@@ -46,7 +46,7 @@ class _ScheduleNotificationState extends State<ScheduleNotification> {
     }
 
     fltrNotification.schedule(
-        1, "Times Uppp", task, scheduledTime, generalNotificationDetails);
+        1, "Event Schedule", task, scheduledTime, generalNotificationDetails);
   }
 
   Widget build(BuildContext context) {

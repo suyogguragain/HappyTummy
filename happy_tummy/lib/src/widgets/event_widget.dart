@@ -137,7 +137,6 @@ class _EventState extends State<Event> {
             SizedBox(
               height: 10,
             ),
-            Text('You have got your tickets.')
           ],
         ),
       ),
