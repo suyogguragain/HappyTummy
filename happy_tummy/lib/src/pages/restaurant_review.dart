@@ -8,6 +8,7 @@ final DateTime timestamp = DateTime.now();
 
 class SubmitReview extends StatefulWidget {
   final String rId;
+
   SubmitReview({this.rId});
 
   @override
@@ -20,6 +21,7 @@ class _SubmitReviewState extends State<SubmitReview> {
   TextEditingController descriptionEditingController = TextEditingController();
   TextEditingController ratingEditingController = TextEditingController();
   double a = 0.0;
+  String b = '';
 
   bool validateTextField(String userInput) {
     if (userInput.isEmpty) {
@@ -34,10 +36,46 @@ class _SubmitReviewState extends State<SubmitReview> {
     return true;
   }
 
-  save( double s){
-    print('value is:');
-    print(s);
+  save(double s, String desc) async {
+    print('value is: $s');
+    print('Datatype of rating: ');
     print(s.runtimeType);
+
+    var data1 = (await Firestore.instance
+            .collection('restaurants')
+            .document(widget.rId)
+            .get())
+        .data['avgRating'];
+    print("Initial AvgRating: $data1 ");
+    print(data1.runtimeType);
+
+    var data2 = (await Firestore.instance
+            .collection('restaurants')
+            .document(widget.rId)
+            .get())
+        .data['numRatings'];
+    print("Initial Num of Rating: $data2");
+    print(data2.runtimeType);
+
+    //add
+
+    final newRatings = data2 + 1;
+    print("News Rating: $newRatings");
+
+    final newAverage = (data1 + s) / 2;
+    print("Nw average: $newAverage");
+
+    Firestore.instance
+        .collection('restaurants')
+        .document(widget.rId)
+        .updateData({
+      'numRatings': newRatings,
+      'avgRating': newAverage,
+    });
+
+    print("Value od desc: $desc");
+    //
+
     Firestore.instance
         .collection('restaurantreviews')
         .document(widget.rId)
@@ -63,43 +101,6 @@ class _SubmitReviewState extends State<SubmitReview> {
         'userProfileImg': currentUser.url,
         'timestamp': timestamp,
       });
-
-    descriptionEditingController.clear();
-    ratingEditingController.clear();
-
-  }
-
-  saveReview() {
-
-    print(descriptionEditingController.text);
-    print(ratingEditingController.text );
-    print(currentUser.id);
-
-//    Firestore.instance
-//        .collection('restaurantreviews')
-//        .document(widget.rId)
-//        .collection("reviews")
-//        .add({
-//      'username': currentUser.username,
-//      'description': descriptionEditingController.text,
-//      'rating': ratingEditingController.text,
-//      'timestamp': DateTime.now(),
-//      'url': currentUser.url,
-//      'userId': currentUser.id,
-//      'restaurantId': widget.rId,
-//    });
-//
-//    Firestore.instance.collection('bookevents')
-//      ..document(widget.rId).collection("feedItems").add({
-//        'type': 'review',
-//        'description': descriptionEditingController.text,
-//        'rating': ratingEditingController.text,
-//        'restaurantId': widget.rId,
-//        'userId': currentUser.id,
-//        'username': currentUser.username,
-//        'userProfileImg': currentUser.url,
-//        'timestamp': timestamp,
-//      });
 
     descriptionEditingController.clear();
     ratingEditingController.clear();
@@ -154,7 +155,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                   allowHalfRating: true,
                   onRated: (value) {
                     ratingEditingController.text = value.toString();
-                    a=value;
+                    a = value;
 //                    print(ratingEditingController.text);
                   },
                 ),
@@ -182,7 +183,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white)),
                     ),
-                    style: TextStyle(color: Colors.black,fontSize: 25),
+                    style: TextStyle(color: Colors.black, fontSize: 25),
                   ),
                 ),
                 GestureDetector(
@@ -190,14 +191,8 @@ class _SubmitReviewState extends State<SubmitReview> {
                     setState(() {
                       validateTextField(descriptionEditingController.text);
                     });
-                    saveReview();
-                    save(a);
-//                    if (validateTextField(descriptionEditingController.text) ==
-//                            true) {
-//                      saveReview;
-//                      print(descriptionEditingController.text);
-//                    }
-                  Navigator.of(context).pop();
+                    save(a, descriptionEditingController.text);
+                    Navigator.of(context).pop();
                   },
                   child: Container(
                     height: 60,

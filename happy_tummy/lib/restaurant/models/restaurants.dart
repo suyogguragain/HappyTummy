@@ -23,28 +23,40 @@ class Restaurant {
   String fri;
   String sat;
 
-  Restaurant(
-      {this.rid,
-      this.name,
-      this.cusines,
-      this.mealtype,
-      this.photo,
-      this.outlettype,
-      this.parking,
-      this.paymentmethod,
-      this.billingextra,
-      this.age,
-      this.location,
-      this.phone,
-      this.long,
-      this.lat,
-      this.sun,
-      this.mon,
-      this.tue,
-      this.wed,
-      this.thru,
-      this.fri,
-      this.sat});
+  //add
+  double avgRating;
+  int numRatings;
+
+  //
+
+  Restaurant({
+    this.rid,
+    this.name,
+    this.cusines,
+    this.mealtype,
+    this.photo,
+    this.outlettype,
+    this.parking,
+    this.paymentmethod,
+    this.billingextra,
+    this.age,
+    this.location,
+    this.phone,
+    this.long,
+    this.lat,
+    this.sun,
+    this.mon,
+    this.tue,
+    this.wed,
+    this.thru,
+    this.fri,
+    this.sat,
+
+    //add
+    this.avgRating,
+    this.numRatings,
+    //
+  });
 
   factory Restaurant.fromDocument(DocumentSnapshot doc) {
     return Restaurant(
@@ -69,6 +81,10 @@ class Restaurant {
       thru: doc['thrusday'],
       fri: doc['friday'],
       sat: doc['saturday'],
+      //add
+      avgRating: doc['avgRating'].toDouble(),
+      numRatings: doc['numRatings'],
+      //
     );
   }
 }
