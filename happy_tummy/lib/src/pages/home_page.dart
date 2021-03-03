@@ -7,6 +7,7 @@ import 'package:happy_tummy/src/pages/restauarant_map.dart';
 import 'package:happy_tummy/src/pages/restaurant_details.dart';
 import 'package:happy_tummy/src/widgets/ProgressWidget.dart';
 import 'package:happy_tummy/src/widgets/cusine_category.dart';
+import 'package:happy_tummy/src/widgets/toprestaurant.dart';
 import '../widgets/restaurant.dart';
 import '../widgets/food_category.dart';
 import '../widgets/home_top_info.dart';
@@ -20,12 +21,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CusineCategory> _cusine = cusine_categories;
   TextEditingController locationTextEditingController = TextEditingController();
-  Future _data;
+  Future _data, _data1;
 
   Future getrestaurants() async {
     var firestore = Firestore.instance;
 
     QuerySnapshot qn = await firestore.collection('restaurants').getDocuments();
+
+    return qn.documents;
+  }
+
+  Future gettoprestaurants() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('restaurants')
+        .orderBy('avgRating', descending: true)
+        .limit(10)
+        .getDocuments();
 
     return qn.documents;
   }
@@ -59,6 +71,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _data = getrestaurants();
+    _data1 = gettoprestaurants();
   }
 
   @override
@@ -209,7 +222,60 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20.0,
           ),
-          Text('Res'),
+          SizedBox(
+            height: 210,
+            child: FutureBuilder(
+                future: _data1,
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if (!snapshot.hasData) {
+                      return circularProgress();
+                    }
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (_, index) {
+                          return Container(
+                            width: 280,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                topLeft: Radius.circular(30),
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            margin: EdgeInsets.only(right: 20.0),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  navigateToDetail(snapshot.data[index]),
+                              child: TopRestaurant(
+                                id: snapshot.data[index].data['rid'],
+                                name: snapshot.data[index].data['name'],
+                                imagePath: snapshot.data[index].data['photo'],
+                                location: snapshot.data[index].data['location'],
+                                avgRating: snapshot.data[index].data['avgRating'].toString(),
+                                numRatings: snapshot.data[index].data['numRatings'].toString(),
+                              ),
+                            ),
+                          );
+                        });
+                  }
+                }),
+          ),
           SizedBox(
             height: 40.0,
           ),

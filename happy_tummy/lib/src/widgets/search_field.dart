@@ -7,32 +7,42 @@ class SearchField extends StatelessWidget {
     return Material(
       elevation: 8.0,
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
-      child: TextField(
-        style: TextStyle(color: Colors.black, fontSize: 16.0),
-        cursorColor: Theme.of(context).primaryColor,
-        decoration: InputDecoration(
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 32.0, vertical: 14.0),
-          suffixIcon: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30.0)),
-              child: Icon(
-                Icons.search,
-                color: Colors.black,
-              )),
-          border: InputBorder.none,
-          hintText: 'Search Restraunts',
-        ),
+      child: GestureDetector(
         onTap: () {
           print('tap');
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SearchRestaurant(),
-            )
-          );
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchRestaurant(),
+              ));
         },
-        showCursor: false,
+        child: Container(
+          width: 250,
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0),
+                child: Text(
+                  'Search Restaurants',
+                  style: TextStyle(color: Colors.black, fontSize: 16.0),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 18.0),
+                child: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
+        ),
       ),
     );
   }

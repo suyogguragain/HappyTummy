@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-class FeaturedRestaurant extends StatefulWidget {
+class TopRestaurant extends StatefulWidget {
   final String id;
   final String name;
   final String imagePath;
@@ -9,13 +9,19 @@ class FeaturedRestaurant extends StatefulWidget {
   final String avgRating;
   final String numRatings;
 
-  FeaturedRestaurant({this.id, this.name, this.imagePath, this.location,this.avgRating,this.numRatings});
+  TopRestaurant(
+      {this.id,
+      this.name,
+      this.imagePath,
+      this.location,
+      this.avgRating,
+      this.numRatings});
 
   @override
-  _FeaturedRestaurantState createState() => _FeaturedRestaurantState();
+  _TopRestaurantState createState() => _TopRestaurantState();
 }
 
-class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
+class _TopRestaurantState extends State<TopRestaurant> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -48,7 +54,7 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
             left: 10.0,
             bottom: 10.0,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +79,54 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
                     ),
                   ],
                 ),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 0.0,
+            top: 0.0,
+            child: Container(
+              height: 37.0,
+              width: 75.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(
+                    colors: [Colors.deepOrangeAccent, Colors.limeAccent],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter),
+              ),
+            ),
+          ),
 
+          Positioned(
+            right: 10.0,
+            top: 6.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.avgRating,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "  (" + widget.numRatings + ")",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -82,5 +135,3 @@ class _FeaturedRestaurantState extends State<FeaturedRestaurant> {
     );
   }
 }
-
-

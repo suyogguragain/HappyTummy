@@ -104,6 +104,10 @@ class RestaurantRepository {
           'thrusday': thrusday,
           'friday': friday,
           'saturday': saturday,
+          //add
+          'avgRating': 0,
+          'numRatings': 0,
+          //
         });
       });
     });
